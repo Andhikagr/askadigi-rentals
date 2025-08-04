@@ -52,7 +52,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       Get.off(
         () => Onboarding(),
         transition: Transition.fadeIn,
-        duration: Duration(milliseconds: 1500),
+        duration: Duration(milliseconds: 800),
       );
     });
   }

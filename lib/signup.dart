@@ -2,6 +2,7 @@ import 'package:car_rental/help/boxtext.dart';
 import 'package:car_rental/help/help.dart';
 import 'package:car_rental/help/socialbutton.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Signup extends StatefulWidget {
@@ -36,28 +37,22 @@ class _SignupState extends State<Signup> {
                     SizedBox(height: 10),
                     Text(
                       textAlign: TextAlign.center,
-                      "Log in to your account using email or social networks",
+                      "Set up your username and password.\nYou can always change it later.",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey.shade800,
                       ),
                     ),
                     SizedBox(height: 30),
+                    BoxText(label: "Username", iconData: Icons.account_circle),
+                    SizedBox(height: 30),
                     BoxText(label: "Email", iconData: Icons.email),
                     SizedBox(height: 30),
                     BoxText(label: "Password", iconData: Icons.lock),
-                    SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade800,
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 30),
+                    BoxText(label: "Repeat Password", iconData: Icons.password),
+
+                    SizedBox(height: 30),
                     Material(
                       borderRadius: BorderRadius.circular(20),
                       color: Colors.transparent,
@@ -74,7 +69,7 @@ class _SignupState extends State<Signup> {
                           ),
                           child: Center(
                             child: Text(
-                              "Login",
+                              "Sign up",
                               style: TextStyle(
                                 fontSize: 18,
                                 color: Colors.grey.shade100,
@@ -90,26 +85,30 @@ class _SignupState extends State<Signup> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "First time here? ",
+                          "Alreade have an account? ",
                           style: TextStyle(
                             fontSize: 14,
                             color: Colors.grey.shade800,
                           ),
                         ),
-
-                        Text(
-                          "Sign Up",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: const Color(0xFF166CB2),
-                            fontWeight: FontWeight.bold,
+                        GestureDetector(
+                          onTap: () {
+                            Get.back();
+                          },
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: const Color(0xFF166CB2),
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ],
                     ),
                     SizedBox(height: 40),
                     Text(
-                      "or login with",
+                      "or sign in with",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey.shade800,

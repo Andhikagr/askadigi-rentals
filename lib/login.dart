@@ -1,3 +1,4 @@
+import 'package:car_rental/forgot_password.dart';
 import 'package:car_rental/help/boxtext.dart';
 import 'package:car_rental/help/help.dart';
 import 'package:car_rental/help/socialbutton.dart';
@@ -53,13 +54,21 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 30),
                     BoxText(label: "Password", iconData: Icons.lock),
                     SizedBox(height: 10),
+
                     Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
-                        "Forgot Password?",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey.shade800,
+                      child: GestureDetector(
+                        onTap: () => Get.to(
+                          () => ForgotPassword(),
+                          transition: Transition.native,
+                          duration: Duration(milliseconds: 600),
+                        ),
+                        child: Text(
+                          "Forgot Password?",
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: const Color(0xFF1382DC),
+                          ),
                         ),
                       ),
                     ),
@@ -107,7 +116,7 @@ class _LoginState extends State<Login> {
                             Get.to(
                               () => Signup(),
                               transition: Transition.native,
-                              duration: Duration(milliseconds: 1000),
+                              duration: Duration(milliseconds: 600),
                             );
                           },
                           child: Text(
@@ -123,7 +132,7 @@ class _LoginState extends State<Login> {
                     ),
                     SizedBox(height: 40),
                     Text(
-                      "or login with",
+                      "or sign in with",
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.grey.shade800,
