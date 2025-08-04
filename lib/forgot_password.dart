@@ -2,7 +2,6 @@ import 'package:car_rental/help/boxtext.dart';
 import 'package:car_rental/help/button_one.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/utils.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPassword extends StatefulWidget {

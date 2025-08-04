@@ -45,7 +45,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       end: 1.0,
     ).animate(CurvedAnimation(parent: _wipeController, curve: Curves.easeOut));
 
-    Future.delayed(Duration(seconds: 3), () async {
+    Future.delayed(Duration(seconds: 2), () async {
       if (!mounted) return;
       await _wipeController.forward();
       if (!mounted) return;

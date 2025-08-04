@@ -109,11 +109,13 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
               child: ScaleTransition(
                 scale: _scaleAnimation,
                 child: GestureDetector(
-                  onTap: () {
+                  onTap: () async {
+                    await _scaleController.reverse();
+                    _scaleController.stop();
                     Get.to(
                       () => Login(),
                       transition: Transition.native,
-                      duration: Duration(milliseconds: 1000),
+                      duration: Duration(milliseconds: 600),
                     );
                   },
                   child: Container(
