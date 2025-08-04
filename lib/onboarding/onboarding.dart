@@ -1,5 +1,6 @@
+import 'package:car_rental/help/colors.dart';
 import 'package:car_rental/help/help.dart';
-import 'package:car_rental/login.dart';
+import 'package:car_rental/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -63,7 +64,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
             top: context.deviceHeight * 0.10,
             child: Container(
               decoration: BoxDecoration(
-                color: const Color(0xFF1382DC),
+                color: primaryColor(context),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withValues(alpha: 0.4),
@@ -86,7 +87,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                     style: GoogleFonts.archivoBlack(
                       fontWeight: FontWeight.bold,
                       fontSize: context.deviceWidth * 0.08,
-                      color: Colors.grey.shade300,
+                      color: surfContainerColor(context),
                     ),
                   ),
                   Text(
@@ -94,7 +95,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: context.deviceWidth * 0.035,
-                      color: Colors.grey.shade300,
+                      color: surfContainerColor(context),
                     ),
                   ),
                 ],
@@ -123,7 +124,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(20),
                       border: Border.all(
-                        color: const Color(0xFF1382DC),
+                        color: primaryContainerColor(context),
                         width: 2,
                       ),
                     ),
@@ -133,15 +134,12 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                         Text(
                           "Let's Started",
                           style: TextStyle(
-                            color: const Color(0xFF1382DC),
+                            color: primaryColor(context),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(width: context.deviceWidth * 0.02),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: const Color(0xFF1382DC),
-                        ),
+                        Icon(Icons.arrow_forward, color: primaryColor(context)),
                       ],
                     ),
                   ),

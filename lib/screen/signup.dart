@@ -1,6 +1,8 @@
 import 'package:car_rental/help/boxtext.dart';
 import 'package:car_rental/help/button_one.dart';
+import 'package:car_rental/help/colors.dart';
 import 'package:car_rental/help/socialbutton.dart';
+import 'package:car_rental/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -28,20 +30,13 @@ class _SignupState extends State<Signup> {
                   children: [
                     Text(
                       "Create New Account",
-                      style: GoogleFonts.archivoBlack(
-                        fontSize: 22,
-
-                        color: Colors.grey.shade800,
-                      ),
+                      style: GoogleFonts.archivoBlack(fontSize: 22),
                     ),
                     SizedBox(height: 10),
                     Text(
                       textAlign: TextAlign.center,
                       "Set up your username and password.\nYou can always change it later.",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade800,
-                      ),
+                      style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(height: 30),
                     BoxText(label: "Username", iconData: Icons.account_circle),
@@ -59,20 +54,21 @@ class _SignupState extends State<Signup> {
                       children: [
                         Text(
                           "Alreade have an account? ",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade800,
-                          ),
+                          style: TextStyle(fontSize: 14),
                         ),
                         GestureDetector(
                           onTap: () {
-                            Get.back();
+                            Get.off(
+                              () => Login(),
+                              transition: Transition.native,
+                              duration: Duration(milliseconds: 500),
+                            );
                           },
                           child: Text(
                             "Login",
                             style: TextStyle(
                               fontSize: 14,
-                              color: const Color(0xFF166CB2),
+                              color: primaryColor(context),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -80,13 +76,7 @@ class _SignupState extends State<Signup> {
                       ],
                     ),
                     SizedBox(height: 40),
-                    Text(
-                      "or sign in with",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade800,
-                      ),
-                    ),
+                    Text("or sign in with", style: TextStyle(fontSize: 14)),
                     SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

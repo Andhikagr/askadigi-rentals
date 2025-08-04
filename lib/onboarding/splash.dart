@@ -1,4 +1,5 @@
-import 'package:car_rental/onboarding.dart';
+import 'package:car_rental/help/colors.dart';
+import 'package:car_rental/onboarding/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -67,7 +68,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: surfaceColor(context),
       body: Stack(
         children: [
           Image.asset("assets/image/backone.png"),
@@ -84,12 +85,15 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
                     "A S K A D I G I",
                     style: GoogleFonts.archivoBlack(
                       fontSize: 24,
-                      color: Color.fromARGB(255, 55, 108, 172),
+                      color: primaryColor(context),
                     ),
                   ),
-                  const Text(
+                  Text(
                     "rentals",
-                    style: TextStyle(fontSize: 14, color: Color(0xFF075DA3)),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: primaryColor(context),
+                    ),
                   ),
                 ],
               ),
@@ -97,7 +101,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
           ),
           FadeTransition(
             opacity: _wipeOpacity,
-            child: Container(color: Colors.white),
+            child: Container(color: surfaceColor(context)),
           ),
         ],
       ),

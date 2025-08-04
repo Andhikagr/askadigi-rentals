@@ -1,3 +1,4 @@
+import 'package:car_rental/help/colors.dart';
 import 'package:flutter/material.dart';
 
 class BoxText extends StatelessWidget {
@@ -10,16 +11,16 @@ class BoxText extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       enableSuggestions: false,
-      cursorColor: Colors.grey.shade600,
-      style: TextStyle(color: Colors.grey.shade600),
+      cursorColor: outlineColor(context),
+      style: TextStyle(color: outlineColor(context)),
       decoration: InputDecoration(
         contentPadding: EdgeInsets.all(20),
         floatingLabelBehavior: FloatingLabelBehavior.never,
-        prefixIcon: Icon(iconData, color: Colors.grey.shade600),
+        prefixIcon: Icon(iconData, color: outlineColor(context)),
         labelText: label,
-        labelStyle: TextStyle(fontSize: 14, color: Colors.grey.shade600),
+        labelStyle: TextStyle(fontSize: 14, color: outlineColor(context)),
         filled: true,
-        fillColor: Colors.grey.shade200,
+        fillColor: surfContainerColor(context),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(20),
           borderSide: BorderSide.none,

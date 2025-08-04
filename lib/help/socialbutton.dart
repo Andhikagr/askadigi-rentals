@@ -1,3 +1,4 @@
+import 'package:car_rental/help/colors.dart';
 import 'package:car_rental/help/help.dart';
 import 'package:flutter/material.dart';
 
@@ -8,17 +9,14 @@ Widget socialButton(BuildContext context, String image, String label) {
     width: context.deviceWidth * 0.4,
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
-      color: Colors.grey.shade200,
+      color: surfContainerColor(context),
     ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Image.asset(image, fit: BoxFit.cover),
         SizedBox(width: context.deviceWidth * 0.03),
-        Text(
-          label,
-          style: TextStyle(fontSize: 14, color: Colors.grey.shade800),
-        ),
+        Text(label, style: TextStyle(fontSize: 14)),
       ],
     ),
   );

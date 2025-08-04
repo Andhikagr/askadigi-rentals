@@ -1,4 +1,4 @@
-import 'package:car_rental/splash.dart';
+import 'package:car_rental/onboarding/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
       home: Splash(),
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
+        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF719BE2)),
         textTheme: GoogleFonts.poppinsTextTheme(),
       ),
     );

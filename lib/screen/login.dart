@@ -1,9 +1,11 @@
-import 'package:car_rental/forgot_password.dart';
+import 'package:car_rental/help/colors.dart';
+import 'package:car_rental/homepage.dart/dashboard.dart';
+import 'package:car_rental/screen/forgot_password.dart';
 import 'package:car_rental/help/boxtext.dart';
 import 'package:car_rental/help/button_one.dart';
 import 'package:car_rental/help/help.dart';
 import 'package:car_rental/help/socialbutton.dart';
-import 'package:car_rental/signup.dart';
+import 'package:car_rental/screen/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -36,19 +38,12 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 5),
                     Text(
                       "Welcome Back",
-                      style: GoogleFonts.archivoBlack(
-                        fontSize: 22,
-
-                        color: Colors.grey.shade800,
-                      ),
+                      style: GoogleFonts.archivoBlack(fontSize: 22),
                     ),
                     Text(
                       "Log in to your account using email or social networks",
                       textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade800,
-                      ),
+                      style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(height: 30),
                     BoxText(label: "Email", iconData: Icons.email),
@@ -62,34 +57,37 @@ class _LoginState extends State<Login> {
                         onTap: () => Get.to(
                           () => ForgotPassword(),
                           transition: Transition.native,
-                          duration: Duration(milliseconds: 600),
+                          duration: Duration(milliseconds: 500),
                         ),
                         child: Text(
                           "Forgot Password?",
                           style: TextStyle(
                             fontSize: 14,
-                            color: const Color(0xFF1382DC),
+                            color: primaryColor(context),
                           ),
                         ),
                       ),
                     ),
 
                     SizedBox(height: 30),
-                    buttonOne(context, "Log in", () {}),
+                    buttonOne(context, "Log in", () {
+                      Get.to(
+                        () => Dashboard(),
+                        transition: Transition.native,
+                        duration: Duration(milliseconds: 600),
+                      );
+                    }),
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
                           "First time here? ",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey.shade800,
-                          ),
+                          style: TextStyle(fontSize: 14),
                         ),
                         GestureDetector(
-                          onTap: () {
-                            Get.to(
+                          onTap: () async {
+                            await Get.to(
                               () => Signup(),
                               transition: Transition.native,
                               duration: Duration(milliseconds: 600),
@@ -99,7 +97,7 @@ class _LoginState extends State<Login> {
                             "Sign Up",
                             style: TextStyle(
                               fontSize: 14,
-                              color: const Color(0xFF166CB2),
+                              color: primaryColor(context),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -107,13 +105,7 @@ class _LoginState extends State<Login> {
                       ],
                     ),
                     SizedBox(height: 40),
-                    Text(
-                      "or sign in with",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey.shade800,
-                      ),
-                    ),
+                    Text("or sign in with", style: TextStyle(fontSize: 14)),
                     SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,

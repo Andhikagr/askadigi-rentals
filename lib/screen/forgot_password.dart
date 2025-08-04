@@ -1,5 +1,6 @@
 import 'package:car_rental/help/boxtext.dart';
 import 'package:car_rental/help/button_one.dart';
+import 'package:car_rental/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -19,7 +20,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         automaticallyImplyLeading: false,
         leading: IconButton(
           onPressed: () {
-            Get.back();
+            FocusScope.of(context).unfocus();
+            Get.off(
+              () => Login(),
+              transition: Transition.native,
+              duration: Duration(milliseconds: 500),
+            );
           },
           icon: Icon(Icons.arrow_back_ios),
         ),
@@ -33,7 +39,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: Column(
                 children: [
                   Text(
-                    "Create New Account",
+                    "Forgot Password",
                     style: GoogleFonts.archivoBlack(
                       fontSize: 22,
 
@@ -43,7 +49,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   SizedBox(height: 10),
                   Text(
                     textAlign: TextAlign.center,
-                    "Set up your username and password.\nYou can always change it later.",
+                    "Please enter your email address. So we'll send you link to get back into your account",
                     style: TextStyle(fontSize: 14, color: Colors.grey.shade800),
                   ),
                   SizedBox(height: 30),

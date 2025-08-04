@@ -1,3 +1,4 @@
+import 'package:car_rental/help/colors.dart';
 import 'package:car_rental/help/help.dart';
 import 'package:flutter/material.dart';
 
@@ -6,14 +7,14 @@ Widget buttonOne(BuildContext context, String label, VoidCallback onTap) {
     borderRadius: BorderRadius.circular(20),
     color: Colors.transparent,
     child: InkWell(
-      onTap: () {},
+      onTap: onTap,
       splashColor: Colors.white.withValues(alpha: 0.3),
-      borderRadius: BorderRadius.circular(30),
+      borderRadius: BorderRadius.circular(20),
       child: Ink(
         width: double.infinity,
         height: context.deviceHeight * 0.065,
         decoration: BoxDecoration(
-          color: const Color(0xFF1382DC),
+          color: primaryColor(context),
           borderRadius: BorderRadius.circular(20),
         ),
         child: Center(
@@ -21,7 +22,7 @@ Widget buttonOne(BuildContext context, String label, VoidCallback onTap) {
             label,
             style: TextStyle(
               fontSize: 18,
-              color: Colors.grey.shade100,
+              color: onPrimaryColor(context),
               fontWeight: FontWeight.bold,
             ),
           ),
