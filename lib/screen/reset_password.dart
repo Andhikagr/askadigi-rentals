@@ -1,20 +1,14 @@
-import 'package:car_rental/help/boxtext.dart';
 import 'package:car_rental/help/button_one.dart';
 import 'package:car_rental/help/help.dart';
-import 'package:car_rental/screen/reset_password.dart';
-import 'package:car_rental/screen/verification.dart';
+import 'package:car_rental/screen/change_password.dart';
+import 'package:car_rental/screen/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
+class ResetPassword extends StatelessWidget {
+  const ResetPassword({super.key});
 
-  @override
-  State<ChangePassword> createState() => _ChangePasswordState();
-}
-
-class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +18,7 @@ class _ChangePasswordState extends State<ChangePassword> {
           onPressed: () {
             FocusScope.of(context).unfocus();
             Get.off(
-              () => Verification(),
+              () => ChangePassword(),
               transition: Transition.native,
               duration: Duration(milliseconds: 300),
             );
@@ -41,35 +35,27 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Column(
                 children: [
                   Image.asset(
-                    "assets/image/reset.png",
+                    "assets/image/check.png",
                     fit: BoxFit.cover,
                     width: context.deviceWidth * 0.22,
                   ),
                   SizedBox(height: context.deviceHeight * 0.03),
                   Text(
-                    "Set New Password",
+                    "Password Changed",
                     style: GoogleFonts.archivoBlack(fontSize: 22),
                   ),
 
                   Text(
                     textAlign: TextAlign.center,
-                    "Enter a new password for your account",
+                    "Your password has been changed succesfully",
                     style: TextStyle(fontSize: 14),
                   ),
+
                   SizedBox(height: context.deviceHeight * 0.03),
-                  BoxText(label: "New Password", iconData: Icons.lock_open),
-                  SizedBox(height: context.deviceHeight * 0.03),
-                  BoxText(label: "Repeat Password", iconData: Icons.lock_open),
-                  SizedBox(height: context.deviceHeight * 0.03),
-                  Text(
-                    "Password must be at least 8 characters long and include an uppercase letter and a special character.",
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: context.deviceHeight * 0.03),
-                  buttonOne(context, "Reset Password", () {
+                  buttonOne(context, "Back to Login", () {
                     FocusScope.of(context).unfocus();
-                    Get.to(
-                      () => ResetPassword(),
+                    Get.off(
+                      () => Login(),
                       transition: Transition.native,
                       duration: Duration(milliseconds: 300),
                     );

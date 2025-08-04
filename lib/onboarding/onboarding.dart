@@ -91,7 +91,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                 children: [
                   Text(
                     "Get Your Cars",
-                    style: GoogleFonts.archivoBlack(
+                    style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.bold,
                       fontSize: context.deviceWidth * 0.08,
                       color: surfContainerColor(context),
