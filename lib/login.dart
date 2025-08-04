@@ -1,5 +1,6 @@
 import 'package:car_rental/forgot_password.dart';
 import 'package:car_rental/help/boxtext.dart';
+import 'package:car_rental/help/button_one.dart';
 import 'package:car_rental/help/help.dart';
 import 'package:car_rental/help/socialbutton.dart';
 import 'package:car_rental/signup.dart';
@@ -72,34 +73,9 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    Material(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {},
-                        splashColor: Colors.white.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(30),
-                        child: Ink(
-                          width: double.infinity,
-                          height: context.deviceHeight * 0.065,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF1382DC),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey.shade100,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+
+                    SizedBox(height: 30),
+                    buttonOne(context, "Log in", () {}),
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

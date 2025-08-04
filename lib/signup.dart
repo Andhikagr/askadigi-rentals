@@ -1,5 +1,5 @@
 import 'package:car_rental/help/boxtext.dart';
-import 'package:car_rental/help/help.dart';
+import 'package:car_rental/help/button_one.dart';
 import 'package:car_rental/help/socialbutton.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,35 +51,8 @@ class _SignupState extends State<Signup> {
                     BoxText(label: "Password", iconData: Icons.lock),
                     SizedBox(height: 30),
                     BoxText(label: "Repeat Password", iconData: Icons.password),
-
                     SizedBox(height: 30),
-                    Material(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.transparent,
-                      child: InkWell(
-                        onTap: () {},
-                        splashColor: Colors.white.withValues(alpha: 0.3),
-                        borderRadius: BorderRadius.circular(30),
-                        child: Ink(
-                          width: double.infinity,
-                          height: context.deviceHeight * 0.065,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF1382DC),
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Center(
-                            child: Text(
-                              "Sign up",
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey.shade100,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
+                    buttonOne(context, "Sign Up", () {}),
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
