@@ -58,10 +58,11 @@ class _SignupState extends State<Signup> {
                         ),
                         GestureDetector(
                           onTap: () {
+                            FocusScope.of(context).unfocus();
                             Get.off(
                               () => Login(),
                               transition: Transition.native,
-                              duration: Duration(milliseconds: 500),
+                              duration: Duration(milliseconds: 300),
                             );
                           },
                           child: Text(

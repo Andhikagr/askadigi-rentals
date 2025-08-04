@@ -50,15 +50,17 @@ class _LoginState extends State<Login> {
                     SizedBox(height: 30),
                     BoxText(label: "Password", iconData: Icons.lock),
                     SizedBox(height: 10),
-
                     Align(
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
-                        onTap: () => Get.to(
-                          () => ForgotPassword(),
-                          transition: Transition.native,
-                          duration: Duration(milliseconds: 500),
-                        ),
+                        onTap: () {
+                          FocusScope.of(context).unfocus();
+                          Get.to(
+                            () => ForgotPassword(),
+                            transition: Transition.native,
+                            duration: Duration(milliseconds: 300),
+                          );
+                        },
                         child: Text(
                           "Forgot Password?",
                           style: TextStyle(
@@ -71,10 +73,11 @@ class _LoginState extends State<Login> {
 
                     SizedBox(height: 30),
                     buttonOne(context, "Log in", () {
+                      FocusScope.of(context).unfocus();
                       Get.to(
                         () => Dashboard(),
                         transition: Transition.native,
-                        duration: Duration(milliseconds: 600),
+                        duration: Duration(milliseconds: 300),
                       );
                     }),
                     SizedBox(height: 20),
@@ -86,11 +89,12 @@ class _LoginState extends State<Login> {
                           style: TextStyle(fontSize: 14),
                         ),
                         GestureDetector(
-                          onTap: () async {
-                            await Get.to(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                            Get.to(
                               () => Signup(),
                               transition: Transition.native,
-                              duration: Duration(milliseconds: 600),
+                              duration: Duration(milliseconds: 300),
                             );
                           },
                           child: Text(

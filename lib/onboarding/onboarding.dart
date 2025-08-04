@@ -2,6 +2,7 @@ import 'package:car_rental/help/colors.dart';
 import 'package:car_rental/help/help.dart';
 import 'package:car_rental/screen/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -23,9 +24,15 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
   void initState() {
     super.initState();
 
+    Future.delayed(Duration.zero, () {
+      if (!mounted) return;
+      FocusScope.of(context).unfocus();
+      SystemChannels.textInput.invokeMethod("TextInput.hide");
+    });
+
     _buttonController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 300),
+      duration: Duration(milliseconds: 500),
     );
     _buttonOpacity = Tween<double>(
       begin: 0.0,
@@ -116,7 +123,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                     Get.to(
                       () => Login(),
                       transition: Transition.native,
-                      duration: Duration(milliseconds: 600),
+                      duration: Duration(milliseconds: 500),
                     );
                   },
                   child: Container(

@@ -1,20 +1,19 @@
 import 'package:car_rental/help/boxtext.dart';
 import 'package:car_rental/help/button_one.dart';
 import 'package:car_rental/help/help.dart';
-import 'package:car_rental/screen/login.dart';
 import 'package:car_rental/screen/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ForgotPassword extends StatefulWidget {
-  const ForgotPassword({super.key});
+class ChangePassword extends StatefulWidget {
+  const ChangePassword({super.key});
 
   @override
-  State<ForgotPassword> createState() => _ForgotPasswordState();
+  State<ChangePassword> createState() => _ChangePasswordState();
 }
 
-class _ForgotPasswordState extends State<ForgotPassword> {
+class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +23,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           onPressed: () {
             FocusScope.of(context).unfocus();
             Get.off(
-              () => Login(),
+              () => Verification(),
               transition: Transition.native,
               duration: Duration(milliseconds: 300),
             );
@@ -41,32 +40,32 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: Column(
                 children: [
                   Image.asset(
-                    "assets/image/forgot.png",
+                    "assets/image/reset.png",
                     fit: BoxFit.cover,
                     width: context.deviceWidth * 0.22,
                   ),
                   SizedBox(height: context.deviceHeight * 0.03),
                   Text(
-                    "Forgot Password",
+                    "Set New Password",
                     style: GoogleFonts.archivoBlack(fontSize: 22),
                   ),
 
                   Text(
                     textAlign: TextAlign.center,
-                    "Please enter your email address. So we'll send you link to get back into your account",
+                    "Enter a new password for your account",
                     style: TextStyle(fontSize: 14),
                   ),
                   SizedBox(height: context.deviceHeight * 0.03),
-                  BoxText(label: "Email", iconData: Icons.email_outlined),
+                  BoxText(label: "New Password", iconData: Icons.lock_open),
                   SizedBox(height: context.deviceHeight * 0.03),
-                  buttonOne(context, "Send Code", () {
-                    FocusScope.of(context).unfocus();
-                    Get.to(
-                      () => Verification(),
-                      transition: Transition.native,
-                      duration: Duration(milliseconds: 300),
-                    );
-                  }),
+                  BoxText(label: "Repeat Password", iconData: Icons.lock_open),
+                  SizedBox(height: context.deviceHeight * 0.03),
+                  Text(
+                    "Password must be at least 8 characters long and include an uppercase letter and a special character.",
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: context.deviceHeight * 0.03),
+                  buttonOne(context, "Send Code", () {}),
                 ],
               ),
             ),

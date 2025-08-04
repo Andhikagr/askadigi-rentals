@@ -67,43 +67,45 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: surfaceColor(context),
-      body: Stack(
-        children: [
-          Image.asset("assets/image/backone.png"),
-          FadeTransition(
-            opacity: _opacityController,
-            child: ScaleTransition(
-              scale: _scaleController,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/image/logo.png"),
-                  SizedBox(height: 5),
-                  Text(
-                    "A S K A D I G I",
-                    style: GoogleFonts.archivoBlack(
-                      fontSize: 24,
-                      color: primaryColor(context),
+    return IgnorePointer(
+      child: Scaffold(
+        backgroundColor: surfaceColor(context),
+        body: Stack(
+          children: [
+            Image.asset("assets/image/backone.png"),
+            FadeTransition(
+              opacity: _opacityController,
+              child: ScaleTransition(
+                scale: _scaleController,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset("assets/image/logo.png"),
+                    SizedBox(height: 5),
+                    Text(
+                      "A S K A D I G I",
+                      style: GoogleFonts.archivoBlack(
+                        fontSize: 24,
+                        color: primaryColor(context),
+                      ),
                     ),
-                  ),
-                  Text(
-                    "rentals",
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: primaryColor(context),
+                    Text(
+                      "rentals",
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: primaryColor(context),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
-          ),
-          FadeTransition(
-            opacity: _wipeOpacity,
-            child: Container(color: surfaceColor(context)),
-          ),
-        ],
+            FadeTransition(
+              opacity: _wipeOpacity,
+              child: Container(color: surfaceColor(context)),
+            ),
+          ],
+        ),
       ),
     );
   }
