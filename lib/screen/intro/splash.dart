@@ -1,4 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/intro/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -71,7 +72,9 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
         backgroundColor: surfaceColor(context),
         body: Stack(
           children: [
-            Image.asset("assets/image/backone.png"),
+            Positioned.fill(
+              child: Image.asset("assets/image/backone.png", fit: BoxFit.cover),
+            ),
             FadeTransition(
               opacity: _opacityController,
               child: ScaleTransition(
@@ -79,12 +82,11 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-
                     children: [
                       Image.asset(
                         "assets/image/logoaskadigi.png",
                         fit: BoxFit.cover,
-                        width: 300,
+                        width: context.shortp(0.8),
                       ),
                     ],
                   ),

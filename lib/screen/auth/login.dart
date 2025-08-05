@@ -1,8 +1,9 @@
+import 'package:car_rental/core/utils/size_helper.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
 import 'package:car_rental/screen/auth/forgot_password.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
-import 'package:car_rental/core/utils/help.dart';
+import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/widget/socialbutton.dart';
 import 'package:car_rental/screen/auth/signup.dart';
 import 'package:flutter/material.dart';
@@ -24,7 +25,7 @@ class _LoginState extends State<Login> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(context.shortp(0.02)),
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
@@ -32,9 +33,8 @@ class _LoginState extends State<Login> {
                   children: [
                     Image.asset(
                       "assets/image/logoaskadigi.png",
-                      height: context.deviceHeight * 0.15,
+                      width: context.shortp(0.4),
                     ),
-
                     Text(
                       "Welcome Back",
                       style: GoogleFonts.archivoBlack(fontSize: 22),
@@ -44,11 +44,11 @@ class _LoginState extends State<Login> {
                       textAlign: TextAlign.center,
                       style: TextStyle(fontSize: 14),
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.08)),
                     BoxText(label: "Email", iconData: Icons.email),
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.02)),
                     BoxText(label: "Password", iconData: Icons.lock),
-                    SizedBox(height: 10),
+                    SizedBox(height: context.shortp(0.03)),
                     Align(
                       alignment: Alignment.centerRight,
                       child: GestureDetector(
@@ -66,8 +66,7 @@ class _LoginState extends State<Login> {
                         ),
                       ),
                     ),
-
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.06)),
                     buttonOne(context, "Log in", () {
                       FocusScope.of(context).unfocus();
                       Get.to(
@@ -76,7 +75,7 @@ class _LoginState extends State<Login> {
                         duration: Duration(milliseconds: 300),
                       );
                     }),
-                    SizedBox(height: 20),
+                    SizedBox(height: context.shortp(0.06)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -104,7 +103,7 @@ class _LoginState extends State<Login> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: context.shortp(0.04)),
                     Text("or sign in with", style: TextStyle(fontSize: 14)),
                     SizedBox(height: 30),
                     Row(

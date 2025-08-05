@@ -1,4 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/media_query.dart';
 import 'package:flutter/material.dart';
 
 class BoxText extends StatelessWidget {
@@ -10,6 +11,7 @@ class BoxText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      margin: EdgeInsets.all(context.shortp(0.02)),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         boxShadow: [

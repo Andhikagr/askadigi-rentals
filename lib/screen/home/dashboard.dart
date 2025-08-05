@@ -1,6 +1,7 @@
+import 'package:car_rental/core/utils/size_helper.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/core/utils/help.dart';
+import 'package:car_rental/core/utils/media_query.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -12,21 +13,30 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  final List<String> brand = [
+    "assets/image/toyota.png",
+    "assets/image/honda.png",
+    "assets/image/hyundai.png",
+    "assets/image/daihatsu.png",
+    "assets/image/suzuki.png",
+    "assets/image/mitsubishi.png",
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(context.deviceWidth * 0.04),
+          padding: EdgeInsets.all(context.shortp(0.04)),
           child: SingleChildScrollView(
             child: Column(
               children: [
                 Row(
                   children: [
                     Container(
-                      width: context.deviceHeight * 0.05,
-                      height: context.deviceWidth * 0.10,
+                      width: context.shortp(0.12),
+                      height: context.shortp(0.12),
                       decoration: BoxDecoration(
                         color: surfContainerColor(context),
                         borderRadius: BorderRadius.circular(10),
@@ -41,9 +51,11 @@ class _DashboardState extends State<Dashboard> {
                           ),
                         ],
                       ),
-                      child: Center(child: Icon(Icons.place)),
+                      child: Center(
+                        child: Icon(Icons.place, size: context.shortp(0.06)),
+                      ),
                     ),
-                    SizedBox(width: context.deviceWidth * 0.03),
+                    SizedBox(width: context.shortp(0.03)),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,11 +71,10 @@ class _DashboardState extends State<Dashboard> {
                         ],
                       ),
                     ),
-                    SizedBox(width: 20),
                     Container(
-                      padding: EdgeInsets.all(context.deviceWidth * 0.02),
-                      width: context.deviceWidth * 0.18,
-                      height: context.deviceHeight * 0.09,
+                      padding: EdgeInsets.all(context.widthp(0.02)),
+                      width: context.shortp(0.20),
+                      height: context.shortp(0.20),
                       decoration: BoxDecoration(
                         color: surfContainerColor(context),
                         borderRadius: BorderRadius.circular(10),
@@ -81,39 +92,25 @@ class _DashboardState extends State<Dashboard> {
                       child: Center(
                         child: Image.asset(
                           'assets/image/man.png',
-                          width: context.deviceWidth * 0.13,
+                          width: context.shortp(0.16),
                         ),
                       ),
                     ),
                   ],
                 ),
-
-                SizedBox(height: context.deviceHeight * 0.03),
+                SizedBox(height: context.shortp(0.04)),
                 BoxText(label: "search cars", iconData: Icons.search),
-                SizedBox(height: context.deviceHeight * 0.02),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Brands",
-                      textAlign: TextAlign.left,
-                      style: GoogleFonts.montserrat(
-                        fontSize: 18,
-                        height: 1.15,
-                        fontWeight: FontWeight.bold,
-                      ),
+                SizedBox(height: context.shortp(0.04)),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "Brands",
+                    textAlign: TextAlign.left,
+                    style: GoogleFonts.montserrat(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
                     ),
-                    Text(
-                      "View All",
-                      textAlign: TextAlign.left,
-                      style: TextStyle(
-                        fontSize: 14,
-                        height: 1.15,
-                        fontWeight: FontWeight.bold,
-                        color: primaryColor(context),
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
               ],
             ),

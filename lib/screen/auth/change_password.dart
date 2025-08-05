@@ -1,6 +1,6 @@
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
-import 'package:car_rental/core/utils/help.dart';
+import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/reset_password.dart';
 import 'package:car_rental/screen/auth/verification.dart';
 import 'package:flutter/material.dart';

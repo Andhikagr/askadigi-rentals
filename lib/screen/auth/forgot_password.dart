@@ -1,6 +1,6 @@
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
-import 'package:car_rental/core/utils/help.dart';
+import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/screen/auth/verification.dart';
 import 'package:flutter/material.dart';
@@ -36,14 +36,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(context.shortp(0.02)),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Image.asset(
                     "assets/image/forgotpass.png",
                     fit: BoxFit.cover,
-                    width: context.deviceWidth * 0.25,
+                    width: context.shortp(0.25),
                   ),
                   SizedBox(height: context.deviceHeight * 0.03),
                   Text(
@@ -56,9 +56,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     "Please enter your email address. So we'll send you link to get back into your account",
                     style: TextStyle(fontSize: 14),
                   ),
-                  SizedBox(height: context.deviceHeight * 0.03),
+                  SizedBox(height: context.shortp(0.09)),
                   BoxText(label: "Email", iconData: Icons.email_outlined),
-                  SizedBox(height: context.deviceHeight * 0.03),
+                  SizedBox(height: context.shortp(0.04)),
                   buttonOne(context, "Send Code", () {
                     FocusScope.of(context).unfocus();
                     Get.to(

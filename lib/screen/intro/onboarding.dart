@@ -1,5 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/core/utils/help.dart';
+import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -66,10 +66,13 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
     return Scaffold(
       body: Stack(
         children: [
-          Image.asset("assets/image/backtwo.png"),
+          Positioned.fill(
+            child: Image.asset("assets/image/backtwo.png", fit: BoxFit.cover),
+          ),
           Positioned(
-            top: context.deviceHeight * 0.10,
+            top: context.shortp(0.2),
             child: Container(
+              height: context.shortp(0.3),
               decoration: BoxDecoration(
                 color: onSurfaceColor(context),
                 borderRadius: BorderRadius.only(
@@ -77,7 +80,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                   bottomRight: Radius.circular(20),
                 ),
               ),
-              padding: EdgeInsets.all(context.deviceWidth * 0.04),
+              padding: EdgeInsets.all(context.shortp(0.04)),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -85,7 +88,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                     "Get Your Cars",
                     style: GoogleFonts.montserrat(
                       fontWeight: FontWeight.bold,
-                      fontSize: context.deviceWidth * 0.08,
+                      fontSize: 28,
                       color: surfContainerColor(context),
                     ),
                   ),
@@ -93,7 +96,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                     "Fastest way to book cars without the hassle of \nwaiting and hanging for price ",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: context.deviceWidth * 0.035,
+                      fontSize: 14,
                       color: surfContainerColor(context),
                     ),
                   ),
@@ -102,8 +105,8 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
             ),
           ),
           Positioned(
-            top: context.deviceHeight * 0.26,
-            left: context.deviceWidth * 0.08,
+            top: context.shortp(0.55),
+            left: context.shortp(0.08),
             child: FadeTransition(
               opacity: _buttonOpacity,
               child: ScaleTransition(
@@ -119,7 +122,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                     );
                   },
                   child: Container(
-                    padding: EdgeInsets.all(context.deviceWidth * 0.025),
+                    padding: EdgeInsets.all(context.shortp(0.025)),
                     decoration: BoxDecoration(
                       color: Colors.red,
                       borderRadius: BorderRadius.circular(20),
@@ -144,7 +147,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SizedBox(width: context.deviceWidth * 0.02),
+                        SizedBox(width: context.shortp(0.02)),
                         Icon(Icons.arrow_forward, color: surfaceColor(context)),
                       ],
                     ),
