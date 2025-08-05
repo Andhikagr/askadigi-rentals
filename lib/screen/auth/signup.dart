@@ -1,6 +1,5 @@
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
-import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/widget/socialbutton.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +31,10 @@ class _SignupState extends State<Signup> {
                       "Create New Account",
                       style: GoogleFonts.archivoBlack(fontSize: 22),
                     ),
-                    SizedBox(height: 10),
+
                     Text(
                       textAlign: TextAlign.center,
-                      "Set up your username and password.\nYou can always change it later.",
+                      "Set up your username and password. You can always change it later.",
                       style: TextStyle(fontSize: 14),
                     ),
                     SizedBox(height: 30),
@@ -69,7 +68,7 @@ class _SignupState extends State<Signup> {
                             "Login",
                             style: TextStyle(
                               fontSize: 14,
-                              color: primaryColor(context),
+                              color: Colors.red,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

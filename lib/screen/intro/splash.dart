@@ -2,7 +2,6 @@ import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/screen/intro/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -46,7 +45,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       end: 1.0,
     ).animate(CurvedAnimation(parent: _wipeController, curve: Curves.easeOut));
 
-    Future.delayed(Duration(seconds: 2), () async {
+    Future.delayed(Duration(seconds: 3), () async {
       if (!mounted) return;
       await _wipeController.forward();
       if (!mounted) return;
@@ -77,26 +76,18 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
               opacity: _opacityController,
               child: ScaleTransition(
                 scale: _scaleController,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.asset("assets/image/logo.png"),
-                    SizedBox(height: 5),
-                    Text(
-                      "A S K A D I G I",
-                      style: GoogleFonts.archivoBlack(
-                        fontSize: 24,
-                        color: primaryColor(context),
+                child: Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+
+                    children: [
+                      Image.asset(
+                        "assets/image/logoaskadigi.png",
+                        fit: BoxFit.cover,
+                        width: 300,
                       ),
-                    ),
-                    Text(
-                      "rentals",
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: primaryColor(context),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

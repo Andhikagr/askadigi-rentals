@@ -40,9 +40,9 @@ class _VerificationState extends State<Verification> {
             child: Column(
               children: [
                 Image.asset(
-                  "assets/image/email.png",
+                  "assets/image/gmail.png",
                   fit: BoxFit.cover,
-                  width: context.deviceWidth * 0.20,
+                  width: context.deviceWidth * 0.25,
                 ),
                 SizedBox(height: context.deviceHeight * 0.03),
                 Text(
@@ -119,8 +119,16 @@ class BoxVerify extends StatelessWidget {
     return Container(
       height: context.deviceHeight * 0.08,
       decoration: BoxDecoration(
-        color: primaryContainerColor(context),
+        color: surfContainerColor(context),
         borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: inverseSurfaceColor(context).withValues(alpha: 0.15),
+            blurRadius: 6,
+            spreadRadius: 1,
+            offset: Offset(2, 4),
+          ),
+        ],
       ),
       child: Padding(
         padding: EdgeInsets.all(context.deviceWidth * 0.02),

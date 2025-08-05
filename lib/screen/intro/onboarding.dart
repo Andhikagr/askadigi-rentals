@@ -71,15 +71,7 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
             top: context.deviceHeight * 0.10,
             child: Container(
               decoration: BoxDecoration(
-                color: primaryColor(context),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.4),
-                    offset: Offset(3, 3),
-                    blurRadius: 2,
-                    spreadRadius: 1,
-                  ),
-                ],
+                color: onSurfaceColor(context),
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(20),
                   bottomRight: Radius.circular(20),
@@ -129,11 +121,18 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                   child: Container(
                     padding: EdgeInsets.all(context.deviceWidth * 0.025),
                     decoration: BoxDecoration(
+                      color: Colors.red,
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: primaryContainerColor(context),
-                        width: 2,
-                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: inverseSurfaceColor(
+                            context,
+                          ).withValues(alpha: 0.5),
+                          blurRadius: 2,
+                          spreadRadius: 1,
+                          offset: Offset(1, 1),
+                        ),
+                      ],
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -141,12 +140,12 @@ class _OnboardingState extends State<Onboarding> with TickerProviderStateMixin {
                         Text(
                           "Let's Started",
                           style: TextStyle(
-                            color: primaryColor(context),
+                            color: surfaceColor(context),
                             fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(width: context.deviceWidth * 0.02),
-                        Icon(Icons.arrow_forward, color: primaryColor(context)),
+                        Icon(Icons.arrow_forward, color: surfaceColor(context)),
                       ],
                     ),
                   ),

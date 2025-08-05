@@ -10,6 +10,14 @@ Widget socialButton(BuildContext context, String image, String label) {
     decoration: BoxDecoration(
       borderRadius: BorderRadius.circular(20),
       color: surfContainerColor(context),
+      boxShadow: [
+        BoxShadow(
+          color: inverseSurfaceColor(context).withValues(alpha: 0.15),
+          blurRadius: 6,
+          spreadRadius: 1,
+          offset: Offset(2, 4),
+        ),
+      ],
     ),
     child: Row(
       mainAxisAlignment: MainAxisAlignment.center,

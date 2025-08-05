@@ -18,7 +18,8 @@ class MyApp extends StatelessWidget {
       home: Splash(),
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF719BE2)),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+
         textTheme: GoogleFonts.latoTextTheme(),
       ),
     );

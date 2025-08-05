@@ -9,8 +9,16 @@ Widget buttonOne(BuildContext context, String label, VoidCallback onTap) {
       width: double.infinity,
       height: context.deviceHeight * 0.065,
       decoration: BoxDecoration(
-        color: primaryColor(context),
+        color: inverseSurfaceColor(context),
         borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: inverseSurfaceColor(context).withValues(alpha: 0.5),
+            blurRadius: 3,
+            spreadRadius: 1,
+            offset: Offset(2, 5),
+          ),
+        ],
       ),
       child: Center(
         child: Text(

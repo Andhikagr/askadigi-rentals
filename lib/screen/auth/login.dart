@@ -1,5 +1,4 @@
-import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/homepage.dart/dashboard.dart';
+import 'package:car_rental/screen/home/dashboard.dart';
 import 'package:car_rental/screen/auth/forgot_password.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
@@ -32,10 +31,10 @@ class _LoginState extends State<Login> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.asset(
-                      "assets/image/logo.png",
-                      height: context.deviceHeight * 0.1,
+                      "assets/image/logoaskadigi.png",
+                      height: context.deviceHeight * 0.15,
                     ),
-                    SizedBox(height: 5),
+
                     Text(
                       "Welcome Back",
                       style: GoogleFonts.archivoBlack(fontSize: 22),
@@ -63,10 +62,7 @@ class _LoginState extends State<Login> {
                         },
                         child: Text(
                           "Forgot Password?",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: primaryColor(context),
-                          ),
+                          style: TextStyle(fontSize: 14),
                         ),
                       ),
                     ),
@@ -101,7 +97,7 @@ class _LoginState extends State<Login> {
                             "Sign Up",
                             style: TextStyle(
                               fontSize: 14,
-                              color: primaryColor(context),
+                              color: Colors.red,
                               fontWeight: FontWeight.bold,
                             ),
                           ),

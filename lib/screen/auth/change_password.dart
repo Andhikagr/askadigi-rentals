@@ -41,9 +41,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: Column(
                 children: [
                   Image.asset(
-                    "assets/image/reset.png",
+                    "assets/image/unlockpass.png",
                     fit: BoxFit.cover,
-                    width: context.deviceWidth * 0.22,
+                    width: context.deviceWidth * 0.28,
                   ),
                   SizedBox(height: context.deviceHeight * 0.03),
                   Text(

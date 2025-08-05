@@ -30,6 +30,16 @@ class _DashboardState extends State<Dashboard> {
                       decoration: BoxDecoration(
                         color: surfContainerColor(context),
                         borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: inverseSurfaceColor(
+                              context,
+                            ).withValues(alpha: 0.15),
+                            blurRadius: 6,
+                            spreadRadius: 1,
+                            offset: Offset(2, 4),
+                          ),
+                        ],
                       ),
                       child: Center(child: Icon(Icons.place)),
                     ),
@@ -52,11 +62,21 @@ class _DashboardState extends State<Dashboard> {
                     SizedBox(width: 20),
                     Container(
                       padding: EdgeInsets.all(context.deviceWidth * 0.02),
-                      width: context.deviceHeight * 0.09,
-                      height: context.deviceWidth * 0.18,
+                      width: context.deviceWidth * 0.18,
+                      height: context.deviceHeight * 0.09,
                       decoration: BoxDecoration(
                         color: surfContainerColor(context),
                         borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: inverseSurfaceColor(
+                              context,
+                            ).withValues(alpha: 0.15),
+                            blurRadius: 6,
+                            spreadRadius: 1,
+                            offset: Offset(2, 4),
+                          ),
+                        ],
                       ),
                       child: Center(
                         child: Image.asset(
@@ -67,42 +87,15 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ],
                 ),
-                SizedBox(height: context.deviceHeight * 0.02),
-                Container(
-                  padding: EdgeInsets.all(context.deviceWidth * 0.02),
-                  width: double.infinity,
-                  height: context.deviceWidth * 0.45,
-                  decoration: BoxDecoration(
-                    color: primaryColor(context),
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Select or search your favourite vehicle",
-                          textAlign: TextAlign.left,
-                          style: GoogleFonts.montserrat(
-                            fontSize: 24,
-                            height: 1.15,
-                            fontWeight: FontWeight.bold,
-                            color: surfContainerColor(context),
-                          ),
-                        ),
-                        SizedBox(height: context.deviceHeight * 0.02),
-                        BoxText(label: "search", iconData: Icons.search),
-                      ],
-                    ),
-                  ),
-                ),
+
+                SizedBox(height: context.deviceHeight * 0.03),
+                BoxText(label: "search cars", iconData: Icons.search),
                 SizedBox(height: context.deviceHeight * 0.02),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      "Top Brands",
+                      "Brands",
                       textAlign: TextAlign.left,
                       style: GoogleFonts.montserrat(
                         fontSize: 18,

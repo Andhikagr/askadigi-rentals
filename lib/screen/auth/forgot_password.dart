@@ -41,9 +41,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               child: Column(
                 children: [
                   Image.asset(
-                    "assets/image/lock.png",
+                    "assets/image/forgotpass.png",
                     fit: BoxFit.cover,
-                    width: context.deviceWidth * 0.3,
+                    width: context.deviceWidth * 0.25,
                   ),
                   SizedBox(height: context.deviceHeight * 0.03),
                   Text(
