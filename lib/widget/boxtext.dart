@@ -1,4 +1,4 @@
-import 'package:car_rental/help/colors.dart';
+import 'package:car_rental/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 
 class BoxText extends StatelessWidget {

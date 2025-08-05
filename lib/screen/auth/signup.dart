@@ -1,23 +1,20 @@
-import 'package:car_rental/help/colors.dart';
-import 'package:car_rental/homepage.dart/dashboard.dart';
-import 'package:car_rental/screen/forgot_password.dart';
-import 'package:car_rental/help/boxtext.dart';
-import 'package:car_rental/help/button_one.dart';
-import 'package:car_rental/help/help.dart';
-import 'package:car_rental/help/socialbutton.dart';
-import 'package:car_rental/screen/signup.dart';
+import 'package:car_rental/widget/boxtext.dart';
+import 'package:car_rental/widget/button_one.dart';
+import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/widget/socialbutton.dart';
+import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+class Signup extends StatefulWidget {
+  const Signup({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Signup> createState() => _SignupState();
 }
 
-class _LoginState extends State<Login> {
+class _SignupState extends State<Signup> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,74 +28,45 @@ class _LoginState extends State<Login> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      "assets/image/logo.png",
-                      height: context.deviceHeight * 0.1,
-                    ),
-                    SizedBox(height: 5),
                     Text(
-                      "Welcome Back",
+                      "Create New Account",
                       style: GoogleFonts.archivoBlack(fontSize: 22),
                     ),
+                    SizedBox(height: 10),
                     Text(
-                      "Log in to your account using email or social networks",
                       textAlign: TextAlign.center,
+                      "Set up your username and password.\nYou can always change it later.",
                       style: TextStyle(fontSize: 14),
                     ),
+                    SizedBox(height: 30),
+                    BoxText(label: "Username", iconData: Icons.account_circle),
                     SizedBox(height: 30),
                     BoxText(label: "Email", iconData: Icons.email),
                     SizedBox(height: 30),
                     BoxText(label: "Password", iconData: Icons.lock),
-                    SizedBox(height: 10),
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: GestureDetector(
-                        onTap: () {
-                          FocusScope.of(context).unfocus();
-                          Get.to(
-                            () => ForgotPassword(),
-                            transition: Transition.native,
-                            duration: Duration(milliseconds: 300),
-                          );
-                        },
-                        child: Text(
-                          "Forgot Password?",
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: primaryColor(context),
-                          ),
-                        ),
-                      ),
-                    ),
-
                     SizedBox(height: 30),
-                    buttonOne(context, "Log in", () {
-                      FocusScope.of(context).unfocus();
-                      Get.to(
-                        () => Dashboard(),
-                        transition: Transition.native,
-                        duration: Duration(milliseconds: 300),
-                      );
-                    }),
+                    BoxText(label: "Repeat Password", iconData: Icons.password),
+                    SizedBox(height: 30),
+                    buttonOne(context, "Sign Up", () {}),
                     SizedBox(height: 20),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          "First time here? ",
+                          "Alreade have an account? ",
                           style: TextStyle(fontSize: 14),
                         ),
                         GestureDetector(
                           onTap: () {
                             FocusScope.of(context).unfocus();
-                            Get.to(
-                              () => Signup(),
+                            Get.off(
+                              () => Login(),
                               transition: Transition.native,
                               duration: Duration(milliseconds: 300),
                             );
                           },
                           child: Text(
-                            "Sign Up",
+                            "Login",
                             style: TextStyle(
                               fontSize: 14,
                               color: primaryColor(context),
@@ -122,7 +90,7 @@ class _LoginState extends State<Login> {
                         socialButton(
                           context,
                           "assets/image/facebook.png",
-                          "facebook",
+                          "Facebook",
                         ),
                       ],
                     ),

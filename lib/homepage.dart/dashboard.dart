@@ -1,6 +1,6 @@
-import 'package:car_rental/help/boxtext.dart';
-import 'package:car_rental/help/colors.dart';
-import 'package:car_rental/help/help.dart';
+import 'package:car_rental/widget/boxtext.dart';
+import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/help.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

@@ -1,8 +1,8 @@
-import 'package:car_rental/help/button_one.dart';
-import 'package:car_rental/help/colors.dart';
-import 'package:car_rental/help/help.dart';
-import 'package:car_rental/screen/change_password.dart';
-import 'package:car_rental/screen/forgot_password.dart';
+import 'package:car_rental/widget/button_one.dart';
+import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/help.dart';
+import 'package:car_rental/screen/auth/change_password.dart';
+import 'package:car_rental/screen/auth/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';

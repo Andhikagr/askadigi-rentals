@@ -1,5 +1,5 @@
-import 'package:car_rental/help/colors.dart';
-import 'package:car_rental/help/help.dart';
+import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/help.dart';
 import 'package:flutter/material.dart';
 
 Widget buttonOne(BuildContext context, String label, VoidCallback onTap) {

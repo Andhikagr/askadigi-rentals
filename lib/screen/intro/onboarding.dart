@@ -1,6 +1,6 @@
-import 'package:car_rental/help/colors.dart';
-import 'package:car_rental/help/help.dart';
-import 'package:car_rental/screen/login.dart';
+import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/help.dart';
+import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';

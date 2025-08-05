@@ -1,5 +1,5 @@
-import 'package:car_rental/help/colors.dart';
-import 'package:car_rental/onboarding/onboarding.dart';
+import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/screen/intro/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';

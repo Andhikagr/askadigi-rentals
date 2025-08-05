@@ -1,14 +1,20 @@
-import 'package:car_rental/help/button_one.dart';
-import 'package:car_rental/help/help.dart';
-import 'package:car_rental/screen/change_password.dart';
-import 'package:car_rental/screen/login.dart';
+import 'package:car_rental/widget/boxtext.dart';
+import 'package:car_rental/widget/button_one.dart';
+import 'package:car_rental/core/utils/help.dart';
+import 'package:car_rental/screen/auth/login.dart';
+import 'package:car_rental/screen/auth/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ResetPassword extends StatelessWidget {
-  const ResetPassword({super.key});
+class ForgotPassword extends StatefulWidget {
+  const ForgotPassword({super.key});
 
+  @override
+  State<ForgotPassword> createState() => _ForgotPasswordState();
+}
+
+class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,7 +24,7 @@ class ResetPassword extends StatelessWidget {
           onPressed: () {
             FocusScope.of(context).unfocus();
             Get.off(
-              () => ChangePassword(),
+              () => Login(),
               transition: Transition.native,
               duration: Duration(milliseconds: 300),
             );
@@ -35,27 +41,28 @@ class ResetPassword extends StatelessWidget {
               child: Column(
                 children: [
                   Image.asset(
-                    "assets/image/check.png",
+                    "assets/image/lock.png",
                     fit: BoxFit.cover,
-                    width: context.deviceWidth * 0.22,
+                    width: context.deviceWidth * 0.3,
                   ),
                   SizedBox(height: context.deviceHeight * 0.03),
                   Text(
-                    "Password Changed",
+                    "Forgot Password",
                     style: GoogleFonts.archivoBlack(fontSize: 22),
                   ),
 
                   Text(
                     textAlign: TextAlign.center,
-                    "Your password has been changed succesfully",
+                    "Please enter your email address. So we'll send you link to get back into your account",
                     style: TextStyle(fontSize: 14),
                   ),
-
                   SizedBox(height: context.deviceHeight * 0.03),
-                  buttonOne(context, "Back to Login", () {
+                  BoxText(label: "Email", iconData: Icons.email_outlined),
+                  SizedBox(height: context.deviceHeight * 0.03),
+                  buttonOne(context, "Send Code", () {
                     FocusScope.of(context).unfocus();
-                    Get.off(
-                      () => Login(),
+                    Get.to(
+                      () => Verification(),
                       transition: Transition.native,
                       duration: Duration(milliseconds: 300),
                     );

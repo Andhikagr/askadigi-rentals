@@ -1,4 +1,4 @@
-import 'package:car_rental/onboarding/splash.dart';
+import 'package:car_rental/screen/intro/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
