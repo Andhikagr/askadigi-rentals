@@ -27,7 +27,7 @@ class _VerificationState extends State<Verification> {
             child: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: Padding(
-                padding: EdgeInsets.all(context.shortp(0.04)),
+                padding: EdgeInsets.symmetric(horizontal: context.shortp(0.04)),
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
