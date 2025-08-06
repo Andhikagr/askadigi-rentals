@@ -38,6 +38,7 @@ class _DashboardState extends State<Dashboard> {
   void initState() {
     super.initState();
     _cars = loadCarsFromJson();
+    selectedBrand = "toyota";
   }
 
   String? selectedBrand;
