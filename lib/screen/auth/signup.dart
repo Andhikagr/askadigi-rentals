@@ -1,3 +1,4 @@
+import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/widget/socialbutton.dart';
@@ -21,7 +22,7 @@ class _SignupState extends State<Signup> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(context.shortp(0.02)),
             child: Center(
               child: SingleChildScrollView(
                 child: Column(
@@ -37,17 +38,17 @@ class _SignupState extends State<Signup> {
                       "Set up your username and password. You can always change it later.",
                       style: TextStyle(fontSize: 14),
                     ),
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.08)),
                     BoxText(label: "Username", iconData: Icons.account_circle),
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.02)),
                     BoxText(label: "Email", iconData: Icons.email),
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.02)),
                     BoxText(label: "Password", iconData: Icons.lock),
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.02)),
                     BoxText(label: "Repeat Password", iconData: Icons.password),
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.06)),
                     buttonOne(context, "Sign Up", () {}),
-                    SizedBox(height: 20),
+                    SizedBox(height: context.shortp(0.06)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -75,9 +76,9 @@ class _SignupState extends State<Signup> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 40),
+                    SizedBox(height: context.shortp(0.04)),
                     Text("or sign in with", style: TextStyle(fontSize: 14)),
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.07)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [

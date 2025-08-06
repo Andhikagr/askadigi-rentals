@@ -16,7 +16,7 @@ CarModel _$CarModelFromJson(Map<String, dynamic> json) => CarModel(
   transmission: json['transmission'] as String,
   fuelType: json['fuelType'] as String,
   seats: (json['seats'] as num).toInt(),
-  pricePerDay: (json['pricePerDay'] as num).toInt(),
+  pricePerDay: json['pricePerDay'] as String,
 );
 
 Map<String, dynamic> _$CarModelToJson(CarModel instance) => <String, dynamic>{

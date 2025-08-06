@@ -7,14 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ChangePassword extends StatefulWidget {
-  const ChangePassword({super.key});
+class SetNewPassword extends StatefulWidget {
+  const SetNewPassword({super.key});
 
   @override
-  State<ChangePassword> createState() => _ChangePasswordState();
+  State<SetNewPassword> createState() => _SetNewPasswordState();
 }
 
-class _ChangePasswordState extends State<ChangePassword> {
+class _SetNewPasswordState extends State<SetNewPassword> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,36 +36,35 @@ class _ChangePasswordState extends State<ChangePassword> {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(context.shortp(0.02)),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Image.asset(
                     "assets/image/unlockpass.png",
                     fit: BoxFit.cover,
-                    width: context.deviceWidth * 0.28,
+                    width: context.shortp(0.28),
                   ),
-                  SizedBox(height: context.deviceHeight * 0.03),
+                  SizedBox(height: context.shortp(0.03)),
                   Text(
                     "Set New Password",
                     style: GoogleFonts.archivoBlack(fontSize: 22),
                   ),
-
                   Text(
                     textAlign: TextAlign.center,
                     "Enter a new password for your account",
                     style: TextStyle(fontSize: 14),
                   ),
-                  SizedBox(height: context.deviceHeight * 0.03),
+                  SizedBox(height: context.shortp(0.09)),
                   BoxText(label: "New Password", iconData: Icons.lock_open),
-                  SizedBox(height: context.deviceHeight * 0.03),
+                  SizedBox(height: context.shortp(0.02)),
                   BoxText(label: "Repeat Password", iconData: Icons.lock_open),
-                  SizedBox(height: context.deviceHeight * 0.03),
+                  SizedBox(height: context.shortp(0.02)),
                   Text(
                     "Password must be at least 8 characters long and include an uppercase letter and a special character.",
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: context.deviceHeight * 0.03),
+                  SizedBox(height: context.shortp(0.09)),
                   buttonOne(context, "Reset Password", () {
                     FocusScope.of(context).unfocus();
                     Get.to(

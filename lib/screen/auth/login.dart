@@ -1,4 +1,3 @@
-import 'package:car_rental/core/utils/size_helper.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
 import 'package:car_rental/screen/auth/forgot_password.dart';
 import 'package:car_rental/widget/boxtext.dart';
@@ -105,7 +104,7 @@ class _LoginState extends State<Login> {
                     ),
                     SizedBox(height: context.shortp(0.04)),
                     Text("or sign in with", style: TextStyle(fontSize: 14)),
-                    SizedBox(height: 30),
+                    SizedBox(height: context.shortp(0.07)),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
@@ -117,7 +116,7 @@ class _LoginState extends State<Login> {
                         socialButton(
                           context,
                           "assets/image/facebook.png",
-                          "facebook",
+                          "Facebook",
                         ),
                       ],
                     ),

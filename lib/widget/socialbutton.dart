@@ -7,7 +7,7 @@ Widget socialButton(BuildContext context, String image, String label) {
     padding: EdgeInsets.all(context.shortp(0.02)),
     child: Container(
       padding: EdgeInsets.all(context.shortp(0.03)),
-      width: context.shortp(0.3),
+      width: context.shortp(0.4),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: surfContainerColor(context),

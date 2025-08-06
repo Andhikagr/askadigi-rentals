@@ -13,7 +13,7 @@ class CarModel {
   final String transmission;
   final String fuelType;
   final int seats;
-  final int pricePerDay;
+  final String pricePerDay;
 
   Map<String, dynamic> toJson() => _$CarModelToJson(this);
   factory CarModel.fromJson(Map<String, dynamic> json) =>

@@ -1,6 +1,6 @@
 import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/core/utils/media_query.dart';
-import 'package:car_rental/screen/auth/change_password.dart';
+import 'package:car_rental/screen/auth/setnew_password.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -18,7 +18,7 @@ class ResetPassword extends StatelessWidget {
           onPressed: () {
             FocusScope.of(context).unfocus();
             Get.off(
-              () => ChangePassword(),
+              () => SetNewPassword(),
               transition: Transition.native,
               duration: Duration(milliseconds: 300),
             );
@@ -30,16 +30,16 @@ class ResetPassword extends StatelessWidget {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).unfocus(),
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: EdgeInsets.all(context.shortp(0.02)),
             child: SingleChildScrollView(
               child: Column(
                 children: [
                   Image.asset(
                     "assets/image/check.png",
                     fit: BoxFit.cover,
-                    width: context.deviceWidth * 0.22,
+                    width: context.shortp(0.23),
                   ),
-                  SizedBox(height: context.deviceHeight * 0.03),
+                  SizedBox(height: context.shortp(0.03)),
                   Text(
                     "Password Changed",
                     style: GoogleFonts.archivoBlack(fontSize: 22),
@@ -51,7 +51,7 @@ class ResetPassword extends StatelessWidget {
                     style: TextStyle(fontSize: 14),
                   ),
 
-                  SizedBox(height: context.deviceHeight * 0.03),
+                  SizedBox(height: context.shortp(0.09)),
                   buttonOne(context, "Back to Login", () {
                     FocusScope.of(context).unfocus();
                     Get.off(

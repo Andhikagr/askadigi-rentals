@@ -1,7 +1,7 @@
 import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/media_query.dart';
-import 'package:car_rental/screen/auth/change_password.dart';
+import 'package:car_rental/screen/auth/setnew_password.dart';
 import 'package:car_rental/screen/auth/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -51,7 +51,6 @@ class _VerificationState extends State<Verification> {
                     "Enter Verification Code",
                     style: GoogleFonts.archivoBlack(fontSize: 22),
                   ),
-
                   Text(
                     textAlign: TextAlign.center,
                     "We have sent the code verification to your Email Address",
@@ -75,7 +74,7 @@ class _VerificationState extends State<Verification> {
                   buttonOne(context, "Verify", () {
                     FocusScope.of(context).unfocus();
                     Get.to(
-                      () => ChangePassword(),
+                      () => SetNewPassword(),
                       transition: Transition.native,
                       duration: Duration(milliseconds: 300),
                     );
