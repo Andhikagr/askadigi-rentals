@@ -5,7 +5,6 @@ import 'package:car_rental/screen/auth/reset_password.dart';
 import 'package:car_rental/screen/auth/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SetNewPassword extends StatefulWidget {
   const SetNewPassword({super.key});
@@ -48,7 +47,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                   SizedBox(height: context.shortp(0.03)),
                   Text(
                     "Set New Password",
-                    style: GoogleFonts.archivoBlack(fontSize: 22),
+                    style: TextStyle(fontSize: 26, fontWeight: FontWeight.bold),
                   ),
                   Text(
                     textAlign: TextAlign.center,
@@ -57,14 +56,15 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                   ),
                   SizedBox(height: context.shortp(0.09)),
                   BoxText(label: "New Password", iconData: Icons.lock_open),
-                  SizedBox(height: context.shortp(0.02)),
+                  SizedBox(height: context.shortp(0.06)),
                   BoxText(label: "Repeat Password", iconData: Icons.lock_open),
-                  SizedBox(height: context.shortp(0.02)),
+                  SizedBox(height: context.shortp(0.03)),
                   Text(
                     "Password must be at least 8 characters long and include an uppercase letter and a special character.",
+
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: context.shortp(0.09)),
+                  SizedBox(height: context.shortp(0.08)),
                   buttonOne(context, "Reset Password", () {
                     FocusScope.of(context).unfocus();
                     Get.to(

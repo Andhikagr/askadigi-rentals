@@ -1,5 +1,4 @@
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/core/utils/media_query.dart';
 import 'package:flutter/material.dart';
 
 class BoxText extends StatelessWidget {
@@ -11,36 +10,26 @@ class BoxText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.all(context.shortp(0.02)),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: inverseSurfaceColor(context).withValues(alpha: 0.15),
-            blurRadius: 6,
-            spreadRadius: 1,
-            offset: Offset(2, 4),
-          ),
-        ],
-      ),
+      decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
       child: TextFormField(
         enableSuggestions: false,
-        cursorColor: outlineColor(context),
-        style: TextStyle(color: outlineColor(context)),
         decoration: InputDecoration(
           contentPadding: EdgeInsets.all(20),
           floatingLabelBehavior: FloatingLabelBehavior.never,
-          prefixIcon: Icon(iconData, color: outlineColor(context)),
+          prefixIcon: Icon(iconData, color: outlineVariantColor(context)),
           labelText: label,
-          labelStyle: TextStyle(fontSize: 14, color: outlineColor(context)),
+          labelStyle: TextStyle(
+            fontSize: 14,
+            color: outlineVariantColor(context),
+          ),
           filled: true,
-          fillColor: surfContainerColor(context),
+          fillColor: onInverseSurfaceColor(context),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(30),
             borderSide: BorderSide.none,
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: BorderRadius.circular(30),
             borderSide: BorderSide.none,
           ),
         ),

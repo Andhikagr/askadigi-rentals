@@ -1,8 +1,6 @@
-import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/media_query.dart';
-import 'package:car_rental/screen/intro/onboarding.dart';
+import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -12,90 +10,85 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> with TickerProviderStateMixin {
-  late final AnimationController _controller;
-  late final Animation<double> _opacityController;
-  late final Animation<double> _scaleController;
-
-  //wipe
-  late AnimationController _wipeController;
-  late final Animation<double> _wipeOpacity;
+  late final AnimationController _logoController;
+  late final Animation<double> _opacityAnimation;
+  late final Animation<double> _scaleAnimation;
 
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(
+
+    // Setup animasi logo (opacity dan scale)
+    _logoController = AnimationController(
       vsync: this,
-      duration: Duration(milliseconds: 500),
+      duration: const Duration(milliseconds: 800),
     );
 
-    _opacityController = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInCubic));
-
-    _scaleController = Tween<double>(begin: 0.9, end: 1.0).animate(_controller);
-
-    _controller.forward();
-
-    _wipeController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 600),
+    _opacityAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(parent: _logoController, curve: Curves.easeInOut),
     );
-    _wipeOpacity = Tween<double>(
-      begin: 0.0,
-      end: 1.0,
-    ).animate(CurvedAnimation(parent: _wipeController, curve: Curves.easeOut));
 
-    Future.delayed(Duration(seconds: 3), () async {
+    _scaleAnimation = Tween<double>(begin: 0.9, end: 1.0).animate(
+      CurvedAnimation(parent: _logoController, curve: Curves.easeOutBack),
+    );
+
+    // Mulai animasi logo
+    _logoController.forward();
+
+    // Navigasi ke halaman login setelah 3 detik dengan animasi fade
+    Future.delayed(const Duration(seconds: 3), () {
       if (!mounted) return;
-      await _wipeController.forward();
-      if (!mounted) return;
-      Get.off(
-        () => Onboarding(),
-        transition: Transition.fadeIn,
-        duration: Duration(milliseconds: 800),
+      Navigator.of(context).pushReplacement(
+        PageRouteBuilder(
+          transitionDuration: const Duration(milliseconds: 2000),
+          pageBuilder: (context, animation, secondaryAnimation) =>
+              const Login(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) {
+            return FadeTransition(opacity: animation, child: child);
+          },
+        ),
       );
     });
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Preload gambar agar tidak telat tampil
+    precacheImage(const AssetImage("assets/image/coverred.jpg"), context);
+  }
+
+  @override
   void dispose() {
+    _logoController.dispose();
     super.dispose();
-    _controller.dispose();
-    _wipeController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return IgnorePointer(
       child: Scaffold(
-        backgroundColor: surfaceColor(context),
+        backgroundColor: Colors.white,
         body: Stack(
           children: [
+            // Background image
             Positioned.fill(
               child: Image.asset("assets/image/backone.png", fit: BoxFit.cover),
             ),
+
+            // Logo with Fade + Scale animation
             FadeTransition(
-              opacity: _opacityController,
+              opacity: _opacityAnimation,
               child: ScaleTransition(
-                scale: _scaleController,
+                scale: _scaleAnimation,
                 child: Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset(
-                        "assets/image/logoaskadigi.png",
-                        fit: BoxFit.cover,
-                        width: context.shortp(0.8),
-                      ),
-                    ],
+                  child: Image.asset(
+                    "assets/image/rental.png",
+                    width: context.shortp(0.8),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
-            ),
-            FadeTransition(
-              opacity: _wipeOpacity,
-              child: Container(color: surfaceColor(context)),
             ),
           ],
         ),

@@ -14,14 +14,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-
-      home: Splash(),
       theme: ThemeData(
         useMaterial3: true,
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-
-        textTheme: GoogleFonts.latoTextTheme(),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+        textTheme: GoogleFonts.radioCanadaTextTheme(),
       ),
+      home: Splash(),
     );
   }
 }
