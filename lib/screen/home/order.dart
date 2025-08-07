@@ -10,6 +10,11 @@ class Order extends StatefulWidget {
 class _OrderState extends State<Order> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(body: Center(child: Text("order")));
+    return Scaffold(
+      body: Stack(
+        fit: StackFit.expand,
+        children: [Image.asset("assets/image/coverred.jpg", fit: BoxFit.cover)],
+      ),
+    );
   }
 }

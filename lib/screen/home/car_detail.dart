@@ -1,61 +1,106 @@
-import 'dart:convert';
+import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/mainpage.dart';
+import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/model/car_model.dart';
+import 'package:car_rental/screen/home/dashboard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
-class Detail extends StatefulWidget {
-  const Detail({super.key});
+class CarDetail extends StatelessWidget {
+  final CarModel cars;
 
-  @override
-  State<Detail> createState() => _DetailState();
-}
-
-class _DetailState extends State<Detail> {
-  List<CarModel> cars = [];
-
-  Future<void> loadData() async {
-    final String response = await rootBundle.loadString(
-      'assets/data/carsrent.json',
-    );
-    final List<dynamic> data = json.decode(response);
-    setState(() {
-      cars = data.map((json) => CarModel.fromJson(json)).toList();
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    loadData();
-  }
+  const CarDetail({super.key, required this.cars});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Semua Mobil')),
-      body: cars.isEmpty
-          ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-              itemCount: cars.length,
-              itemBuilder: (context, index) {
-                final car = cars[index];
-                return Card(
-                  margin: EdgeInsets.all(10),
-                  child: ListTile(
-                    leading: Image.network(
-                      car.image,
-                      width: 60,
-                      height: 60,
-                      fit: BoxFit.cover,
-                    ),
-                    title: Text('${car.brand} ${car.model}'),
-                    subtitle: Text(
-                      '${car.year} - ${car.transmission} - ${car.pricePerDay} / hari',
-                    ),
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back_ios, color: Colors.red),
+          onPressed: () {
+            Get.back();
+          },
+        ),
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Positioned.fill(
+            child: Image.asset('assets/image/coverred.jpg', fit: BoxFit.cover),
+          ),
+          Positioned.fill(child: Container(color: Colors.white)),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Hero(
+                tag: cars.image,
+                child: Container(
+                  width: context.shortp(0.9),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: context.shortp(0.06),
                   ),
-                );
-              },
-            ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: context.shortp(0.02)),
+                      Text(
+                        "${cars.brand} ${cars.model}",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        "${cars.transmission} / ${cars.fuelType}",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: outlineColor(context),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: context.shortp(0.05)),
+                      Align(
+                        alignment: Alignment.center,
+                        child: Image.network(cars.image, fit: BoxFit.cover),
+                      ),
+                      SizedBox(height: context.shortp(0.05)),
+                      Text(
+                        "About",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        cars.description,
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: outlineColor(context),
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: context.shortp(0.05)),
+                      Text(
+                        "Price: Rp. ${cars.pricePerDay} /day",
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(
+                          fontSize: 20,
+
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

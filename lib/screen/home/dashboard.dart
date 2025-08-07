@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:car_rental/model/car_model.dart';
+import 'package:car_rental/screen/home/car_detail.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -58,7 +60,8 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFF1100),
+      resizeToAvoidBottomInset: false,
+      backgroundColor: const Color(0xFFFF1908),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -77,7 +80,7 @@ class _DashboardState extends State<Dashboard> {
                     SliverAppBar(
                       stretch: false,
                       automaticallyImplyLeading: false,
-                      backgroundColor: const Color(0xFFFF1100),
+                      backgroundColor: const Color(0xFFFF1908),
                       expandedHeight: context.shortp(0.22),
                       flexibleSpace: FlexibleSpaceBar(
                         background: Padding(
@@ -137,7 +140,7 @@ class _DashboardState extends State<Dashboard> {
                     SliverAppBar(
                       stretch: false,
                       automaticallyImplyLeading: false,
-                      backgroundColor: const Color(0xFFFF1100),
+                      backgroundColor: const Color(0xFFFF1908),
                       expandedHeight: 210,
                       toolbarHeight: 220,
                       pinned: true,
@@ -355,28 +358,56 @@ class _DashboardState extends State<Dashboard> {
                                               padding: EdgeInsets.all(
                                                 context.shortp(0.02),
                                               ),
-                                              child: Image.network(
-                                                showCar.image,
-                                                fit: BoxFit.contain,
-                                                errorBuilder:
-                                                    (
-                                                      context,
-                                                      error,
-                                                      stackTrace,
-                                                    ) => Icon(
-                                                      Icons.broken_image,
-                                                      size: context.shortp(0.1),
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  FocusScope.of(
+                                                    context,
+                                                  ).unfocus();
+                                                  Get.to(
+                                                    () => CarDetail(
+                                                      cars: showCar,
                                                     ),
-                                                loadingBuilder:
-                                                    (context, child, progress) {
-                                                      if (progress == null) {
-                                                        return child;
-                                                      }
-                                                      return Center(
-                                                        child:
-                                                            CircularProgressIndicator(),
-                                                      );
-                                                    },
+                                                    transition:
+                                                        Transition.native,
+                                                    duration: Duration(
+                                                      milliseconds: 100,
+                                                    ),
+                                                  );
+                                                },
+
+                                                child: Hero(
+                                                  tag: showCar.image,
+                                                  child: Image.network(
+                                                    showCar.image,
+                                                    fit: BoxFit.contain,
+                                                    errorBuilder:
+                                                        (
+                                                          context,
+                                                          error,
+                                                          stackTrace,
+                                                        ) => Icon(
+                                                          Icons.broken_image,
+                                                          size: context.shortp(
+                                                            0.1,
+                                                          ),
+                                                        ),
+                                                    loadingBuilder:
+                                                        (
+                                                          context,
+                                                          child,
+                                                          progress,
+                                                        ) {
+                                                          if (progress ==
+                                                              null) {
+                                                            return child;
+                                                          }
+                                                          return Center(
+                                                            child:
+                                                                CircularProgressIndicator(),
+                                                          );
+                                                        },
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ),

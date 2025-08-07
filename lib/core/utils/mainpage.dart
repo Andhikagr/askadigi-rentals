@@ -15,6 +15,7 @@ class Mainpage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        resizeToAvoidBottomInset: false,
         body: IndexedStack(
           index: controller.selectedIndex.value,
           children: controller.pages,
@@ -59,10 +60,20 @@ class Mainpage extends StatelessWidget {
                         Icon(
                           icon,
                           color: isSelected
-                              ? outlineColor(context)
+                              ? Colors.red
                               : outlineColor(context),
                         ),
-                        Text(label),
+                        Text(
+                          label,
+                          style: TextStyle(
+                            color: isSelected
+                                ? Colors.red
+                                : outlineColor(context),
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                          ),
+                        ),
                       ],
                     ),
                   ),

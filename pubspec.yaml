@@ -38,6 +38,8 @@ dependencies:
   get: ^4.7.2
   json_annotation: ^4.9.0
   flutter_native_splash: ^2.4.6
+  image_picker: ^1.1.2
+  permission_handler: ^12.0.1
 
 dev_dependencies:
   flutter_test:
