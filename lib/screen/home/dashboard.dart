@@ -33,6 +33,9 @@ class _DashboardState extends State<Dashboard> {
   }
 
   late Future<List<CarModel>> _cars;
+
+  String? selectedBrand;
+
   @override
   void initState() {
     super.initState();
@@ -40,11 +43,17 @@ class _DashboardState extends State<Dashboard> {
     selectedBrand = "toyota";
 
     SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: const Color(0xFFFF1100)),
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
     );
   }
 
-  String? selectedBrand;
+  @override
+  void dispose() {
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.white),
+    );
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +70,11 @@ class _DashboardState extends State<Dashboard> {
             onTap: () => FocusScope.of(context).unfocus(),
             child: SafeArea(
               child: CustomScrollView(
+                scrollBehavior: ScrollBehavior(),
+                physics: ClampingScrollPhysics(),
                 slivers: [
                   SliverAppBar(
+                    stretch: false,
                     automaticallyImplyLeading: false,
                     backgroundColor: const Color(0xFFFF1100),
                     expandedHeight: context.shortp(0.22),
@@ -122,6 +134,7 @@ class _DashboardState extends State<Dashboard> {
                     ),
                   ),
                   SliverAppBar(
+                    stretch: false,
                     automaticallyImplyLeading: false,
                     backgroundColor: const Color(0xFFFF1100),
                     expandedHeight: 210,

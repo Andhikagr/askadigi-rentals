@@ -1,6 +1,7 @@
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -17,6 +18,10 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
+    );
 
     // Setup animasi logo (opacity dan scale)
     _logoController = AnimationController(
