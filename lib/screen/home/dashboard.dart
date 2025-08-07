@@ -38,6 +38,10 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     _cars = loadCarsFromJson();
     selectedBrand = "toyota";
+
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(statusBarColor: const Color(0xFFFF1100)),
+    );
   }
 
   String? selectedBrand;
@@ -45,222 +49,242 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFF1100),
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset("assets/image/coverred.jpg", fit: BoxFit.cover),
+          Positioned.fill(
+            top: 310,
+            child: Image.asset("assets/image/coverred.jpg", fit: BoxFit.cover),
+          ),
           GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: SafeArea(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        SizedBox(width: context.shortp(0.03)),
-                        Expanded(
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: context.shortp(0.01),
+              child: CustomScrollView(
+                slivers: [
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    backgroundColor: const Color(0xFFFF1100),
+                    expandedHeight: context.shortp(0.22),
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Padding(
+                        padding: EdgeInsets.only(
+                          top: context.shortp(0.02),
+                          left: context.shortp(0.03),
+                          right: context.shortp(0.03),
+                        ),
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "Your location",
+                                    style: TextStyle(
+                                      fontSize: 11,
+                                      color: onInverseSurfaceColor(context),
+                                    ),
+                                  ),
+                                  Text(
+                                    "Banjarnegara, Central Java",
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      color: onInverseSurfaceColor(context),
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Your location",
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    color: onInverseSurfaceColor(context),
-                                  ),
+                            Container(
+                              width: context.shortp(0.20),
+                              height: context.shortp(0.20),
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: onInverseSurfaceColor(context),
+                                  width: 1.5,
                                 ),
-                                Text(
-                                  "Banjarnegara, Central Java",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    color: onInverseSurfaceColor(context),
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Center(
+                                child: Image.asset(
+                                  'assets/image/man.png',
+                                  width: context.shortp(0.16),
                                 ),
-                              ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  SliverAppBar(
+                    automaticallyImplyLeading: false,
+                    backgroundColor: const Color(0xFFFF1100),
+                    expandedHeight: 210,
+                    toolbarHeight: 220,
+                    pinned: true,
+                    flexibleSpace: FlexibleSpaceBar(
+                      background: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: context.shortp(0.03)),
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                              horizontal: context.shortp(0.03),
+                            ),
+                            child: BoxText(
+                              label: "search cars",
+                              iconData: Icons.search,
                             ),
                           ),
-                        ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: context.shortp(0.04)),
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: context.shortp(0.04),
+                                ),
+                                child: Text(
+                                  "Brands",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: onInverseSurfaceColor(context),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: context.shortp(0.02)),
+                              SizedBox(
+                                height: context.shortp(0.22),
+                                child: ListView.builder(
+                                  itemCount: brand.length,
+                                  scrollDirection: Axis.horizontal,
+                                  itemBuilder: (context, index) {
+                                    final brandName = brand[index]
+                                        .split('/')
+                                        .last
+                                        .split('.')
+                                        .first;
+                                    return GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedBrand = brandName;
+                                        });
+                                      },
+                                      child: Padding(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: context.shortp(0.01),
+                                        ),
+                                        child: Container(
+                                          margin: EdgeInsets.all(
+                                            context.shortp(0.01),
+                                          ),
+                                          padding: EdgeInsets.all(
+                                            context.shortp(0.025),
+                                          ),
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: onInverseSurfaceColor(
+                                                context,
+                                              ),
+                                              width: 1.5,
+                                            ),
+                                            borderRadius: BorderRadius.circular(
+                                              15,
+                                            ),
+                                            color: selectedBrand == brandName
+                                                ? Colors.amberAccent
+                                                : onInverseSurfaceColor(
+                                                    context,
+                                                  ),
+                                          ),
+                                          child: Image.asset(
+                                            brand[index],
+                                            width: context.shortp(0.15),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SliverToBoxAdapter(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: context.shortp(0.03)),
                         Padding(
                           padding: EdgeInsets.symmetric(
                             horizontal: context.shortp(0.03),
                           ),
-                          child: Container(
-                            width: context.shortp(0.20),
-                            height: context.shortp(0.20),
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: onInverseSurfaceColor(context),
-                                width: 1.5,
-                              ),
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            child: Center(
-                              child: Image.asset(
-                                'assets/image/man.png',
-                                width: context.shortp(0.16),
-                              ),
+                          child: Text(
+                            "List Cars",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: onInverseSurfaceColor(context),
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                    SizedBox(height: context.shortp(0.03)),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: context.shortp(0.03),
-                      ),
-                      child: BoxText(
-                        label: "search cars",
-                        iconData: Icons.search,
-                      ),
-                    ),
-                    SizedBox(height: context.shortp(0.04)),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: context.shortp(0.04),
-                      ),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Brands",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: onInverseSurfaceColor(context),
-                          ),
-                        ),
-                      ),
-                    ),
-                    //brand
-                    SizedBox(height: context.shortp(0.02)),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: SizedBox(
-                        height: context.shortp(0.22),
-                        child: ListView.builder(
-                          itemCount: brand.length,
-                          shrinkWrap: true,
-                          scrollDirection: Axis.horizontal,
-                          itemBuilder: (context, index) {
-                            final brandName = brand[index]
-                                .split('/')
-                                .last
-                                .split('.')
-                                .first;
-                            return GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedBrand = brandName;
-                                });
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: context.shortp(0.01),
-                                ),
-                                child: Container(
-                                  margin: EdgeInsets.all(context.shortp(0.01)),
-                                  padding: EdgeInsets.all(
-                                    context.shortp(0.025),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    border: Border.all(
-                                      color: onInverseSurfaceColor(context),
-                                      width: 1.5,
+
+                        FutureBuilder<List<CarModel>>(
+                          future: _cars,
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return Center(child: CircularProgressIndicator());
+                            } else if (snapshot.hasError) {
+                              return Center(child: Text("Error"));
+                            }
+
+                            final allCars = snapshot.data!;
+                            final cars = selectedBrand == null
+                                ? allCars
+                                : allCars
+                                      .where(
+                                        (car) =>
+                                            car.brand.toLowerCase() ==
+                                            selectedBrand!.toLowerCase(),
+                                      )
+                                      .toList();
+
+                            return Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.shortp(0.03),
+                              ),
+                              child: ListView.builder(
+                                itemCount: cars.length,
+                                shrinkWrap: true,
+                                physics: NeverScrollableScrollPhysics(),
+                                itemBuilder: (context, index) {
+                                  final showCar = cars[index];
+                                  return Container(
+                                    height: context.shortp(0.4),
+                                    margin: EdgeInsets.symmetric(
+                                      vertical: context.shortp(0.03),
+                                      horizontal: context.shortp(0.01),
                                     ),
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: selectedBrand == brandName
-                                        ? Colors.amberAccent
-                                        : onInverseSurfaceColor(context),
-                                  ),
-                                  child: Image.asset(
-                                    brand[index],
-                                    width: context.shortp(0.15),
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: context.shortp(0.03)),
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: context.shortp(0.03),
-                      ),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "List Cars",
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: onInverseSurfaceColor(context),
-                          ),
-                        ),
-                      ),
-                    ),
-                    FutureBuilder<List<CarModel>>(
-                      future: _cars,
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState ==
-                            ConnectionState.waiting) {
-                          return Center(child: CircularProgressIndicator());
-                        } else if (snapshot.hasError) {
-                          return Center(child: Text("Error"));
-                        }
-                        final allCars = snapshot.data!;
-                        final cars = selectedBrand == null
-                            ? allCars
-                            : allCars
-                                  .where(
-                                    (car) =>
-                                        car.brand.toLowerCase() ==
-                                        selectedBrand!.toLowerCase(),
-                                  )
-                                  .toList();
-                        return Padding(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: context.shortp(0.03),
-                          ),
-                          child: SizedBox(
-                            child: ListView.builder(
-                              itemCount: cars.length >= 2 ? 2 : cars.length,
-                              shrinkWrap: true,
-                              physics: NeverScrollableScrollPhysics(),
-                              itemBuilder: (context, index) {
-                                final showCar = cars[index];
-                                return Container(
-                                  height: context.shortp(0.4),
-                                  margin: EdgeInsets.symmetric(
-                                    vertical: context.shortp(0.03),
-                                    horizontal: context.shortp(0.01),
-                                  ),
-                                  padding: EdgeInsets.all(
-                                    context.shortp(0.025),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: onInverseSurfaceColor(context),
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(
-                                              20,
-                                            ),
-                                          ),
+                                    padding: EdgeInsets.all(
+                                      context.shortp(0.025),
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: onInverseSurfaceColor(context),
+                                      borderRadius: BorderRadius.circular(15),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
                                           child: Padding(
                                             padding: EdgeInsets.all(
                                               context.shortp(0.02),
@@ -276,18 +300,8 @@ class _DashboardState extends State<Dashboard> {
                                                     fontWeight: FontWeight.bold,
                                                   ),
                                                 ),
-                                                Text(
-                                                  showCar.transmission,
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
-                                                Text(
-                                                  "Seats: ${showCar.seats}",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                  ),
-                                                ),
+                                                Text(showCar.transmission),
+                                                Text("Seats: ${showCar.seats}"),
                                                 Spacer(),
                                                 Container(
                                                   width: context.shortp(0.35),
@@ -300,18 +314,13 @@ class _DashboardState extends State<Dashboard> {
                                                       context,
                                                     ),
                                                   ),
-                                                  child: Padding(
-                                                    padding: EdgeInsets.all(
-                                                      context.shortp(0.0),
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        "Rp. ${showCar.pricePerDay} /day",
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: surfaceColor(
-                                                            context,
-                                                          ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "Rp. ${showCar.pricePerDay} /day",
+                                                      style: TextStyle(
+                                                        fontSize: 16,
+                                                        color: surfaceColor(
+                                                          context,
                                                         ),
                                                       ),
                                                     ),
@@ -321,12 +330,9 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                           ),
                                         ),
-                                      ),
-                                      SizedBox(width: context.shortp(0.02)),
-                                      Expanded(
-                                        flex: 1,
-                                        child: Container(
-                                          decoration: BoxDecoration(),
+                                        SizedBox(width: context.shortp(0.02)),
+                                        Expanded(
+                                          flex: 1,
                                           child: Padding(
                                             padding: EdgeInsets.all(
                                               context.shortp(0.02),
@@ -335,17 +341,18 @@ class _DashboardState extends State<Dashboard> {
                                               showCar.image,
                                               fit: BoxFit.contain,
                                               errorBuilder:
-                                                  (context, error, stackTrace) {
-                                                    return Icon(
-                                                      Icons.broken_image,
-                                                      size: context.shortp(0.1),
-                                                    );
-                                                  },
+                                                  (
+                                                    context,
+                                                    error,
+                                                    stackTrace,
+                                                  ) => Icon(
+                                                    Icons.broken_image,
+                                                    size: context.shortp(0.1),
+                                                  ),
                                               loadingBuilder:
                                                   (context, child, progress) {
-                                                    if (progress == null) {
+                                                    if (progress == null)
                                                       return child;
-                                                    }
                                                     return Center(
                                                       child:
                                                           CircularProgressIndicator(),
@@ -354,19 +361,22 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              },
-                            ),
-                          ),
-                        );
-                      },
+                                      ],
+                                    ),
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ],
                     ),
-                    Padding(
-                      padding: EdgeInsetsGeometry.symmetric(
+                  ),
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
                         horizontal: context.shortp(0.03),
+                        vertical: context.shortp(0.02),
                       ),
                       child: Align(
                         alignment: Alignment.centerRight,
@@ -376,8 +386,8 @@ class _DashboardState extends State<Dashboard> {
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
