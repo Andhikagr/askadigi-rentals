@@ -1,5 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/screen/home/dashboard.dart';
+import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/screen/auth/forgot_password.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
@@ -88,8 +88,8 @@ class _LoginState extends State<Login> {
                       SizedBox(height: context.shortp(0.06)),
                       buttonOne(context, "Log in", () {
                         FocusScope.of(context).unfocus();
-                        Get.to(
-                          () => Dashboard(),
+                        Get.off(
+                          () => Mainpage(),
                           transition: Transition.native,
                           duration: Duration(milliseconds: 300),
                         );
