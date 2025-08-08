@@ -1,7 +1,9 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
+import 'package:car_rental/screen/home/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -20,20 +22,13 @@ class CarDetail extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.red),
           onPressed: () {
+            final nav = Get.find<NavController>();
+            nav.selectedIndex.value = 1;
             Get.back();
           },
         ),
       ),
 
-      /*
-      Stack(
-        fit: StackFit.expand,
-        children: [
-          Positioned.fill(
-            child: Image.asset('assets/image/coverred.jpg', fit: BoxFit.cover),
-          ),
-          Positioned.fill(child: Container(color: Colors.white)),
-      */
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -45,7 +40,6 @@ class CarDetail extends StatelessWidget {
             builder: (context, constraints) {
               return Column(
                 children: [
-                  // Konten yang bisa discroll
                   Expanded(
                     child: ScrollConfiguration(
                       behavior: NoGlowScrollBehavior(),
@@ -55,7 +49,6 @@ class CarDetail extends StatelessWidget {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // Header
                               Text(
                                 "${cars.brand} ${cars.model}",
                                 style: TextStyle(
@@ -72,8 +65,6 @@ class CarDetail extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: context.shortp(0.05)),
-
-                              // Gambar
                               Hero(
                                 tag: cars.image,
                                 child: ClipRRect(
@@ -95,7 +86,7 @@ class CarDetail extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: 8),
+
                               Text(
                                 cars.description,
                                 textAlign: TextAlign.justify,
@@ -122,7 +113,7 @@ class CarDetail extends StatelessWidget {
                       boxShadow: [
                         BoxShadow(
                           blurRadius: 4,
-                          color: Colors.black12,
+                          color: Colors.grey.shade200,
                           offset: Offset(0, -2),
                         ),
                       ],
@@ -139,7 +130,6 @@ class CarDetail extends StatelessWidget {
                             color: outlineColor(context),
                           ),
                         ),
-
                         Text(
                           "Reserve your ride today and enjoy a 5% discount (limited time only!)",
                           style: TextStyle(
@@ -157,7 +147,7 @@ class CarDetail extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  "Total Price",
+                                  "Price",
                                   style: TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -182,12 +172,22 @@ class CarDetail extends StatelessWidget {
                                 horizontal: 20,
                                 vertical: 12,
                               ),
-                              child: Text(
-                                "Book Now",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: onInverseSurfaceColor(context),
+                              child: GestureDetector(
+                                onTap: () {
+                                  final nav = Get.find<NavController>();
+                                  final order = Get.find<OrderController>();
+
+                                  order.selectedCar.value = cars;
+                                  nav.selectedIndex.value = 2;
+                                  Get.to(() => Order());
+                                },
+                                child: Text(
+                                  "Book Now",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: onInverseSurfaceColor(context),
+                                  ),
                                 ),
                               ),
                             ),

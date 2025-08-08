@@ -1,5 +1,6 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/media_query.dart';
+import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/account.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
 import 'package:car_rental/screen/home/order.dart';
@@ -7,7 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class Mainpage extends StatelessWidget {
-  final Navcontroller controller = Get.put(Navcontroller());
+  final NavController controller = Get.put(NavController());
+  final OrderController orderController = Get.put(OrderController());
 
   Mainpage({super.key});
 
@@ -87,9 +89,13 @@ class Mainpage extends StatelessWidget {
   }
 }
 
-class Navcontroller extends GetxController {
+class NavController extends GetxController {
   RxInt selectedIndex = 1.obs;
   final pages = [Account(), Dashboard(), Order()];
   final icons = [Icons.person, Icons.home, Icons.receipt_long];
   final labels = ["Account", "Home", "MyOrder"];
+}
+
+class OrderController extends GetxController {
+  Rx<CarModel?> selectedCar = Rx<CarModel?>(null);
 }
