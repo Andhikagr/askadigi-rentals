@@ -3,7 +3,6 @@ import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/widget/button_one.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class Order extends StatefulWidget {
@@ -15,26 +14,6 @@ class Order extends StatefulWidget {
 
 class _OrderState extends State<Order> {
   final orderController = Get.find<OrderController>();
-
-  @override
-  void initState() {
-    super.initState();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.portraitUp,
-    ]);
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    SystemChrome.setPreferredOrientations([
-      DeviceOrientation.landscapeLeft,
-      DeviceOrientation.landscapeRight,
-      DeviceOrientation.portraitDown,
-      DeviceOrientation.portraitUp,
-    ]);
-  }
 
   @override
   Widget build(BuildContext context) {

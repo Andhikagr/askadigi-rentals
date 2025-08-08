@@ -9,28 +9,31 @@ class BoxText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
-      child: TextFormField(
-        enableSuggestions: false,
-        decoration: InputDecoration(
-          contentPadding: EdgeInsets.all(20),
-          floatingLabelBehavior: FloatingLabelBehavior.never,
-          prefixIcon: Icon(iconData, color: outlineVariantColor(context)),
-          labelText: label,
-          labelStyle: TextStyle(
-            fontSize: 14,
-            color: outlineVariantColor(context),
-          ),
-          filled: true,
-          fillColor: onInverseSurfaceColor(context),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide.none,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(30),
-            borderSide: BorderSide.none,
+    return Center(
+      child: Container(
+        height: 60,
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+        child: TextFormField(
+          enableSuggestions: false,
+          decoration: InputDecoration(
+            contentPadding: EdgeInsets.all(20),
+            floatingLabelBehavior: FloatingLabelBehavior.never,
+            prefixIcon: Icon(iconData, color: outlineVariantColor(context)),
+            labelText: label,
+            labelStyle: TextStyle(
+              fontSize: 14,
+              color: outlineVariantColor(context),
+            ),
+            filled: true,
+            fillColor: onInverseSurfaceColor(context),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide.none,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide.none,
+            ),
           ),
         ),
       ),

@@ -1,7 +1,6 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
-import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/screen/auth/verification.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +27,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             child: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: context.shortp(0.04)),
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
                   children: [
                     Align(
@@ -53,11 +52,10 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: context.deviceHeight * 0.01),
                             Text(
                               "Forgot Password",
                               style: TextStyle(
-                                fontSize: 26,
+                                fontSize: 24,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                               ),
@@ -70,12 +68,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                 color: Colors.white,
                               ),
                             ),
-                            SizedBox(height: context.shortp(0.09)),
+                            SizedBox(height: 30),
                             BoxText(
                               label: "Email",
                               iconData: Icons.email_outlined,
                             ),
-                            SizedBox(height: context.shortp(0.08)),
+                            SizedBox(height: 30),
                             buttonOne(context, "Send Code", () {
                               FocusScope.of(context).unfocus();
                               Get.to(

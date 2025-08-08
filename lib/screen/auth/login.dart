@@ -27,138 +27,148 @@ class _LoginState extends State<Login> {
           Positioned.fill(
             child: Image.asset("assets/image/coverred.jpg", fit: BoxFit.cover),
           ),
-          SafeArea(
-            child: GestureDetector(
-              onTap: () => FocusScope.of(context).unfocus(),
-              child: SingleChildScrollView(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(
-                    horizontal: context.shortp(0.04),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: context.shortp(0.08)),
-                      Text(
-                        "Welcome Back",
-                        style: TextStyle(
-                          fontSize: 26,
-                          color: onInverseSurfaceColor(context),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "Log in to your account using email or social networks.",
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: onInverseSurfaceColor(context),
-                        ),
-                      ),
-                      SizedBox(height: context.shortp(0.05)),
-                      BoxText(label: "Email", iconData: Icons.email),
-                      SizedBox(height: context.shortp(0.06)),
-                      BoxText(label: "Password", iconData: Icons.lock),
-                      SizedBox(height: context.shortp(0.03)),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            Get.to(
-                              () => ForgotPassword(),
-                              transition: Transition.native,
-                              duration: Duration(milliseconds: 1000),
-                            );
-                          },
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
+                children: [
+                  Expanded(
+                    child: SafeArea(
+                      child: GestureDetector(
+                        onTap: () => FocusScope.of(context).unfocus(),
+                        child: SingleChildScrollView(
                           child: Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: context.shortp(0.03),
-                            ),
-                            child: Text(
-                              "Forgot Password?",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: onInverseSurfaceColor(context),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: context.shortp(0.06)),
-                      buttonOne(context, "Log in", () {
-                        FocusScope.of(context).unfocus();
-                        Get.off(
-                          () => Mainpage(),
-                          transition: Transition.native,
-                          duration: Duration(milliseconds: 1000),
-                        );
-                      }),
-                      SizedBox(height: context.shortp(0.75)),
-                      Center(
-                        child: Container(
-                          height: context.shortp(0.09),
-                          width: context.shortp(0.75),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: onInverseSurfaceColor(context),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "First time here? ",
-                                style: TextStyle(fontSize: 14),
-                              ),
-                              GestureDetector(
-                                onTap: () {
-                                  FocusScope.of(context).unfocus();
-                                  Get.to(
-                                    () => Signup(),
-                                    transition: Transition.native,
-                                    duration: Duration(milliseconds: 1000),
-                                  );
-                                },
-                                child: Text(
-                                  "Sign Up,",
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(height: 20),
+                                Text(
+                                  "Welcome Back",
                                   style: TextStyle(
-                                    fontSize: 14,
-                                    color: Colors.red,
+                                    fontSize: 24,
+                                    color: onInverseSurfaceColor(context),
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
-                              ),
-                              Text(
-                                " or sign in with",
-                                style: TextStyle(fontSize: 14),
-                              ),
-                            ],
+                                Text(
+                                  "Log in to your account using email or social networks.",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: onInverseSurfaceColor(context),
+                                  ),
+                                ),
+                                SizedBox(height: 30),
+                                BoxText(label: "Email", iconData: Icons.email),
+                                SizedBox(height: 20),
+                                BoxText(
+                                  label: "Password",
+                                  iconData: Icons.lock,
+                                ),
+                                SizedBox(height: 10),
+                                Align(
+                                  alignment: Alignment.centerRight,
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      FocusScope.of(context).unfocus();
+                                      Get.to(
+                                        () => ForgotPassword(),
+                                        transition: Transition.native,
+                                        duration: Duration(milliseconds: 1000),
+                                      );
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: context.shortp(0.03),
+                                      ),
+                                      child: Text(
+                                        "Forgot Password?",
+                                        style: TextStyle(
+                                          fontSize: 14,
+                                          color: onInverseSurfaceColor(context),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(height: context.shortp(0.06)),
+                                buttonOne(context, "Log in", () {
+                                  FocusScope.of(context).unfocus();
+                                  Get.off(
+                                    () => Mainpage(),
+                                    transition: Transition.native,
+                                    duration: Duration(milliseconds: 1000),
+                                  );
+                                }),
+                              ],
+                            ),
                           ),
                         ),
                       ),
-
-                      SizedBox(height: context.shortp(0.04)),
-                      Row(
+                    ),
+                  ),
+                  Padding(padding: EdgeInsets.all(20)),
+                  Center(
+                    child: Container(
+                      height: 60,
+                      width: 300,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(30),
+                        color: onInverseSurfaceColor(context),
+                      ),
+                      child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          socialButton(
-                            context,
-                            "assets/image/googlewhite.png",
-                            "Google",
+                          Text(
+                            "First time here? ",
+                            style: TextStyle(fontSize: 14),
                           ),
-                          SizedBox(width: context.shortp(0.05)),
-                          socialButton(
-                            context,
-                            "assets/image/facebook.png",
-                            "Facebook",
+                          GestureDetector(
+                            onTap: () {
+                              FocusScope.of(context).unfocus();
+                              Get.to(
+                                () => Signup(),
+                                transition: Transition.native,
+                                duration: Duration(milliseconds: 1000),
+                              );
+                            },
+                            child: Text(
+                              "Sign Up,",
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
+                          Text(
+                            " or sign in with",
+                            style: TextStyle(fontSize: 14),
                           ),
                         ],
                       ),
+                    ),
+                  ),
+                  SizedBox(height: context.shortp(0.04)),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      socialButton(
+                        context,
+                        "assets/image/googlewhite.png",
+                        "Google",
+                      ),
+                      SizedBox(width: context.shortp(0.05)),
+                      socialButton(
+                        context,
+                        "assets/image/facebook.png",
+                        "Facebook",
+                      ),
                     ],
                   ),
-                ),
-              ),
-            ),
+                ],
+              );
+            },
           ),
         ],
       ),

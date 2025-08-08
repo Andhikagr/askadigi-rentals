@@ -23,4 +23,6 @@ extension BuildContextExt on BuildContext {
 
   /// Persentase dari sisi terpendek
   double shortp(double percent) => deviceShortSide * percent;
+
+  double longp(double percent) => deviceLongSide * percent;
 }

@@ -1,6 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/widget/button_one.dart';
-import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -22,17 +21,17 @@ class ResetPassword extends StatelessWidget {
             child: GestureDetector(
               onTap: () => FocusScope.of(context).unfocus(),
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: context.shortp(0.04)),
+                padding: EdgeInsets.symmetric(horizontal: 20),
 
                 child: SingleChildScrollView(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: context.shortp(0.1)),
+                      SizedBox(height: 30),
                       Text(
                         "Password Changed",
                         style: GoogleFonts.archivoBlack(
-                          fontSize: 22,
+                          fontSize: 24,
                           color: onInverseSurfaceColor(context),
                         ),
                       ),
@@ -46,7 +45,7 @@ class ResetPassword extends StatelessWidget {
                         ),
                       ),
 
-                      SizedBox(height: context.shortp(0.06)),
+                      SizedBox(height: 40),
                       buttonOne(context, "Back to Login", () {
                         FocusScope.of(context).unfocus();
                         Get.off(

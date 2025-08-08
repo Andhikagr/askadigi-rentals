@@ -1,5 +1,4 @@
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/account.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
@@ -17,13 +16,12 @@ class Mainpage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        resizeToAvoidBottomInset: false,
         body: IndexedStack(
           index: controller.selectedIndex.value,
           children: controller.pages,
         ),
         bottomNavigationBar: Container(
-          height: context.shortp(0.18),
+          height: 60,
           decoration: BoxDecoration(
             color: surfaceColor(context),
             boxShadow: [
@@ -49,7 +47,7 @@ class Mainpage extends StatelessWidget {
                   splashColor: Colors.grey.shade300,
                   onTap: () => controller.selectedIndex.value = index,
                   child: Container(
-                    width: context.shortp(0.3),
+                    width: 100,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       color: isSelected

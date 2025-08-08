@@ -66,7 +66,7 @@ class _DashboardState extends State<Dashboard> {
         fit: StackFit.expand,
         children: [
           Positioned.fill(
-            top: 310,
+            top: 300,
             child: Image.asset("assets/image/coverred.jpg", fit: BoxFit.cover),
           ),
           GestureDetector(
@@ -81,13 +81,13 @@ class _DashboardState extends State<Dashboard> {
                       stretch: false,
                       automaticallyImplyLeading: false,
                       backgroundColor: const Color(0xFFFF1908),
-                      expandedHeight: context.shortp(0.22),
+                      expandedHeight: 100,
                       flexibleSpace: FlexibleSpaceBar(
                         background: Padding(
                           padding: EdgeInsets.only(
-                            top: context.shortp(0.02),
-                            left: context.shortp(0.03),
-                            right: context.shortp(0.03),
+                            top: 10,
+                            left: 20,
+                            right: 20,
                           ),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -116,8 +116,8 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                               Container(
-                                width: context.shortp(0.20),
-                                height: context.shortp(0.20),
+                                width: 80,
+                                height: 80,
                                 decoration: BoxDecoration(
                                   border: Border.all(
                                     color: onInverseSurfaceColor(context),
@@ -128,7 +128,7 @@ class _DashboardState extends State<Dashboard> {
                                 child: Center(
                                   child: Image.asset(
                                     'assets/image/man.png',
-                                    width: context.shortp(0.16),
+                                    fit: BoxFit.cover,
                                   ),
                                 ),
                               ),
@@ -148,7 +148,7 @@ class _DashboardState extends State<Dashboard> {
                         background: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(height: context.shortp(0.03)),
+                            SizedBox(height: 10),
                             Padding(
                               padding: EdgeInsets.symmetric(
                                 horizontal: context.shortp(0.03),
@@ -161,11 +161,9 @@ class _DashboardState extends State<Dashboard> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                SizedBox(height: context.shortp(0.04)),
+                                SizedBox(height: 10),
                                 Padding(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: context.shortp(0.04),
-                                  ),
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
                                   child: Text(
                                     "Brands",
                                     style: TextStyle(
@@ -175,9 +173,8 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                   ),
                                 ),
-                                SizedBox(height: context.shortp(0.02)),
-                                SizedBox(
-                                  height: context.shortp(0.22),
+                                Container(
+                                  height: 100,
                                   child: ListView.builder(
                                     itemCount: brand.length,
                                     scrollDirection: Axis.horizontal,
@@ -195,15 +192,13 @@ class _DashboardState extends State<Dashboard> {
                                         },
                                         child: Padding(
                                           padding: EdgeInsets.symmetric(
-                                            horizontal: context.shortp(0.01),
+                                            horizontal: 5,
                                           ),
                                           child: Container(
-                                            margin: EdgeInsets.all(
-                                              context.shortp(0.01),
-                                            ),
-                                            padding: EdgeInsets.all(
-                                              context.shortp(0.025),
-                                            ),
+                                            width: 90,
+
+                                            margin: EdgeInsets.all(10),
+                                            padding: EdgeInsets.all(12),
                                             decoration: BoxDecoration(
                                               border: Border.all(
                                                 color: onInverseSurfaceColor(
@@ -221,7 +216,7 @@ class _DashboardState extends State<Dashboard> {
                                             ),
                                             child: Image.asset(
                                               brand[index],
-                                              width: context.shortp(0.15),
+                                              fit: BoxFit.contain,
                                             ),
                                           ),
                                         ),

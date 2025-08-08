@@ -3,7 +3,6 @@ import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
-import 'package:car_rental/screen/home/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -163,28 +162,25 @@ class CarDetail extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: Colors.red,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 12,
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  final nav = Get.find<NavController>();
-                                  final order = Get.find<OrderController>();
+                            GestureDetector(
+                              onTap: () {
+                                final nav = Get.find<NavController>();
+                                final order = Get.find<OrderController>();
 
-                                  order.selectedCar.value = cars;
-                                  nav.selectedIndex.value = 2;
-                                  Get.to(
-                                    () => Order(),
-                                    transition: Transition.native,
-                                    duration: Duration(milliseconds: 1000),
-                                  );
-                                },
+                                order.selectedCar.value = cars;
+                                nav.selectedIndex.value = 2;
+                                Get.back();
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(15),
+                                  color: Colors.red,
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 12,
+                                ),
+
                                 child: Text(
                                   "Book Now",
                                   style: TextStyle(
