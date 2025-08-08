@@ -4,7 +4,6 @@ import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/car_detail.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/core/utils/media_query.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -150,9 +149,7 @@ class _DashboardState extends State<Dashboard> {
                           children: [
                             SizedBox(height: 10),
                             Padding(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: context.shortp(0.03),
-                              ),
+                              padding: EdgeInsets.symmetric(horizontal: 20),
                               child: BoxText(
                                 label: "search cars",
                                 iconData: Icons.search,
@@ -173,7 +170,7 @@ class _DashboardState extends State<Dashboard> {
                                     ),
                                   ),
                                 ),
-                                Container(
+                                SizedBox(
                                   height: 100,
                                   child: ListView.builder(
                                     itemCount: brand.length,
@@ -234,11 +231,9 @@ class _DashboardState extends State<Dashboard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: context.shortp(0.03)),
+                          SizedBox(height: 10),
                           Padding(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: context.shortp(0.03),
-                            ),
+                            padding: EdgeInsets.symmetric(horizontal: 20),
                             child: Text(
                               "List Cars",
                               style: TextStyle(
@@ -273,9 +268,7 @@ class _DashboardState extends State<Dashboard> {
                                         .toList();
 
                               return Padding(
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: context.shortp(0.03),
-                                ),
+                                padding: EdgeInsets.symmetric(horizontal: 20),
                                 child: ListView.builder(
                                   itemCount: cars.length,
                                   shrinkWrap: true,
@@ -283,14 +276,11 @@ class _DashboardState extends State<Dashboard> {
                                   itemBuilder: (context, index) {
                                     final showCar = cars[index];
                                     return Container(
-                                      height: context.shortp(0.4),
+                                      height: 180,
                                       margin: EdgeInsets.symmetric(
-                                        vertical: context.shortp(0.03),
-                                        horizontal: context.shortp(0.01),
+                                        vertical: 10,
                                       ),
-                                      padding: EdgeInsets.all(
-                                        context.shortp(0.025),
-                                      ),
+                                      padding: EdgeInsets.all(10),
                                       decoration: BoxDecoration(
                                         color: onInverseSurfaceColor(context),
                                         borderRadius: BorderRadius.circular(15),
@@ -299,9 +289,7 @@ class _DashboardState extends State<Dashboard> {
                                         children: [
                                           Expanded(
                                             child: Padding(
-                                              padding: EdgeInsets.all(
-                                                context.shortp(0.02),
-                                              ),
+                                              padding: EdgeInsets.all(5),
                                               child: Column(
                                                 crossAxisAlignment:
                                                     CrossAxisAlignment.start,
@@ -320,7 +308,8 @@ class _DashboardState extends State<Dashboard> {
                                                   ),
                                                   Spacer(),
                                                   Container(
-                                                    width: context.shortp(0.35),
+                                                    width: 150,
+                                                    height: 30,
                                                     decoration: BoxDecoration(
                                                       borderRadius:
                                                           BorderRadius.circular(
@@ -346,13 +335,11 @@ class _DashboardState extends State<Dashboard> {
                                               ),
                                             ),
                                           ),
-                                          SizedBox(width: context.shortp(0.02)),
+                                          SizedBox(width: 10),
                                           Expanded(
                                             flex: 1,
                                             child: Padding(
-                                              padding: EdgeInsets.all(
-                                                context.shortp(0.02),
-                                              ),
+                                              padding: EdgeInsets.all(5),
                                               child: GestureDetector(
                                                 onTap: () {
                                                   FocusScope.of(
@@ -375,17 +362,7 @@ class _DashboardState extends State<Dashboard> {
                                                   child: Image.network(
                                                     showCar.image,
                                                     fit: BoxFit.contain,
-                                                    errorBuilder:
-                                                        (
-                                                          context,
-                                                          error,
-                                                          stackTrace,
-                                                        ) => Icon(
-                                                          Icons.broken_image,
-                                                          size: context.shortp(
-                                                            0.1,
-                                                          ),
-                                                        ),
+
                                                     loadingBuilder:
                                                         (
                                                           context,

@@ -2,8 +2,10 @@ import 'dart:io';
 
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/media_query.dart';
+import 'package:car_rental/screen/auth/login.dart';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -60,13 +62,32 @@ class _AccountState extends State<Account> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Text(
-                        "Account",
-                        style: TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Account",
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(30),
+                              color: onInverseSurfaceColor(context),
+                            ),
+                          ),
+
+                          IconButton(
+                            icon: Image.asset(
+                              "assets/image/power.png",
+                              width: 40,
+                            ),
+                            onPressed: () => Get.off(() => Login()),
+                          ),
+                        ],
                       ),
                       SizedBox(height: context.shortp(0.03)),
                       Row(
@@ -117,13 +138,6 @@ class _AccountState extends State<Account> {
                             ),
                           ),
                         ],
-                      ),
-                      SizedBox(height: context.shortp(0.08)),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30),
-                          color: onInverseSurfaceColor(context),
-                        ),
                       ),
                     ],
                   ),

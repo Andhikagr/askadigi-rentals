@@ -1,6 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
-import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/widget/button_one.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,8 +16,6 @@ class _OrderState extends State<Order> {
 
   @override
   Widget build(BuildContext context) {
-    final car = orderController.selectedCar.value;
-
     return Scaffold(
       appBar: AppBar(
         foregroundColor: onInverseSurfaceColor(context),
@@ -26,17 +23,19 @@ class _OrderState extends State<Order> {
         backgroundColor: Colors.red,
       ),
       body: SafeArea(
-        child: car == null
-            ? Center(child: Text("No car selected."))
-            : Padding(
-                padding: EdgeInsets.all(context.shortp(0.04)),
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Container(
+        child: Obx(() {
+          final car = orderController.selectedCar.value;
+          return car == null
+              ? Center(child: Text("No car selected."))
+              : Padding(
+                  padding: EdgeInsets.all(20),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            width: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
                               border: Border.all(color: outlineColor(context)),
@@ -49,12 +48,13 @@ class _OrderState extends State<Order> {
                               ),
                             ),
                           ),
-                        ),
-                        Expanded(
-                          child: Container(
+                          SizedBox(width: 10),
+                          Container(
+                            width: 200,
                             padding: EdgeInsets.all(16),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 Text(
                                   "${car.brand} ${car.model}",
@@ -70,28 +70,29 @@ class _OrderState extends State<Order> {
                                     color: outlineColor(context),
                                   ),
                                 ),
-                                SizedBox(height: context.shortp(0.08)),
+                                SizedBox(height: 10),
                                 Text(
                                   "Rp. ${car.pricePerDay}/day",
                                   style: TextStyle(
                                     color: Colors.red,
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 18,
+                                    fontSize: 16,
                                   ),
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                        //
-                      ],
-                    ),
-                    Spacer(),
-                    // SizedBox(height: context.shortp(0.05)),
-                    buttonOne(context, "Confirm", () {}),
-                  ],
-                ),
-              ),
+
+                          //
+                        ],
+                      ),
+                      Spacer(),
+                      // SizedBox(height: context.shortp(0.05)),
+                      buttonOne(context, "Confirm", () {}),
+                    ],
+                  ),
+                );
+        }),
       ),
     );
   }

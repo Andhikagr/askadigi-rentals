@@ -1,6 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
-import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +43,7 @@ class CarDetail extends StatelessWidget {
                       behavior: NoGlowScrollBehavior(),
                       child: SingleChildScrollView(
                         child: Padding(
-                          padding: EdgeInsets.all(context.shortp(0.04)),
+                          padding: EdgeInsets.all(20),
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
@@ -63,19 +62,20 @@ class CarDetail extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: context.shortp(0.05)),
+                              SizedBox(height: 20),
                               Hero(
                                 tag: cars.image,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(16),
-                                  child: Image.network(
-                                    cars.image,
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
+                                  child: Center(
+                                    child: Image.network(
+                                      cars.image,
+                                      fit: BoxFit.cover,
+                                      width: 500,
+                                    ),
                                   ),
                                 ),
                               ),
-                              SizedBox(height: context.shortp(0.05)),
 
                               // About section
                               Text(
@@ -95,7 +95,6 @@ class CarDetail extends StatelessWidget {
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                              SizedBox(height: context.shortp(0.05)),
                             ],
                           ),
                         ),
@@ -106,7 +105,7 @@ class CarDetail extends StatelessWidget {
                   // Area bawah
                   Container(
                     width: double.infinity,
-                    padding: EdgeInsets.all(context.shortp(0.03)),
+                    padding: EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       boxShadow: [
