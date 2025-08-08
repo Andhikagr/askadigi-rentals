@@ -1,5 +1,4 @@
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
@@ -25,6 +24,16 @@ class CarDetail extends StatelessWidget {
           },
         ),
       ),
+
+      /*
+      Stack(
+        fit: StackFit.expand,
+        children: [
+          Positioned.fill(
+            child: Image.asset('assets/image/coverred.jpg', fit: BoxFit.cover),
+          ),
+          Positioned.fill(child: Container(color: Colors.white)),
+      */
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -32,72 +41,164 @@ class CarDetail extends StatelessWidget {
             child: Image.asset('assets/image/coverred.jpg', fit: BoxFit.cover),
           ),
           Positioned.fill(child: Container(color: Colors.white)),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Hero(
-                tag: cars.image,
-                child: Container(
-                  width: context.shortp(0.9),
-                  margin: EdgeInsets.symmetric(
-                    horizontal: context.shortp(0.06),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: context.shortp(0.02)),
-                      Text(
-                        "${cars.brand} ${cars.model}",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        "${cars.transmission} / ${cars.fuelType}",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: outlineColor(context),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: context.shortp(0.05)),
-                      Align(
-                        alignment: Alignment.center,
-                        child: Image.network(cars.image, fit: BoxFit.cover),
-                      ),
-                      SizedBox(height: context.shortp(0.05)),
-                      Text(
-                        "About",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        cars.description,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: outlineColor(context),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: context.shortp(0.05)),
-                      Text(
-                        "Price: Rp. ${cars.pricePerDay} /day",
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(
-                          fontSize: 20,
+          LayoutBuilder(
+            builder: (context, constraints) {
+              return Column(
+                children: [
+                  // Konten yang bisa discroll
+                  Expanded(
+                    child: ScrollConfiguration(
+                      behavior: NoGlowScrollBehavior(),
+                      child: SingleChildScrollView(
+                        child: Padding(
+                          padding: EdgeInsets.all(context.shortp(0.04)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Header
+                              Text(
+                                "${cars.brand} ${cars.model}",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                "${cars.year} / ${cars.transmission} / ${cars.fuelType}",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: outlineColor(context),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: context.shortp(0.05)),
 
-                          fontWeight: FontWeight.bold,
+                              // Gambar
+                              Hero(
+                                tag: cars.image,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(16),
+                                  child: Image.network(
+                                    cars.image,
+                                    fit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: context.shortp(0.05)),
+
+                              // About section
+                              Text(
+                                "About",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: 8),
+                              Text(
+                                cars.description,
+                                textAlign: TextAlign.justify,
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  color: outlineColor(context),
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: context.shortp(0.05)),
+                            ],
+                          ),
                         ),
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
-            ],
+
+                  // Area bawah
+                  Container(
+                    width: double.infinity,
+                    padding: EdgeInsets.all(context.shortp(0.03)),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                          blurRadius: 4,
+                          color: Colors.black12,
+                          offset: Offset(0, -2),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Available today
+                        Text(
+                          "Available Today",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: outlineColor(context),
+                          ),
+                        ),
+
+                        Text(
+                          "Reserve your ride today and enjoy a 5% discount (limited time only!)",
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.bold,
+                            color: outlineColor(context),
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        // Harga dan tombol
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Total Price",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                Text(
+                                  "Rp. ${cars.pricePerDay} /day",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15),
+                                color: Colors.red,
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
+                              child: Text(
+                                "Book Now",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: onInverseSurfaceColor(context),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              );
+            },
           ),
         ],
       ),

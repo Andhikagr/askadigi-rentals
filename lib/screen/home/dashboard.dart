@@ -370,7 +370,7 @@ class _DashboardState extends State<Dashboard> {
                                                     transition:
                                                         Transition.native,
                                                     duration: Duration(
-                                                      milliseconds: 100,
+                                                      milliseconds: 600,
                                                     ),
                                                   );
                                                 },
