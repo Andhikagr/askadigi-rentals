@@ -43,7 +43,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           Get.off(
                             () => Login(),
                             transition: Transition.native,
-                            duration: Duration(milliseconds: 300),
+                            duration: Duration(milliseconds: 1000),
                           );
                         },
                       ),

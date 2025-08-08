@@ -59,7 +59,7 @@ class CarDetail extends StatelessWidget {
                               Text(
                                 "${cars.year} / ${cars.transmission} / ${cars.fuelType}",
                                 style: TextStyle(
-                                  fontSize: 14,
+                                  fontSize: 12,
                                   color: outlineColor(context),
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -127,11 +127,11 @@ class CarDetail extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: outlineColor(context),
+                            color: Colors.red,
                           ),
                         ),
                         Text(
-                          "Reserve your ride today and enjoy a 5% discount (limited time only!)",
+                          "Reserve your ride today and enjoy a 5% discount (limited time only)",
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
@@ -179,7 +179,11 @@ class CarDetail extends StatelessWidget {
 
                                   order.selectedCar.value = cars;
                                   nav.selectedIndex.value = 2;
-                                  Get.to(() => Order());
+                                  Get.to(
+                                    () => Order(),
+                                    transition: Transition.native,
+                                    duration: Duration(milliseconds: 1000),
+                                  );
                                 },
                                 child: Text(
                                   "Book Now",

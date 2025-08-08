@@ -44,7 +44,7 @@ class _VerificationState extends State<Verification> {
                             Get.off(
                               () => ForgotPassword(),
                               transition: Transition.native,
-                              duration: Duration(milliseconds: 300),
+                              duration: Duration(milliseconds: 1000),
                             );
                           },
                         ),

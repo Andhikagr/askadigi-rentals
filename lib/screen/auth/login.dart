@@ -68,7 +68,7 @@ class _LoginState extends State<Login> {
                             Get.to(
                               () => ForgotPassword(),
                               transition: Transition.native,
-                              duration: Duration(milliseconds: 300),
+                              duration: Duration(milliseconds: 1000),
                             );
                           },
                           child: Padding(
@@ -91,7 +91,7 @@ class _LoginState extends State<Login> {
                         Get.off(
                           () => Mainpage(),
                           transition: Transition.native,
-                          duration: Duration(milliseconds: 300),
+                          duration: Duration(milliseconds: 1000),
                         );
                       }),
                       SizedBox(height: context.shortp(0.75)),
@@ -116,7 +116,7 @@ class _LoginState extends State<Login> {
                                   Get.to(
                                     () => Signup(),
                                     transition: Transition.native,
-                                    duration: Duration(milliseconds: 300),
+                                    duration: Duration(milliseconds: 1000),
                                   );
                                 },
                                 child: Text(

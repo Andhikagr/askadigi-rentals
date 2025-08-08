@@ -46,7 +46,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                             Get.off(
                               () => Verification(),
                               transition: Transition.native,
-                              duration: Duration(milliseconds: 300),
+                              duration: Duration(milliseconds: 1000),
                             );
                           },
                         ),
