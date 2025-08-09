@@ -1,13 +1,14 @@
 import 'dart:io';
-
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/login.dart';
-
+import 'package:car_rental/screen/auth/signup.dart';
+import 'package:car_rental/screen/intro/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -39,6 +40,35 @@ class _AccountState extends State<Account> {
   }
 
   File? imageFile;
+  String username = "";
+  bool isLoggedIn = false;
+
+  Future<void> loadUserData() async {
+    final prefs = await SharedPreferences.getInstance();
+    final status = prefs.getBool("isLoggedIn") ?? false;
+    final name = status ? prefs.getString("username")! : "";
+    setState(() {
+      isLoggedIn = status;
+      username = name;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadUserData();
+  }
+
+  Future<void> logOut() async {
+    final check = await SharedPreferences.getInstance();
+    await check.setBool("isLoggedIn", false);
+
+    isLoggedIn = false;
+    username = "";
+
+    await Future.delayed(Duration(milliseconds: 300));
+    Get.offAll(() => Splash());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,14 +109,16 @@ class _AccountState extends State<Account> {
                               color: onInverseSurfaceColor(context),
                             ),
                           ),
-
-                          IconButton(
-                            icon: Image.asset(
-                              "assets/image/power.png",
-                              width: 40,
+                          if (isLoggedIn)
+                            IconButton(
+                              icon: Image.asset(
+                                "assets/image/power.png",
+                                width: 40,
+                              ),
+                              onPressed: () {
+                                logOut();
+                              },
                             ),
-                            onPressed: () => Get.off(() => Login()),
-                          ),
                         ],
                       ),
                       SizedBox(height: context.shortp(0.03)),
@@ -118,7 +150,7 @@ class _AccountState extends State<Account> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "Andhika Gilang Rahadian",
+                                    username,
                                     style: TextStyle(
                                       fontSize: 15,
                                       fontWeight: FontWeight.bold,
@@ -133,12 +165,84 @@ class _AccountState extends State<Account> {
                                       color: onInverseSurfaceColor(context),
                                     ),
                                   ),
+                                  Text(
+                                    "081123456789",
+                                    textAlign: TextAlign.justify,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      color: onInverseSurfaceColor(context),
+                                    ),
+                                  ),
                                 ],
                               ),
                             ),
                           ),
                         ],
                       ),
+                      SizedBox(height: 20),
+                      if (!isLoggedIn)
+                        Row(
+                          children: [
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Get.to(
+                                  () => Login(),
+                                  transition: Transition.native,
+                                  duration: Duration(seconds: 1),
+                                ),
+                                child: Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Colors.white,
+                                  ),
+
+                                  child: Center(
+                                    child: Text(
+                                      "Login",
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: onSurfaceColor(context),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(width: 20),
+
+                            Expanded(
+                              child: GestureDetector(
+                                onTap: () => Get.to(
+                                  () => Signup(),
+                                  transition: Transition.native,
+                                  duration: Duration(seconds: 1),
+                                ),
+                                child: Container(
+                                  height: 40,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      width: 1.5,
+                                      color: onInverseSurfaceColor(context),
+                                    ),
+                                    borderRadius: BorderRadius.circular(30),
+                                    color: Colors.red,
+                                  ),
+
+                                  child: Center(
+                                    child: Text(
+                                      "Daftar",
+                                      style: TextStyle(
+                                        color: onInverseSurfaceColor(context),
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                     ],
                   ),
                 ),

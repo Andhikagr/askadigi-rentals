@@ -1,13 +1,14 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/screen/auth/forgot_password.dart';
-import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/widget/socialbutton.dart';
 import 'package:car_rental/screen/auth/signup.dart';
+import 'package:car_rental/widget/textform.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -17,8 +18,29 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
+    Future<bool> login() async {
+      final check = await SharedPreferences.getInstance();
+
+      final savedEmail = check.getString("user_email");
+      final savedPassword = check.getString("user_password");
+
+      if (_emailController.text.trim() == savedEmail &&
+          _passwordController.text.trim() == savedPassword) {
+        await check.setBool("isLoggedIn", true);
+
+        final navigate = Get.find<NavController>();
+        navigate.selectedIndex.value = 0;
+
+        Get.offAll(() => Mainpage());
+      }
+      return true;
+    }
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -59,11 +81,17 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                                 SizedBox(height: 30),
-                                BoxText(label: "Email", iconData: Icons.email),
+                                Textform(
+                                  label: "Email",
+                                  iconData: Icons.email,
+                                  controller: _emailController,
+                                ),
                                 SizedBox(height: 20),
-                                BoxText(
+                                Textform(
                                   label: "Password",
                                   iconData: Icons.lock,
+                                  controller: _passwordController,
+                                  obscureText: true,
                                 ),
                                 SizedBox(height: 10),
                                 Align(
@@ -92,13 +120,9 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                                 SizedBox(height: context.shortp(0.06)),
-                                buttonOne(context, "Log in", () {
+                                buttonOne(context, "Log in", () async {
                                   FocusScope.of(context).unfocus();
-                                  Get.off(
-                                    () => Mainpage(),
-                                    transition: Transition.native,
-                                    duration: Duration(milliseconds: 1000),
-                                  );
+                                  login();
                                 }),
                               ],
                             ),
@@ -161,8 +185,8 @@ class _LoginState extends State<Login> {
                       SizedBox(width: context.shortp(0.05)),
                       socialButton(
                         context,
-                        "assets/image/facebook.png",
-                        "Facebook",
+                        "assets/image/whatsapp.png",
+                        "Whatsapp",
                       ),
                     ],
                   ),

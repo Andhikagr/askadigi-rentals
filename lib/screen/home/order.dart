@@ -38,7 +38,10 @@ class _OrderState extends State<Order> {
                             width: 150,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
-                              border: Border.all(color: outlineColor(context)),
+                              border: Border.all(
+                                color: outlineVariantColor(context),
+                                width: 2,
+                              ),
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(10),

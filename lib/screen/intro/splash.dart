@@ -1,7 +1,8 @@
+import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/core/utils/media_query.dart';
-import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/instance_manager.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -11,6 +12,23 @@ class Splash extends StatefulWidget {
 }
 
 class _SplashState extends State<Splash> with TickerProviderStateMixin {
+  Future<void> preloadDashboardImages(BuildContext context) async {
+    final List<String> brandAssets = [
+      "assets/image/toyota.png",
+      "assets/image/honda.png",
+      "assets/image/hyundai.png",
+      "assets/image/daihatsu.png",
+      "assets/image/suzuki.png",
+      "assets/image/mitsubishi.png",
+      "assets/image/man.png",
+      "assets/image/coverred.png",
+    ];
+
+    for (final image in brandAssets) {
+      await precacheImage(AssetImage(image), context);
+    }
+  }
+
   late final AnimationController _logoController;
   late final Animation<double> _opacityAnimation;
   late final Animation<double> _scaleAnimation;
@@ -37,17 +55,17 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       CurvedAnimation(parent: _logoController, curve: Curves.easeOutBack),
     );
 
-    // Mulai animasi logo
     _logoController.forward();
 
-    // Navigasi ke halaman login setelah 3 detik dengan animasi fade
-    Future.delayed(const Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 2), () async {
       if (!mounted) return;
+      await preloadDashboardImages(context);
+      if (!mounted) return;
+      Get.delete<NavController>(force: true);
       Navigator.of(context).pushReplacement(
         PageRouteBuilder(
-          transitionDuration: const Duration(milliseconds: 2000),
-          pageBuilder: (context, animation, secondaryAnimation) =>
-              const Login(),
+          transitionDuration: const Duration(milliseconds: 1000),
+          pageBuilder: (context, animation, secondaryAnimation) => Mainpage(),
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
             return FadeTransition(opacity: animation, child: child);
           },
@@ -77,6 +95,12 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
         body: Stack(
           children: [
             // Background image
+            Positioned.fill(
+              child: Image.asset(
+                'assets/image/coverred.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
             Positioned.fill(
               child: Image.asset("assets/image/backone.png", fit: BoxFit.cover),
             ),

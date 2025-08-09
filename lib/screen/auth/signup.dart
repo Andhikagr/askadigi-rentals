@@ -1,9 +1,11 @@
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/widget/boxtext.dart';
+import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/screen/auth/login.dart';
+import 'package:car_rental/widget/textform.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -13,6 +15,55 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
+  final TextEditingController _namecontroller = TextEditingController();
+  final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _repeatcontroller = TextEditingController();
+
+  void signUp() async {
+    final name = _namecontroller.text.trim();
+    final email = _emailcontroller.text.trim();
+    final password = _passwordcontroller.text.trim();
+    final repPassword = _repeatcontroller.text.trim();
+
+    if (name.isEmpty ||
+        email.isEmpty ||
+        password.isEmpty ||
+        repPassword.isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("All field must be filled")));
+      return;
+    }
+    if (password != repPassword) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Password Not Match")));
+      return;
+    }
+
+    final check = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    await check.setString("username", name);
+    await check.setString("user_email", email);
+    await check.setString("user_password", password);
+    await check.setBool("isLoggedIn", true);
+
+    final navigate = Get.find<NavController>();
+    navigate.selectedIndex.value = 0;
+
+    Get.offAll(() => Mainpage());
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _namecontroller.dispose();
+    _emailcontroller.dispose();
+    _passwordcontroller.dispose();
+    _repeatcontroller.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,21 +106,30 @@ class _SignupState extends State<Signup> {
                                   ),
                                 ),
                                 SizedBox(height: 20),
-                                BoxText(
+                                Textform(
                                   label: "Username",
                                   iconData: Icons.account_circle,
+                                  controller: _namecontroller,
                                 ),
                                 SizedBox(height: 20),
-                                BoxText(label: "Email", iconData: Icons.email),
+                                Textform(
+                                  label: "Email",
+                                  iconData: Icons.email,
+                                  controller: _emailcontroller,
+                                ),
                                 SizedBox(height: 20),
-                                BoxText(
+                                Textform(
                                   label: "Password",
                                   iconData: Icons.lock,
+                                  controller: _passwordcontroller,
+                                  obscureText: true,
                                 ),
                                 SizedBox(height: 20),
-                                BoxText(
+                                Textform(
                                   label: "Repeat Password",
                                   iconData: Icons.password,
+                                  controller: _repeatcontroller,
+                                  obscureText: true,
                                 ),
                               ],
                             ),
@@ -80,7 +140,7 @@ class _SignupState extends State<Signup> {
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20),
-                    child: buttonOne(context, "Sign Up", () {}),
+                    child: buttonOne(context, "Sign Up", signUp),
                   ),
                   SizedBox(height: 10),
                   Padding(
