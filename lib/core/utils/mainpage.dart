@@ -8,7 +8,10 @@ import 'package:get/get.dart';
 
 class Mainpage extends StatelessWidget {
   final NavController controller = Get.put(NavController());
-  final OrderController orderController = Get.put(OrderController());
+  final OrderController orderController = Get.put(
+    OrderController(),
+    permanent: true,
+  );
 
   Mainpage({super.key});
 
@@ -97,6 +100,9 @@ class NavController extends GetxController {
 class OrderController extends GetxController {
   var selectedCars = <CarModel>[].obs;
 
+  Rx<DateTime?> pickedDate = Rx<DateTime?>(null);
+  Rx<DateTime?> returnDate = Rx<DateTime?>(null);
+
   void addCar(CarModel itemCar) {
     if (!selectedCars.contains(itemCar)) {
       selectedCars.add(itemCar);
@@ -109,5 +115,18 @@ class OrderController extends GetxController {
 
   void clearCars() {
     selectedCars.clear();
+  }
+
+  void setPickedDate(DateTime date) {
+    pickedDate.value = date;
+    if (returnDate.value != null &&
+        (returnDate.value!.isBefore(date) ||
+            returnDate.value!.isAtSameMomentAs(date))) {
+      returnDate.value = null;
+    }
+  }
+
+  void setReturnDate(DateTime date) {
+    returnDate.value = date;
   }
 }
