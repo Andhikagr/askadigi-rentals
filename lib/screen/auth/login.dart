@@ -42,6 +42,22 @@ class _LoginState extends State<Login> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            final navigate = Get.find<NavController>();
+            navigate.selectedIndex.value = 0;
+            Get.off(() => Mainpage());
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xFFFF1908),
+        foregroundColor: onInverseSurfaceColor(context),
+        elevation: 2,
+        shadowColor: onSurfaceColor(context).withValues(alpha: 0.4),
+        title: Text("Log In"),
+      ),
       resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
@@ -65,14 +81,6 @@ class _LoginState extends State<Login> {
                               children: [
                                 SizedBox(height: 20),
                                 Text(
-                                  "Welcome Back",
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    color: onInverseSurfaceColor(context),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
                                   "Log in to your account using email or social networks.",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
@@ -80,7 +88,7 @@ class _LoginState extends State<Login> {
                                     color: onInverseSurfaceColor(context),
                                   ),
                                 ),
-                                SizedBox(height: 30),
+                                SizedBox(height: 10),
                                 Textform(
                                   label: "Email",
                                   iconData: Icons.email,
@@ -150,14 +158,14 @@ class _LoginState extends State<Login> {
                           GestureDetector(
                             onTap: () {
                               FocusScope.of(context).unfocus();
-                              Get.to(
+                              Get.off(
                                 () => Signup(),
-                                transition: Transition.native,
-                                duration: Duration(milliseconds: 1000),
+                                transition: Transition.leftToRight,
+                                duration: Duration(milliseconds: 300),
                               );
                             },
                             child: Text(
-                              "Sign Up,",
+                              "Sign Up",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.red,

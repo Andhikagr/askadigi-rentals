@@ -9,7 +9,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 4,
-    "pricePerDay": "350.000"
+    "pricePerDay": "350000"
   },
 
   {
@@ -22,7 +22,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 6,
-    "pricePerDay": "600.000"
+    "pricePerDay": "600000"
   },
 
   {
@@ -35,7 +35,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 6,
-    "pricePerDay": "350.000"
+    "pricePerDay": "350000"
   },
 
   {
@@ -48,7 +48,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 5,
-    "pricePerDay": "450.000"
+    "pricePerDay": "450000"
   },
 
   {
@@ -61,7 +61,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 5,
-    "pricePerDay": "1.000.000"
+    "pricePerDay": "1000000"
   },
 
   {
@@ -74,7 +74,7 @@
     "transmission": "Automatic",
     "fuelType": "Diesel",
     "seats": 7,
-    "pricePerDay": "500.000"
+    "pricePerDay": "500000"
   },
 
   {
@@ -87,7 +87,7 @@
     "transmission": "Automatic",
     "fuelType": "Hybrid",
     "seats": 7,
-    "pricePerDay": "550.000"
+    "pricePerDay": "550000"
   },
 
   {
@@ -100,7 +100,7 @@
     "transmission": "Automatic",
     "fuelType": "Diesel",
     "seats": 7,
-    "pricePerDay": "650.000"
+    "pricePerDay": "650000"
   },
 
   {
@@ -113,7 +113,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 7,
-    "pricePerDay": "400.000"
+    "pricePerDay": "400000"
   },
 
   {
@@ -126,7 +126,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 7,
-    "pricePerDay": "300.000"
+    "pricePerDay": "300000"
   },
 
   {
@@ -139,7 +139,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 7,
-    "pricePerDay": "250.000"
+    "pricePerDay": "250000"
   },
 
   {
@@ -152,7 +152,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 7,
-    "pricePerDay": "250.000"
+    "pricePerDay": "250000"
   },
 
   {
@@ -165,7 +165,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 5,
-    "pricePerDay": "300.000"
+    "pricePerDay": "300000"
   },
   {
     "id": 14,
@@ -177,7 +177,7 @@
     "transmission": "Automatic",
     "fuelType": "Diesel",
     "seats": 7,
-    "pricePerDay": "700.000"
+    "pricePerDay": "700000"
   },
   {
     "id": 15,
@@ -189,7 +189,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 7,
-    "pricePerDay": "350.000"
+    "pricePerDay": "350000"
   },
   {
     "id": 16,
@@ -201,7 +201,7 @@
     "transmission": "Automatic",
     "fuelType": "Hybrid",
     "seats": 7,
-    "pricePerDay": "500.000"
+    "pricePerDay": "500000"
   },
   {
     "id": 17,
@@ -213,7 +213,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 5,
-    "pricePerDay": "400.000"
+    "pricePerDay": "400000"
   },
   {
     "id": 18,
@@ -225,7 +225,7 @@
     "transmission": "Automatic",
     "fuelType": "Hybrid",
     "seats": 7,
-    "pricePerDay": "250.000"
+    "pricePerDay": "250000"
   },
   {
     "id": 19,
@@ -237,7 +237,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 7,
-    "pricePerDay": "350.000"
+    "pricePerDay": "350000"
   },
   {
     "id": 20,
@@ -249,7 +249,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 5,
-    "pricePerDay": "250.000"
+    "pricePerDay": "250000"
   },
   {
     "id": 21,
@@ -261,7 +261,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 5,
-    "pricePerDay": "360.000"
+    "pricePerDay": "360000"
   },
   {
     "id": 22,
@@ -273,7 +273,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 4,
-    "pricePerDay": "500.000"
+    "pricePerDay": "500000"
   },
   {
     "id": 23,
@@ -285,7 +285,7 @@
     "transmission": "Automatic",
     "fuelType": "Hybrid",
     "seats": 5,
-    "pricePerDay": "300.000"
+    "pricePerDay": "300000"
   },
   {
     "id": 24,
@@ -297,7 +297,7 @@
     "transmission": "Automatic",
     "fuelType": "Gasoline",
     "seats": 5,
-    "pricePerDay": "400.000"
+    "pricePerDay": "400000"
   },
   {
     "id": 25,
@@ -309,6 +309,6 @@
     "transmission": "Automatic",
     "fuelType": "Diesel",
     "seats": 7,
-    "pricePerDay": "850.000"
+    "pricePerDay": "850000"
   }
 ]

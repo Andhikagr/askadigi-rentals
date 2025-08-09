@@ -60,14 +60,14 @@ class Mainpage extends StatelessWidget {
                         Icon(
                           icon,
                           color: isSelected
-                              ? Colors.red
+                              ? const Color(0xFFFF1908)
                               : outlineColor(context),
                         ),
                         Text(
                           label,
                           style: TextStyle(
                             color: isSelected
-                                ? Colors.red
+                                ? const Color(0xFFFF1908)
                                 : outlineColor(context),
                             fontWeight: isSelected
                                 ? FontWeight.bold

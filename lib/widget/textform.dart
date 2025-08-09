@@ -74,11 +74,11 @@ class _BoxTextState extends State<Textform> {
             filled: true,
             fillColor: onInverseSurfaceColor(context),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
           ),

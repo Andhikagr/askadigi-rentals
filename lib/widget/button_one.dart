@@ -11,7 +11,7 @@ Widget buttonOne(BuildContext context, String label, VoidCallback onTap) {
         decoration: BoxDecoration(
           // color: onInverseSurfaceColor(context),
           color: Color(0xFF003984),
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(10),
         ),
         child: Center(
           child: Text(

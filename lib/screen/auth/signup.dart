@@ -68,6 +68,22 @@ class _SignupState extends State<Signup> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            final navigate = Get.find<NavController>();
+            navigate.selectedIndex.value = 0;
+            Get.off(() => Mainpage());
+          },
+          icon: Icon(Icons.arrow_back),
+        ),
+        automaticallyImplyLeading: false,
+        backgroundColor: const Color(0xFFFF1908),
+        foregroundColor: onInverseSurfaceColor(context),
+        elevation: 2,
+        shadowColor: onSurfaceColor(context).withValues(alpha: 0.4),
+        title: Text("Sign Up"),
+      ),
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -90,14 +106,6 @@ class _SignupState extends State<Signup> {
                               children: [
                                 SizedBox(height: 20),
                                 Text(
-                                  "Create New Account",
-                                  style: TextStyle(
-                                    fontSize: 24,
-                                    color: onInverseSurfaceColor(context),
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
                                   "Set up your username and password. You can always change it later.",
                                   textAlign: TextAlign.justify,
                                   style: TextStyle(
@@ -115,6 +123,12 @@ class _SignupState extends State<Signup> {
                                 Textform(
                                   label: "Email",
                                   iconData: Icons.email,
+                                  controller: _emailcontroller,
+                                ),
+                                SizedBox(height: 20),
+                                Textform(
+                                  label: "Phone Numbers",
+                                  iconData: Icons.phone,
                                   controller: _emailcontroller,
                                 ),
                                 SizedBox(height: 20),
@@ -157,7 +171,7 @@ class _SignupState extends State<Signup> {
                             FocusScope.of(context).unfocus();
                             Get.off(
                               () => Login(),
-                              transition: Transition.native,
+                              transition: Transition.rightToLeft,
                               duration: Duration(milliseconds: 300),
                             );
                           },

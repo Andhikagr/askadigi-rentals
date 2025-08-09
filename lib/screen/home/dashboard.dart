@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/car_detail.dart';
 import 'package:car_rental/widget/boxtext.dart';
@@ -101,14 +102,14 @@ class _DashboardState extends State<Dashboard> {
                                     Text(
                                       "Your location",
                                       style: TextStyle(
-                                        fontSize: 11,
+                                        fontSize: 12,
                                         color: onInverseSurfaceColor(context),
                                       ),
                                     ),
                                     Text(
                                       "Banjarnegara, Central Java",
                                       style: TextStyle(
-                                        fontSize: 14,
+                                        fontSize: 16,
                                         color: onInverseSurfaceColor(context),
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -323,7 +324,7 @@ class _DashboardState extends State<Dashboard> {
                                                     ),
                                                     child: Center(
                                                       child: Text(
-                                                        "Rp. ${showCar.pricePerDay} /day",
+                                                        "${formatRp(int.tryParse(showCar.pricePerDay) ?? 0)} /day",
                                                         style: TextStyle(
                                                           fontSize: 16,
                                                           color: surfaceColor(

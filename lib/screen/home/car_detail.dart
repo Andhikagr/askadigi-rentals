@@ -1,4 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
@@ -78,6 +79,7 @@ class CarDetail extends StatelessWidget {
                               ),
 
                               // About section
+                              SizedBox(height: 20),
                               Text(
                                 "About",
                                 style: TextStyle(
@@ -125,7 +127,7 @@ class CarDetail extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
-                            color: Colors.red,
+                            color: const Color(0xFFFF1908),
                           ),
                         ),
                         Text(
@@ -152,11 +154,11 @@ class CarDetail extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  "Rp. ${cars.pricePerDay} /day",
+                                  "${formatRp(int.tryParse(cars.pricePerDay) ?? 0)} /day",
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.red,
+                                    color: const Color(0xFFFF1908),
                                   ),
                                 ),
                               ],
@@ -173,7 +175,7 @@ class CarDetail extends StatelessWidget {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15),
-                                  color: Colors.red,
+                                  color: const Color(0xFFFF1908),
                                 ),
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 20,

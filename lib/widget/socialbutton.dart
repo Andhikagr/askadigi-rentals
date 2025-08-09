@@ -10,7 +10,7 @@ Widget socialButton(BuildContext context, String image, String label) {
       height: 55,
       decoration: BoxDecoration(
         color: Colors.red,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
