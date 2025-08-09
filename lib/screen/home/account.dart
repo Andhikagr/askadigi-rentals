@@ -62,10 +62,8 @@ class _AccountState extends State<Account> {
   Future<void> logOut() async {
     final check = await SharedPreferences.getInstance();
     await check.setBool("isLoggedIn", false);
-
     isLoggedIn = false;
     username = "";
-
     await Future.delayed(Duration(milliseconds: 300));
     Get.offAll(() => Splash());
   }
@@ -152,24 +150,8 @@ class _AccountState extends State<Account> {
                                   Text(
                                     username,
                                     style: TextStyle(
-                                      fontSize: 15,
+                                      fontSize: 20,
                                       fontWeight: FontWeight.bold,
-                                      color: onInverseSurfaceColor(context),
-                                    ),
-                                  ),
-                                  Text(
-                                    "Merden Purwanegara Banjarnegara Jawa Tengah",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: onInverseSurfaceColor(context),
-                                    ),
-                                  ),
-                                  Text(
-                                    "081123456789",
-                                    textAlign: TextAlign.justify,
-                                    style: TextStyle(
-                                      fontSize: 12,
                                       color: onInverseSurfaceColor(context),
                                     ),
                                   ),

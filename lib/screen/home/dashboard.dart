@@ -64,8 +64,10 @@ class _DashboardState extends State<Dashboard> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Positioned.fill(
+          Positioned(
             top: 300,
+            left: 0,
+            right: 0,
             child: Image.asset("assets/image/coverred.jpg", fit: BoxFit.cover),
           ),
           GestureDetector(

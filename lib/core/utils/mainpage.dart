@@ -95,5 +95,19 @@ class NavController extends GetxController {
 }
 
 class OrderController extends GetxController {
-  Rx<CarModel?> selectedCar = Rx<CarModel?>(null);
+  var selectedCars = <CarModel>[].obs;
+
+  void addCar(CarModel itemCar) {
+    if (!selectedCars.contains(itemCar)) {
+      selectedCars.add(itemCar);
+    }
+  }
+
+  void removeCars(CarModel itemCar) {
+    selectedCars.remove(itemCar);
+  }
+
+  void clearCars() {
+    selectedCars.clear();
+  }
 }

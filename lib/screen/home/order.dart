@@ -23,80 +23,182 @@ class _OrderState extends State<Order> {
         backgroundColor: Colors.red,
       ),
       body: SafeArea(
-        child: Obx(() {
-          final car = orderController.selectedCar.value;
-          return car == null
-              ? Center(child: Text("No car selected."))
-              : Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            width: 150,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              border: Border.all(
-                                color: outlineVariantColor(context),
-                                width: 2,
+        child: ScrollConfiguration(
+          behavior: NoGlowScrollBehavior(),
+          child: Column(
+            children: [
+              SizedBox(height: 20),
+              Expanded(
+                child: Obx(() {
+                  final listCar = orderController.selectedCars;
+                  if (listCar.isEmpty) {
+                    return Center(child: Text("No car selected."));
+                  }
+                  return ListView.builder(
+                    itemCount: listCar.length,
+                    itemBuilder: (context, index) {
+                      final cars = listCar[index];
+                      return Padding(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 10,
+                        ),
+                        child: Container(
+                          height: 100,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.5),
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: [
+                              BoxShadow(
+                                color: const Color(
+                                  0xFFC4C3C3,
+                                ).withValues(alpha: 0.5),
+                                offset: Offset(2, 2),
+                                blurRadius: 3,
+                                spreadRadius: 1,
                               ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10),
-                              child: Image.network(
-                                car.image,
-                                fit: BoxFit.cover,
+                              BoxShadow(
+                                color: const Color(
+                                  0xFFE7E7E7,
+                                ).withValues(alpha: 0.5),
+                                offset: Offset(-2, -2),
+                                blurRadius: 3,
+                                spreadRadius: 1,
+                              ),
+                            ],
+                          ),
+                          child: Center(
+                            child: Container(
+                              margin: EdgeInsets.all(10),
+                              child: Row(
+                                children: [
+                                  Container(
+                                    width: 100,
+                                    child: Image.network(
+                                      cars.image,
+                                      fit: BoxFit.contain,
+                                    ),
+                                  ),
+                                  SizedBox(width: 10),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text("${cars.brand} ${cars.model}"),
+                                      Text(
+                                        "${cars.transmission} / ${cars.fuelType}",
+                                        style: TextStyle(
+                                          color: outlineColor(context),
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Seats: ${cars.seats}",
+                                        style: TextStyle(
+                                          color: outlineColor(context),
+                                          fontSize: 12,
+                                        ),
+                                      ),
+                                      Text(
+                                        "Price: Rp.${cars.pricePerDay} /day",
+                                        style: TextStyle(
+                                          color: Colors.red,
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ),
                             ),
                           ),
-                          SizedBox(width: 10),
-                          Container(
-                            width: 200,
-                            padding: EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text(
-                                  "${car.brand} ${car.model}",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                Text(
-                                  "${car.year} / ${car.transmission} / ${car.fuelType}",
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: outlineColor(context),
-                                  ),
-                                ),
-                                SizedBox(height: 10),
-                                Text(
-                                  "Rp. ${car.pricePerDay}/day",
-                                  style: TextStyle(
-                                    color: Colors.red,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ],
+                        ),
+                      );
+                    },
+                  );
+                }),
+              ),
+
+              Container(
+                width: double.infinity,
+                padding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      blurRadius: 4,
+                      color: Colors.grey.shade200,
+                      offset: Offset(0, -2),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 12),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Price",
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
+                            Text(
+                              "Rp. ",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.red,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: Colors.red,
+                          ),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 20,
+                            vertical: 12,
                           ),
 
-                          //
-                        ],
-                      ),
-                      Spacer(),
-                      // SizedBox(height: context.shortp(0.05)),
-                      buttonOne(context, "Confirm", () {}),
-                    ],
-                  ),
-                );
-        }),
+                          child: Text(
+                            "Checkout",
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: onInverseSurfaceColor(context),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
+  }
+}
+
+class NoGlowScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildOverscrollIndicator(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
+    return child; // tidak munculkan efek glow
   }
 }
