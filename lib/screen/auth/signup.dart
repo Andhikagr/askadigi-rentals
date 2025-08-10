@@ -1,11 +1,11 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/widget/textform.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -15,58 +15,48 @@ class Signup extends StatefulWidget {
 }
 
 class _SignupState extends State<Signup> {
-  final TextEditingController _namecontroller = TextEditingController();
-  final TextEditingController _emailcontroller = TextEditingController();
-  final TextEditingController _phonecontroller = TextEditingController();
-  final TextEditingController _passwordcontroller = TextEditingController();
-  final TextEditingController _repeatcontroller = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _repeatController = TextEditingController();
 
-  void signUp() async {
-    final name = _namecontroller.text.trim();
-    final email = _emailcontroller.text.trim();
-    final phone = _phonecontroller.text.trim();
-    final password = _passwordcontroller.text.trim();
-    final repPassword = _repeatcontroller.text.trim();
+  final authController = Get.find<AuthController>();
 
+  void signUp() {
+    final name = _nameController.text.trim();
+    final email = _emailController.text.trim();
+    final phone = _phoneController.text.trim();
+    final password = _passwordController.text.trim();
+    final repPass = _repeatController.text.trim();
     if (name.isEmpty ||
         email.isEmpty ||
         phone.isEmpty ||
         password.isEmpty ||
-        repPassword.isEmpty) {
+        repPass.isEmpty) {
       ScaffoldMessenger.of(
         context,
       ).showSnackBar(SnackBar(content: Text("All field must be filled")));
       return;
     }
-    if (password != repPassword) {
+    if (password != repPass) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("Password Not Match")));
+      ).showSnackBar(SnackBar(content: Text("Password not match")));
       return;
     }
 
-    final check = await SharedPreferences.getInstance();
-    if (!mounted) return;
-    await check.setString("username", name);
-    await check.setString("user_email", email);
-    await check.setString("phone_number", phone);
-    await check.setString("user_password", password);
-    await check.setBool("isLoggedIn", true);
-
-    final navigate = Get.find<NavController>();
-    navigate.selectedIndex.value = 0;
-
-    Get.offAll(() => Mainpage());
+    authController.signUp(name, email, phone, password);
   }
 
   @override
   void dispose() {
     super.dispose();
-    _namecontroller.dispose();
-    _emailcontroller.dispose();
-    _phonecontroller.dispose();
-    _passwordcontroller.dispose();
-    _repeatcontroller.dispose();
+    _nameController.dispose();
+    _emailController.dispose();
+    _phoneController.dispose();
+    _passwordController.dispose();
+    _repeatController.dispose();
   }
 
   @override
@@ -78,7 +68,7 @@ class _SignupState extends State<Signup> {
           onPressed: () {
             final navigate = Get.find<NavController>();
             navigate.selectedIndex.value = 0;
-            Get.off(() => Mainpage());
+            Get.offAll(() => Mainpage());
           },
           icon: Icon(Icons.arrow_back),
         ),
@@ -122,19 +112,19 @@ class _SignupState extends State<Signup> {
                                 Textform(
                                   label: "Username",
                                   iconData: Icons.account_circle,
-                                  controller: _namecontroller,
+                                  controller: _nameController,
                                 ),
                                 SizedBox(height: 20),
                                 Textform(
                                   label: "Email",
                                   iconData: Icons.email,
-                                  controller: _emailcontroller,
+                                  controller: _emailController,
                                 ),
                                 SizedBox(height: 20),
                                 Textform(
                                   label: "Phone Numbers",
                                   iconData: Icons.phone,
-                                  controller: _phonecontroller,
+                                  controller: _phoneController,
                                   keyboardType:
                                       TextInputType.numberWithOptions(),
                                 ),
@@ -142,14 +132,14 @@ class _SignupState extends State<Signup> {
                                 Textform(
                                   label: "Password",
                                   iconData: Icons.lock,
-                                  controller: _passwordcontroller,
+                                  controller: _passwordController,
                                   obscureText: true,
                                 ),
                                 SizedBox(height: 20),
                                 Textform(
                                   label: "Repeat Password",
                                   iconData: Icons.password,
-                                  controller: _repeatcontroller,
+                                  controller: _repeatController,
                                   obscureText: true,
                                 ),
                               ],

@@ -26,7 +26,7 @@ Map<String, dynamic> _$CarModelToJson(CarModel instance) => <String, dynamic>{
   'year': instance.year,
   'image': instance.image,
   'description': instance.description,
-  'transmision': instance.transmission,
+  'transmission': instance.transmission,
   'fuelType': instance.fuelType,
   'seats': instance.seats,
   'pricePerDay': instance.pricePerDay,

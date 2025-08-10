@@ -1,4 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/screen/auth/forgot_password.dart';
 import 'package:car_rental/widget/button_one.dart';
@@ -8,7 +9,6 @@ import 'package:car_rental/screen/auth/signup.dart';
 import 'package:car_rental/widget/textform.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   const Login({super.key});
@@ -21,30 +21,25 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
-  Future<void> login() async {
-    final check = await SharedPreferences.getInstance();
+  final authController = Get.find<AuthController>();
+
+  void login() async {
+    final email = _emailController.text.trim();
+    final password = _passwordController.text.trim();
+
+    if (email.isEmpty || password.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Email and Password must not be empty")),
+      );
+      return;
+    }
+
+    bool succes = await authController.login(email, password);
     if (!mounted) return;
-    final savedEmail = check.getString("user_email");
-    final savedPassword = check.getString("user_password");
-
-    if (_emailController.text.trim() == savedEmail &&
-        _passwordController.text.trim() == savedPassword) {
-      await check.setBool("isLoggedIn", true);
-      if (!mounted) return;
-
-      //update authcontroller
-      final auth = Get.find<AuthController>();
-      auth.isLoggedIn.value = true;
-
-      final navigate = Get.find<NavController>();
-      navigate.selectedIndex.value = 0;
-      if (!mounted) return;
-      Get.offAll(() => Mainpage());
-    } else {
-      if (!mounted) return;
+    if (!succes) {
       ScaffoldMessenger.of(
         context,
-      ).showSnackBar(SnackBar(content: Text("Email or password is not match")));
+      ).showSnackBar(SnackBar(content: Text("Invalid email or password")));
     }
   }
 

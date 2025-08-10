@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/services/order_controller.dart';
+
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/screen/auth/signup.dart';
@@ -66,9 +68,24 @@ class _AccountState extends State<Account> {
   Future<void> logOut() async {
     final check = await SharedPreferences.getInstance();
     await check.setBool("isLoggedIn", false);
+    final orderController = Get.find<OrderController>();
+    String email = orderController.userEmail.value;
+    if (email.isNotEmpty) {
+      await check.remove("order_${email}_selectedCars");
+      await check.remove("order_${email}_pickedDate");
+      await check.remove("order_${email}_returnDate");
+      await check.remove("order_${email}_totalPrice");
+    }
+
+    // Reset state controller
+    orderController.userEmail.value = '';
+    orderController.clearCars();
+
+    // Reset login state di aplikasi
     isLoggedIn = false;
     username = "";
     useremail = "";
+
     await Future.delayed(Duration(milliseconds: 300));
     Get.offAll(() => Splash());
   }

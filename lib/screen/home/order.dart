@@ -1,6 +1,6 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
-import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -13,86 +13,77 @@ class Order extends StatefulWidget {
 }
 
 class _OrderState extends State<Order> {
-  final orderController = Get.find<OrderController>();
+  final OrderController orderController = Get.find<OrderController>();
+
   final TextEditingController _pickedController = TextEditingController();
   final TextEditingController _returnController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    updateDateText();
 
-    // Ambil tanggal mulai yang sudah disimpan di controller,
-    if (orderController.pickedDate.value != null) {
-      _pickedController.text = "${orderController.pickedDate.value!.toLocal()}"
-          .split(' ')[0];
-    }
-    // Ambil tanggal kembali yang sudah disimpan di controller,
-    if (orderController.returnDate.value != null) {
-      _returnController.text = "${orderController.returnDate.value!.toLocal()}"
-          .split(' ')[0];
-    }
-
-    // Pasang listener menggunakan GetX "ever" untuk observasi setiap perubahan pickedDate.
-    // Setiap kali pickedDate berubah, kita update text controller supaya UI ikut update.
-
-    //untuk tanggal mulai
-    ever(orderController.pickedDate, (DateTime? date) {
-      if (date != null) {
-        _pickedController.text = "${date.toLocal()}".split(' ')[0];
-      } else {
-        _pickedController.text = "";
-      }
+    // Listener supaya textfield update saat tanggal berubah di controller
+    ever(orderController.pickedDate, (_) {
+      if (mounted) updateDateText();
     });
-    //untuk tanggal kembali
-    ever(orderController.returnDate, (DateTime? date) {
-      if (date != null) {
-        _returnController.text = "${date.toLocal()}".split(' ')[0];
-      } else {
-        _returnController.text = "";
-      }
+    ever(orderController.returnDate, (_) {
+      if (mounted) updateDateText();
     });
   }
 
-  //Menampilkan data picker
-  void showPickedDate() async {
-    final now = DateTime.now();
+  void updateDateText() {
+    if (orderController.pickedDate.value != null) {
+      _pickedController.text = orderController.pickedDate.value!
+          .toLocal()
+          .toString()
+          .split(' ')[0];
+    } else {
+      _pickedController.text = '';
+    }
 
-    //batas minimal hari ini dan maksimal tahun 2050
+    if (orderController.returnDate.value != null) {
+      _returnController.text = orderController.returnDate.value!
+          .toLocal()
+          .toString()
+          .split(' ')[0];
+    } else {
+      _returnController.text = '';
+    }
+  }
+
+  Future<void> showPickedDate() async {
+    DateTime initial = orderController.pickedDate.value ?? DateTime.now();
     final picked = await showDatePicker(
       context: context,
-      // default tanggal saat ini atau tanggal yang sudah dipilih
-      initialDate: orderController.pickedDate.value ?? now,
-      firstDate: now, // tidak bisa memilih tanggal sebelum hari ini
-      lastDate: DateTime(2050),
+      initialDate: initial,
+      firstDate: DateTime.now(),
+      lastDate: DateTime.now().add(Duration(days: 365)),
     );
     if (picked != null) {
-      // Update tanggal mulai di controller agar reactive system berjalan dan UI update otomatis
       orderController.setPickedDate(picked);
     }
   }
 
-  void showReturnDate() async {
-    if (orderController.pickedDate.value == null) {
-      // Jika tanggal mulai belum dipilih, jangan izinkan pilih tanggal kembali
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Please select picked date first")),
-      );
-      return;
-    }
+  Future<void> showReturnDate() async {
+    DateTime initial =
+        orderController.returnDate.value ??
+        (orderController.pickedDate.value != null
+            ? orderController.pickedDate.value!.add(Duration(days: 1))
+            : DateTime.now().add(Duration(days: 1)));
 
-    // Panggil showDatePicker dengan batasan minimal tanggal kembali adalah satu hari setelah tanggal mulai,
-    // supaya tanggal kembali tidak lebih awal dari tanggal mulai
-    final timeAllowed = await showDatePicker(
+    DateTime firstDate = orderController.pickedDate.value != null
+        ? orderController.pickedDate.value!.add(Duration(days: 1))
+        : DateTime.now();
+
+    final picked = await showDatePicker(
       context: context,
-      initialDate:
-          orderController.returnDate.value ??
-          orderController.pickedDate.value!.add(Duration(days: 1)),
-      firstDate: orderController.pickedDate.value!.add(Duration(days: 1)),
-      lastDate: DateTime(2050),
+      initialDate: initial,
+      firstDate: firstDate,
+      lastDate: DateTime.now().add(Duration(days: 365)),
     );
-    // Jika user memilih tanggal kembali, update di controller
-    if (timeAllowed != null) {
-      orderController.setReturnDate(timeAllowed);
+    if (picked != null) {
+      orderController.setReturnDate(picked);
     }
   }
 
@@ -147,7 +138,6 @@ class _OrderState extends State<Order> {
                   ),
                 ),
                 SizedBox(height: 30),
-
                 Expanded(
                   child: Obx(() {
                     final listCar = orderController.selectedCars;
@@ -271,7 +261,6 @@ class _OrderState extends State<Order> {
                     );
                   }),
                 ),
-
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
@@ -325,7 +314,9 @@ class _OrderState extends State<Order> {
                                   textColor: onInverseSurfaceColor(context),
                                   fontSize: 14,
                                 );
-                              } else {}
+                              } else {
+                                // Implement checkout logic here
+                              }
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -374,7 +365,7 @@ class NoGlowScrollBehavior extends ScrollBehavior {
     Widget child,
     ScrollableDetails details,
   ) {
-    return child; // tidak munculkan efek glow
+    return child; // hilangkan glow overscroll
   }
 }
 
@@ -390,7 +381,7 @@ class BoxForm extends StatelessWidget {
     this.controller,
     this.onTap,
     required this.readOnly,
-  }); // => untuk membuka datapicker/timepicker
+  });
 
   @override
   Widget build(BuildContext context) {

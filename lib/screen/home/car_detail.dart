@@ -1,8 +1,8 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/model/car_model.dart';
-import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -168,13 +168,6 @@ class CarDetail extends StatelessWidget {
                               onTap: () {
                                 final nav = Get.find<NavController>();
                                 final order = Get.find<OrderController>();
-                                if (!Get.find<AuthController>()
-                                    .isLoggedIn
-                                    .value) {
-                                  Get.to(() => Login());
-                                  return;
-                                }
-
                                 order.addCar(cars);
                                 nav.selectedIndex.value = 2;
                                 Get.back();
