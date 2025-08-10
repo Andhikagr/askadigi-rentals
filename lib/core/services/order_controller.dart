@@ -32,18 +32,18 @@ class OrderController extends GetxController {
     List<String> carsJsonList = selectedCars
         .map((car) => jsonEncode(car.toJson()))
         .toList();
-    await prefs.setStringList(prefix + "selectedCars", carsJsonList);
+    await prefs.setStringList("${prefix}selectedCars", carsJsonList);
 
     await prefs.setString(
-      prefix + "pickedDate",
+      "${prefix}pickedDate",
       pickedDate.value?.toIso8601String() ?? "",
     );
     await prefs.setString(
-      prefix + "returnDate",
+      "${prefix}returnDate",
       returnDate.value?.toIso8601String() ?? "",
     );
 
-    await prefs.setInt(prefix + "totalPrice", totalPrice.value);
+    await prefs.setInt("${prefix}totalPrice", totalPrice.value);
   }
 
   Future<void> loadOrderData() async {
@@ -52,22 +52,22 @@ class OrderController extends GetxController {
 
     String prefix = "order_${userEmail.value}_";
 
-    final carsJsonList = prefs.getStringList(prefix + "selectedCars") ?? [];
+    final carsJsonList = prefs.getStringList("${prefix}selectedCars") ?? [];
     selectedCars.value = carsJsonList
         .map((carJson) => CarModel.fromJson(jsonDecode(carJson)))
         .toList();
 
-    final pickedDateStr = prefs.getString(prefix + "pickedDate") ?? "";
+    final pickedDateStr = prefs.getString("${prefix}pickedDate") ?? "";
     pickedDate.value = pickedDateStr.isNotEmpty
         ? DateTime.parse(pickedDateStr)
         : null;
 
-    final returnDateStr = prefs.getString(prefix + "returnDate") ?? "";
+    final returnDateStr = prefs.getString("${prefix}returnDate") ?? "";
     returnDate.value = returnDateStr.isNotEmpty
         ? DateTime.parse(returnDateStr)
         : null;
 
-    totalPrice.value = prefs.getInt(prefix + "totalPrice") ?? 0;
+    totalPrice.value = prefs.getInt("${prefix}totalPrice") ?? 0;
   }
 
   // Total harga sewa, disimpan sebagai observable integer agar UI dapat update otomatis
@@ -78,12 +78,14 @@ class OrderController extends GetxController {
     if (!selectedCars.contains(itemCar)) {
       selectedCars.add(itemCar);
       updateTotalPrice();
+      saveOrderData();
     }
   }
 
   void removeCars(CarModel itemCar) {
     selectedCars.remove(itemCar);
     updateTotalPrice();
+    saveOrderData();
   }
 
   void clearCars() {
@@ -106,12 +108,14 @@ class OrderController extends GetxController {
       returnDate.value = null;
     }
     updateTotalPrice();
+    saveOrderData();
   }
 
   //Menyimpan tanggal kembali
   void setReturnDate(DateTime date) {
     returnDate.value = date;
     updateTotalPrice();
+    saveOrderData();
   }
 
   // Jika tanggal mulai atau tanggal kembali belum diisi, total harga 0

@@ -18,6 +18,9 @@ class _OrderState extends State<Order> {
   final TextEditingController _pickedController = TextEditingController();
   final TextEditingController _returnController = TextEditingController();
 
+  final List<String> driver = ["Without Driver", "With Driver"];
+  String? selectedDriver;
+
   @override
   void initState() {
     super.initState();
@@ -97,6 +100,7 @@ class _OrderState extends State<Order> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         foregroundColor: onInverseSurfaceColor(context),
@@ -117,149 +121,282 @@ class _OrderState extends State<Order> {
             behavior: NoGlowScrollBehavior(),
             child: Column(
               children: [
-                SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: BoxForm(
-                    label: "Picked Date",
-                    readOnly: true,
-                    onTap: showPickedDate,
-                    controller: _pickedController,
-                  ),
-                ),
-                SizedBox(height: 20),
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 20),
-                  child: BoxForm(
-                    label: "Return Date",
-                    readOnly: true,
-                    onTap: showReturnDate,
-                    controller: _returnController,
-                  ),
-                ),
-                SizedBox(height: 30),
                 Expanded(
-                  child: Obx(() {
-                    final listCar = orderController.selectedCars;
-                    if (listCar.isEmpty) {
-                      return Center(child: Text("No car selected."));
-                    }
-                    return ListView.builder(
-                      itemCount: listCar.length,
-                      itemBuilder: (context, index) {
-                        final cars = listCar[index];
-                        return Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: Container(
-                              height: 100,
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: outlineVariantColor(context),
-                                ),
-                                color: Colors.white.withValues(alpha: 0.5),
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                              child: Center(
-                                child: Container(
-                                  margin: EdgeInsets.all(5),
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      Expanded(
-                                        child: SizedBox(
-                                          child: Image.network(
-                                            cars.image,
-                                            fit: BoxFit.contain,
-                                          ),
-                                        ),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        Obx(() {
+                          final listCar = orderController.selectedCars;
+                          if (listCar.isEmpty) {
+                            return Center(child: Text("No car selected."));
+                          }
+                          return ListView.builder(
+                            physics: NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            itemCount: listCar.length,
+                            itemBuilder: (context, index) {
+                              final cars = listCar[index];
+                              return Padding(
+                                padding: EdgeInsets.symmetric(vertical: 10),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child: Container(
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(
+                                        color: outlineVariantColor(context),
                                       ),
-                                      SizedBox(width: 10),
-                                      Expanded(
-                                        flex: 2,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
+                                      color: Colors.white.withValues(
+                                        alpha: 0.5,
+                                      ),
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: Center(
+                                      child: Container(
+                                        margin: EdgeInsets.all(5),
+                                        child: Row(
                                           mainAxisAlignment:
-                                              MainAxisAlignment.center,
+                                              MainAxisAlignment.spaceAround,
                                           children: [
-                                            Text("${cars.brand} ${cars.model}"),
-                                            Text(
-                                              "${cars.transmission} / ${cars.fuelType}",
-                                              style: TextStyle(
-                                                color: outlineColor(context),
-                                                fontSize: 12,
+                                            Expanded(
+                                              child: SizedBox(
+                                                child: Image.network(
+                                                  cars.image,
+                                                  fit: BoxFit.contain,
+                                                ),
                                               ),
                                             ),
-                                            Text(
-                                              "Seats: ${cars.seats}",
-                                              style: TextStyle(
-                                                color: outlineColor(context),
-                                                fontSize: 12,
+                                            SizedBox(width: 10),
+                                            Expanded(
+                                              flex: 2,
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Text(
+                                                    "${cars.brand} ${cars.model}",
+                                                  ),
+                                                  Text(
+                                                    "${cars.transmission} / ${cars.fuelType}",
+                                                    style: TextStyle(
+                                                      color: outlineColor(
+                                                        context,
+                                                      ),
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "Seats: ${cars.seats}",
+                                                    style: TextStyle(
+                                                      color: outlineColor(
+                                                        context,
+                                                      ),
+                                                      fontSize: 12,
+                                                    ),
+                                                  ),
+                                                  Text(
+                                                    "${formatRp(int.tryParse(cars.pricePerDay) ?? 0)} /day",
+                                                    style: TextStyle(
+                                                      color: const Color(
+                                                        0xFFFF1908,
+                                                      ),
+                                                      fontSize: 14,
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
                                             ),
-                                            Text(
-                                              "${formatRp(int.tryParse(cars.pricePerDay) ?? 0)} /day",
-                                              style: TextStyle(
-                                                color: const Color(0xFFFF1908),
-                                                fontSize: 14,
-                                                fontWeight: FontWeight.bold,
+                                            SizedBox(width: 5),
+                                            Expanded(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  orderController.removeCars(
+                                                    cars,
+                                                  );
+                                                },
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(10),
+                                                  child: Container(
+                                                    width: 70,
+                                                    height: 35,
+                                                    decoration: BoxDecoration(
+                                                      color: const Color(
+                                                        0xFFFF1908,
+                                                      ),
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                            10,
+                                                          ),
+                                                      boxShadow: [
+                                                        BoxShadow(
+                                                          color: Colors.black
+                                                              .withValues(
+                                                                alpha: 0.5,
+                                                              ),
+                                                          offset: Offset(1, 1),
+                                                          blurRadius: 1,
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    child: Center(
+                                                      child: Text(
+                                                        "delete",
+                                                        style: TextStyle(
+                                                          color:
+                                                              onInverseSurfaceColor(
+                                                                context,
+                                                              ),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
                                               ),
                                             ),
                                           ],
                                         ),
                                       ),
-                                      SizedBox(width: 5),
-                                      Expanded(
-                                        child: GestureDetector(
-                                          onTap: () {
-                                            orderController.removeCars(cars);
-                                          },
-                                          child: Padding(
-                                            padding: EdgeInsets.all(10),
-                                            child: Container(
-                                              width: 70,
-                                              height: 35,
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFFFF1908),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.black
-                                                        .withValues(alpha: 0.5),
-                                                    offset: Offset(1, 1),
-                                                    blurRadius: 1,
-                                                  ),
-                                                ],
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  "delete",
-                                                  style: TextStyle(
-                                                    color:
-                                                        onInverseSurfaceColor(
-                                                          context,
-                                                        ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: BoxForm(
+                            label: "Picked Date",
+                            iconsPick: Icons.calendar_month,
+                            readOnly: true,
+                            onTap: showPickedDate,
+                            controller: _pickedController,
+                          ),
+                        ),
+                        SizedBox(height: 13),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: BoxForm(
+                            label: "Return Date",
+                            iconsPick: Icons.calendar_month,
+                            readOnly: true,
+                            onTap: showReturnDate,
+                            controller: _returnController,
+                          ),
+                        ),
+                        SizedBox(height: 13),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Container(
+                            height: 54,
+                            width: 400,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: outlineVariantColor(context),
+                              ),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: DropdownButtonHideUnderline(
+                                child: DropdownButton<String>(
+                                  value: selectedDriver,
+                                  isExpanded: true,
+                                  hint: Text("Select Driver Option"),
+                                  items: driver.map((option) {
+                                    return DropdownMenuItem(
+                                      value: option,
+                                      child: Text(
+                                        option,
+                                        style: TextStyle(
+                                          color: outlineColor(context),
                                         ),
                                       ),
-                                    ],
-                                  ),
+                                    );
+                                  }).toList(),
+                                  onChanged: (value) {
+                                    setState(() {
+                                      selectedDriver = value;
+                                    });
+                                  },
                                 ),
                               ),
                             ),
                           ),
-                        );
-                      },
-                    );
-                  }),
+                        ),
+
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Text(
+                            "Whether the user wants to include a driver service. An additional fee of Rp. 200,000 applies, and all driver accommodations are the responsibility of the renter.",
+                            textAlign: TextAlign.justify,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: outlineColor(context),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              "Your Address",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: outlineColor(context),
+                              ),
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: BoxForm(
+                            label: "Village",
+                            iconsPick: Icons.holiday_village,
+                            readOnly: false,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: BoxForm(
+                            label: "Distric",
+                            iconsPick: Icons.location_city,
+                            readOnly: false,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: BoxForm(
+                            label: "Regency",
+                            iconsPick: Icons.apartment,
+                            readOnly: false,
+                          ),
+                        ),
+                        SizedBox(height: 10),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          child: BoxForm(
+                            label: "Province",
+                            iconsPick: Icons.flag,
+                            readOnly: false,
+                          ),
+                        ),
+
+                        SizedBox(height: 10),
+                      ],
+                    ),
+                  ),
                 ),
                 Container(
                   width: double.infinity,
@@ -307,16 +444,14 @@ class _OrderState extends State<Order> {
                             onTap: () {
                               if (orderController.selectedCars.isEmpty) {
                                 Fluttertoast.showToast(
-                                  msg: "You haven't selected any products",
+                                  msg: "You haven't selected any cars",
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.CENTER,
                                   backgroundColor: Colors.black87,
                                   textColor: onInverseSurfaceColor(context),
                                   fontSize: 14,
                                 );
-                              } else {
-                                // Implement checkout logic here
-                              }
+                              } else {}
                             },
                             child: Container(
                               decoration: BoxDecoration(
@@ -335,7 +470,7 @@ class _OrderState extends State<Order> {
                                 vertical: 12,
                               ),
                               child: Text(
-                                "Checkout",
+                                "Reservation",
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -374,6 +509,7 @@ class BoxForm extends StatelessWidget {
   final TextEditingController? controller;
   final VoidCallback? onTap;
   final bool readOnly;
+  final IconData iconsPick;
 
   const BoxForm({
     super.key,
@@ -381,6 +517,7 @@ class BoxForm extends StatelessWidget {
     this.controller,
     this.onTap,
     required this.readOnly,
+    required this.iconsPick,
   });
 
   @override
@@ -392,10 +529,7 @@ class BoxForm extends StatelessWidget {
       style: TextStyle(color: outlineColor(context)),
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
-        prefixIcon: Icon(
-          Icons.calendar_month,
-          color: outlineVariantColor(context),
-        ),
+        prefixIcon: Icon(iconsPick, color: outlineVariantColor(context)),
         contentPadding: EdgeInsets.all(15),
         labelText: label,
         labelStyle: TextStyle(color: outlineColor(context), fontSize: 14),
