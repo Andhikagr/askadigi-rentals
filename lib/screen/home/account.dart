@@ -91,13 +91,15 @@ class _AccountState extends State<Account> {
           "Profile Account",
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
+
         actions: [
-          IconButton(
-            icon: Image.asset("assets/image/power.png", width: 40),
-            onPressed: () {
-              logOut();
-            },
-          ),
+          if (isLoggedIn)
+            IconButton(
+              icon: Image.asset("assets/image/power.png", width: 40),
+              onPressed: () {
+                logOut();
+              },
+            ),
         ],
         toolbarHeight: 70,
         elevation: 2,
@@ -162,72 +164,79 @@ class _AccountState extends State<Account> {
                   ],
                 ),
                 SizedBox(height: 20),
-                Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => Get.to(
-                          () => Login(),
-                          transition: Transition.native,
-                          duration: Duration(milliseconds: 500),
-                        ),
-                        child: Container(
-                          height: 45,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              width: 1.5,
+                if (!isLoggedIn)
+                  Row(
+                    children: [
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => Get.to(
+                            () => Login(),
+                            transition: Transition.native,
+                            duration: Duration(milliseconds: 500),
+                          ),
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                width: 1.5,
+                                color: Color(0xFFFF1908),
+                              ),
+                              borderRadius: BorderRadius.circular(10),
                               color: Color(0xFFFF1908),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.5),
+                                  offset: Offset(1, 2),
+                                  blurRadius: 1,
+                                ),
+                              ],
                             ),
-                            borderRadius: BorderRadius.circular(10),
-                            color: Color(0xFFFF1908),
-                          ),
 
-                          child: Center(
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: onInverseSurfaceColor(context),
+                            child: Center(
+                              child: Text(
+                                "Login",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: onInverseSurfaceColor(context),
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(width: 20),
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () => Get.to(
-                          () => Signup(),
-                          transition: Transition.native,
-                          duration: Duration(milliseconds: 500),
-                        ),
-                        child: Container(
-                          height: 45,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            border: Border.all(
-                              color: const Color(0xFFFF1908),
-                              width: 1.5,
-                            ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: GestureDetector(
+                          onTap: () => Get.to(
+                            () => Signup(),
+                            transition: Transition.native,
+                            duration: Duration(milliseconds: 500),
                           ),
-
-                          child: Center(
-                            child: Text(
-                              "Daftar",
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: onSurfaceColor(context),
-                                fontWeight: FontWeight.bold,
+                          child: Container(
+                            height: 45,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: const Color(0xFFFF1908),
+                                width: 1.5,
+                              ),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Daftar",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: onSurfaceColor(context),
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
+                    ],
+                  ),
                 SizedBox(height: 40),
                 Divider(
                   color: outlineVariantColor(context), // warna garis

@@ -41,7 +41,7 @@ class _BoxTextState extends State<Textform> {
     return Center(
       child: Container(
         height: 60,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: TextFormField(
           controller: widget.controller,
           obscureText: obscure,

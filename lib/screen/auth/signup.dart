@@ -17,17 +17,20 @@ class Signup extends StatefulWidget {
 class _SignupState extends State<Signup> {
   final TextEditingController _namecontroller = TextEditingController();
   final TextEditingController _emailcontroller = TextEditingController();
+  final TextEditingController _phonecontroller = TextEditingController();
   final TextEditingController _passwordcontroller = TextEditingController();
   final TextEditingController _repeatcontroller = TextEditingController();
 
   void signUp() async {
     final name = _namecontroller.text.trim();
     final email = _emailcontroller.text.trim();
+    final phone = _phonecontroller.text.trim();
     final password = _passwordcontroller.text.trim();
     final repPassword = _repeatcontroller.text.trim();
 
     if (name.isEmpty ||
         email.isEmpty ||
+        phone.isEmpty ||
         password.isEmpty ||
         repPassword.isEmpty) {
       ScaffoldMessenger.of(
@@ -46,6 +49,7 @@ class _SignupState extends State<Signup> {
     if (!mounted) return;
     await check.setString("username", name);
     await check.setString("user_email", email);
+    await check.setString("phone_number", phone);
     await check.setString("user_password", password);
     await check.setBool("isLoggedIn", true);
 
@@ -60,6 +64,7 @@ class _SignupState extends State<Signup> {
     super.dispose();
     _namecontroller.dispose();
     _emailcontroller.dispose();
+    _phonecontroller.dispose();
     _passwordcontroller.dispose();
     _repeatcontroller.dispose();
   }
@@ -129,7 +134,9 @@ class _SignupState extends State<Signup> {
                                 Textform(
                                   label: "Phone Numbers",
                                   iconData: Icons.phone,
-                                  controller: _emailcontroller,
+                                  controller: _phonecontroller,
+                                  keyboardType:
+                                      TextInputType.numberWithOptions(),
                                 ),
                                 SizedBox(height: 20),
                                 Textform(

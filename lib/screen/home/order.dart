@@ -78,7 +78,10 @@ class _OrderState extends State<Order> {
       );
       return;
     }
-    final ret = await showDatePicker(
+
+    // Panggil showDatePicker dengan batasan minimal tanggal kembali adalah satu hari setelah tanggal mulai,
+    // supaya tanggal kembali tidak lebih awal dari tanggal mulai
+    final timeAllowed = await showDatePicker(
       context: context,
       initialDate:
           orderController.returnDate.value ??
@@ -86,8 +89,9 @@ class _OrderState extends State<Order> {
       firstDate: orderController.pickedDate.value!.add(Duration(days: 1)),
       lastDate: DateTime(2050),
     );
-    if (ret != null) {
-      orderController.setReturnDate(ret);
+    // Jika user memilih tanggal kembali, update di controller
+    if (timeAllowed != null) {
+      orderController.setReturnDate(timeAllowed);
     }
   }
 
@@ -102,6 +106,7 @@ class _OrderState extends State<Order> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         foregroundColor: onInverseSurfaceColor(context),
         title: Text(
           'Order Page',
@@ -118,116 +123,135 @@ class _OrderState extends State<Order> {
         child: SafeArea(
           child: ScrollConfiguration(
             behavior: NoGlowScrollBehavior(),
-            child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-              child: Column(
-                children: [
-                  SizedBox(height: 20),
-                  BoxForm(
+            child: Column(
+              children: [
+                SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: BoxForm(
                     label: "Picked Date",
                     readOnly: true,
                     onTap: showPickedDate,
                     controller: _pickedController,
                   ),
-                  SizedBox(height: 20),
-                  BoxForm(
+                ),
+                SizedBox(height: 20),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20),
+                  child: BoxForm(
                     label: "Return Date",
                     readOnly: true,
                     onTap: showReturnDate,
                     controller: _returnController,
                   ),
-                  SizedBox(height: 30),
-                  Expanded(
-                    child: Obx(() {
-                      final listCar = orderController.selectedCars;
-                      if (listCar.isEmpty) {
-                        return Center(child: Text("No car selected."));
-                      }
-                      return ListView.builder(
-                        itemCount: listCar.length,
-                        itemBuilder: (context, index) {
-                          final cars = listCar[index];
-                          return Container(
-                            height: 100,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: outlineVariantColor(context),
+                ),
+                SizedBox(height: 30),
+
+                Expanded(
+                  child: Obx(() {
+                    final listCar = orderController.selectedCars;
+                    if (listCar.isEmpty) {
+                      return Center(child: Text("No car selected."));
+                    }
+                    return ListView.builder(
+                      itemCount: listCar.length,
+                      itemBuilder: (context, index) {
+                        final cars = listCar[index];
+                        return Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: Container(
+                              height: 100,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: outlineVariantColor(context),
+                                ),
+                                color: Colors.white.withValues(alpha: 0.5),
+                                borderRadius: BorderRadius.circular(10),
                               ),
-                              color: Colors.white.withValues(alpha: 0.5),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(
-                              child: Container(
-                                margin: EdgeInsets.all(5),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceAround,
-                                  children: [
-                                    Expanded(
-                                      child: SizedBox(
-                                        child: Image.network(
-                                          cars.image,
-                                          fit: BoxFit.contain,
+                              child: Center(
+                                child: Container(
+                                  margin: EdgeInsets.all(5),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    children: [
+                                      Expanded(
+                                        child: SizedBox(
+                                          child: Image.network(
+                                            cars.image,
+                                            fit: BoxFit.contain,
+                                          ),
                                         ),
                                       ),
-                                    ),
-                                    SizedBox(width: 10),
-                                    Expanded(
-                                      flex: 2,
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text("${cars.brand} ${cars.model}"),
-                                          Text(
-                                            "${cars.transmission} / ${cars.fuelType}",
-                                            style: TextStyle(
-                                              color: outlineColor(context),
-                                              fontSize: 12,
+                                      SizedBox(width: 10),
+                                      Expanded(
+                                        flex: 2,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text("${cars.brand} ${cars.model}"),
+                                            Text(
+                                              "${cars.transmission} / ${cars.fuelType}",
+                                              style: TextStyle(
+                                                color: outlineColor(context),
+                                                fontSize: 12,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            "Seats: ${cars.seats}",
-                                            style: TextStyle(
-                                              color: outlineColor(context),
-                                              fontSize: 12,
+                                            Text(
+                                              "Seats: ${cars.seats}",
+                                              style: TextStyle(
+                                                color: outlineColor(context),
+                                                fontSize: 12,
+                                              ),
                                             ),
-                                          ),
-                                          Text(
-                                            "${formatRp(int.tryParse(cars.pricePerDay) ?? 0)} /day",
-                                            style: TextStyle(
-                                              color: const Color(0xFFFF1908),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.bold,
+                                            Text(
+                                              "${formatRp(int.tryParse(cars.pricePerDay) ?? 0)} /day",
+                                              style: TextStyle(
+                                                color: const Color(0xFFFF1908),
+                                                fontSize: 14,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                          ),
-                                        ],
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Expanded(
-                                      child: GestureDetector(
-                                        onTap: () {
-                                          orderController.removeCars(cars);
-                                        },
-                                        child: Padding(
-                                          padding: EdgeInsets.all(10),
-                                          child: Container(
-                                            width: 70,
-                                            height: 35,
-                                            decoration: BoxDecoration(
-                                              color: const Color(0xFFFF1908),
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                "delete",
-                                                style: TextStyle(
-                                                  color: onInverseSurfaceColor(
-                                                    context,
+                                      SizedBox(width: 5),
+                                      Expanded(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            orderController.removeCars(cars);
+                                          },
+                                          child: Padding(
+                                            padding: EdgeInsets.all(10),
+                                            child: Container(
+                                              width: 70,
+                                              height: 35,
+                                              decoration: BoxDecoration(
+                                                color: const Color(0xFFFF1908),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.black
+                                                        .withValues(alpha: 0.5),
+                                                    offset: Offset(1, 1),
+                                                    blurRadius: 1,
+                                                  ),
+                                                ],
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  "delete",
+                                                  style: TextStyle(
+                                                    color:
+                                                        onInverseSurfaceColor(
+                                                          context,
+                                                        ),
                                                   ),
                                                 ),
                                               ),
@@ -235,84 +259,91 @@ class _OrderState extends State<Order> {
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
                             ),
-                          );
-                        },
-                      );
-                    }),
-                  ),
+                          ),
+                        );
+                      },
+                    );
+                  }),
+                ),
 
-                  Container(
-                    width: double.infinity,
-                    padding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      boxShadow: [
-                        BoxShadow(
-                          blurRadius: 4,
-                          color: Colors.grey.shade200,
-                          offset: Offset(0, -2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 12),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Total Price",
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 4,
+                        color: Colors.grey.shade200,
+                        offset: Offset(0, -2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 12),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Total Price",
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Obx(
+                                () => Text(
+                                  formatRp(orderController.totalPrice.value),
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.bold,
+                                    color: const Color(0xFFFF1908),
                                   ),
                                 ),
-                                Obx(
-                                  () => Text(
-                                    formatRp(orderController.totalPrice.value),
-                                    style: TextStyle(
-                                      fontSize: 18,
-                                      fontWeight: FontWeight.bold,
-                                      color: const Color(0xFFFF1908),
-                                    ),
-                                  ),
+                              ),
+                            ],
+                          ),
+                          Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              color: const Color(0xFFFF1908),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.5),
+                                  offset: Offset(1, 2),
+                                  blurRadius: 1,
                                 ),
                               ],
                             ),
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(15),
-                                color: const Color(0xFFFF1908),
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 12,
-                              ),
-                              child: Text(
-                                "Checkout",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: onInverseSurfaceColor(context),
-                                ),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            child: Text(
+                              "Checkout",
+                              style: TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                color: onInverseSurfaceColor(context),
                               ),
                             ),
-                          ],
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
@@ -359,19 +390,18 @@ class BoxForm extends StatelessWidget {
           Icons.calendar_month,
           color: outlineVariantColor(context),
         ),
-
         contentPadding: EdgeInsets.all(15),
         labelText: label,
         labelStyle: TextStyle(color: outlineColor(context), fontSize: 14),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(
             color: outlineVariantColor(context),
             width: 1.5,
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(
             color: outlineVariantColor(context),
             width: 1.5,

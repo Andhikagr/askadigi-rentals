@@ -170,12 +170,21 @@ class CarDetail extends StatelessWidget {
 
                                 order.addCar(cars);
                                 nav.selectedIndex.value = 2;
-                                Get.back();
+                                Get.off(() => Mainpage());
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(15),
+                                  borderRadius: BorderRadius.circular(10),
                                   color: const Color(0xFFFF1908),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(
+                                        alpha: 0.5,
+                                      ),
+                                      offset: Offset(1, 2),
+                                      blurRadius: 1,
+                                    ),
+                                  ],
                                 ),
                                 padding: EdgeInsets.symmetric(
                                   horizontal: 20,

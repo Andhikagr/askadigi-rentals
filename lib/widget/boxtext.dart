@@ -12,7 +12,7 @@ class BoxText extends StatelessWidget {
     return Center(
       child: Container(
         height: 60,
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30)),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: TextFormField(
           enableSuggestions: false,
           decoration: InputDecoration(
@@ -27,11 +27,11 @@ class BoxText extends StatelessWidget {
             filled: true,
             fillColor: onInverseSurfaceColor(context),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.circular(10),
               borderSide: BorderSide.none,
             ),
           ),

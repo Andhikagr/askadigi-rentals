@@ -23,7 +23,7 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    Future<bool> login() async {
+    Future<void> login() async {
       final check = await SharedPreferences.getInstance();
 
       final savedEmail = check.getString("user_email");
@@ -37,8 +37,11 @@ class _LoginState extends State<Login> {
         navigate.selectedIndex.value = 0;
 
         Get.offAll(() => Mainpage());
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text("Email or password is not match")),
+        );
       }
-      return true;
     }
 
     return Scaffold(

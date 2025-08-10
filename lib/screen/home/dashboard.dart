@@ -125,7 +125,7 @@ class _DashboardState extends State<Dashboard> {
                                     color: onInverseSurfaceColor(context),
                                     width: 1.5,
                                   ),
-                                  borderRadius: BorderRadius.circular(30),
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Center(
                                   child: Image.asset(
