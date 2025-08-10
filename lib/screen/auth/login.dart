@@ -32,6 +32,10 @@ class _LoginState extends State<Login> {
       await check.setBool("isLoggedIn", true);
       if (!mounted) return;
 
+      //update authcontroller
+      final auth = Get.find<AuthController>();
+      auth.isLoggedIn.value = true;
+
       final navigate = Get.find<NavController>();
       navigate.selectedIndex.value = 0;
       if (!mounted) return;

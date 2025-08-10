@@ -12,6 +12,10 @@ class Mainpage extends StatelessWidget {
     OrderController(),
     permanent: true,
   );
+  final AuthController authController = Get.put(
+    AuthController(),
+    permanent: true,
+  );
 
   Mainpage({super.key});
 
@@ -164,5 +168,17 @@ class OrderController extends GetxController {
       sum += price * days;
     }
     totalPrice.value = sum;
+  }
+}
+
+class AuthController extends GetxController {
+  var isLoggedIn = false.obs;
+
+  void login(String email, String password) {
+    isLoggedIn.value = true;
+  }
+
+  void logout() {
+    isLoggedIn.value = false;
   }
 }

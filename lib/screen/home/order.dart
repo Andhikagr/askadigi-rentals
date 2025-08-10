@@ -2,6 +2,7 @@ import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class Order extends StatefulWidget {
@@ -313,28 +314,42 @@ class _OrderState extends State<Order> {
                               ),
                             ],
                           ),
-                          Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: const Color(0xFFFF1908),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.5),
-                                  offset: Offset(1, 2),
-                                  blurRadius: 1,
+                          GestureDetector(
+                            onTap: () {
+                              if (orderController.selectedCars.isEmpty) {
+                                Fluttertoast.showToast(
+                                  msg: "You haven't selected any products",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  backgroundColor: Colors.black87,
+                                  textColor: onInverseSurfaceColor(context),
+                                  fontSize: 14,
+                                );
+                              } else {}
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: const Color(0xFFFF1908),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.5),
+                                    offset: Offset(1, 2),
+                                    blurRadius: 1,
+                                  ),
+                                ],
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
+                              child: Text(
+                                "Checkout",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: onInverseSurfaceColor(context),
                                 ),
-                              ],
-                            ),
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 20,
-                              vertical: 12,
-                            ),
-                            child: Text(
-                              "Checkout",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: onInverseSurfaceColor(context),
                               ),
                             ),
                           ),
