@@ -16,88 +16,86 @@ class _OrderState extends State<Order> {
   final TextEditingController _pickedController = TextEditingController();
   final TextEditingController _returnController = TextEditingController();
 
-  DateTime? _pickedDate;
-  DateTime? _returnDate;
-
-  void showPickedDate() async {
-    final DateTime now = DateTime.now();
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      firstDate: now,
-      lastDate: DateTime(2050),
-      initialDate: _pickedDate ?? now,
-    );
-    if (pickedDate != null) {
-      setState(() {
-        _pickedDate = pickedDate;
-        _pickedController.text = "${pickedDate.toLocal()}".split(" ")[0];
-        if (_returnDate != null &&
-            (_returnDate!.isBefore(_pickedDate!) ||
-                _returnDate!.isAtSameMomentAs(_pickedDate!))) {
-          _returnDate = null;
-          _returnController.text = "";
-        }
-      });
-    }
-    updateTotalPrice();
-  }
-
-  void showReturnDate() async {
-    if (_pickedDate == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Please select date first")));
-      return;
-    }
-
-    final DateTime? returnDate = await showDatePicker(
-      context: context,
-      firstDate: _pickedDate!.add(Duration(days: 1)),
-      lastDate: DateTime(2050),
-      initialDate: _returnDate ?? _pickedDate!.add(Duration(days: 1)),
-    );
-    if (returnDate != null) {
-      setState(() {
-        _returnDate = returnDate;
-        _returnController.text = "${returnDate.toLocal()}".split(" ")[0];
-      });
-    }
-    updateTotalPrice();
-  }
-
-  int getRentDays() {
-    if (_pickedDate == null || _returnDate == null) return 0;
-    return _returnDate!.difference(_pickedDate!).inDays;
-  }
-
-  int getTotalPrice() {
-    final days = getRentDays();
-    if (days == 0) return 0;
-
-    int total = 0;
-    for (var car in orderController.selectedCars) {
-      int price = int.tryParse(car.pricePerDay) ?? 0;
-      total += price * days;
-    }
-    return total;
-  }
-
-  final RxInt totalPrice = 0.obs;
-  void updateTotalPrice() {
-    totalPrice.value = getTotalPrice();
-  }
-
   @override
   void initState() {
     super.initState();
-    ever(orderController.selectedCars, (_) => updateTotalPrice());
+
+    // Ambil tanggal mulai yang sudah disimpan di controller,
+    if (orderController.pickedDate.value != null) {
+      _pickedController.text = "${orderController.pickedDate.value!.toLocal()}"
+          .split(' ')[0];
+    }
+    // Ambil tanggal kembali yang sudah disimpan di controller,
+    if (orderController.returnDate.value != null) {
+      _returnController.text = "${orderController.returnDate.value!.toLocal()}"
+          .split(' ')[0];
+    }
+
+    // Pasang listener menggunakan GetX "ever" untuk observasi setiap perubahan pickedDate.
+    // Setiap kali pickedDate berubah, kita update text controller supaya UI ikut update.
+
+    //untuk tanggal mulai
+    ever(orderController.pickedDate, (DateTime? date) {
+      if (date != null) {
+        _pickedController.text = "${date.toLocal()}".split(' ')[0];
+      } else {
+        _pickedController.text = "";
+      }
+    });
+    //untuk tanggal kembali
+    ever(orderController.returnDate, (DateTime? date) {
+      if (date != null) {
+        _returnController.text = "${date.toLocal()}".split(' ')[0];
+      } else {
+        _returnController.text = "";
+      }
+    });
+  }
+
+  //Menampilkan data picker
+  void showPickedDate() async {
+    final now = DateTime.now();
+
+    //batas minimal hari ini dan maksimal tahun 2050
+    final picked = await showDatePicker(
+      context: context,
+      // default tanggal saat ini atau tanggal yang sudah dipilih
+      initialDate: orderController.pickedDate.value ?? now,
+      firstDate: now, // tidak bisa memilih tanggal sebelum hari ini
+      lastDate: DateTime(2050),
+    );
+    if (picked != null) {
+      // Update tanggal mulai di controller agar reactive system berjalan dan UI update otomatis
+      orderController.setPickedDate(picked);
+    }
+  }
+
+  void showReturnDate() async {
+    if (orderController.pickedDate.value == null) {
+      // Jika tanggal mulai belum dipilih, jangan izinkan pilih tanggal kembali
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Please select picked date first")),
+      );
+      return;
+    }
+    final ret = await showDatePicker(
+      context: context,
+      initialDate:
+          orderController.returnDate.value ??
+          orderController.pickedDate.value!.add(Duration(days: 1)),
+      firstDate: orderController.pickedDate.value!.add(Duration(days: 1)),
+      lastDate: DateTime(2050),
+    );
+    if (ret != null) {
+      orderController.setReturnDate(ret);
+    }
   }
 
   @override
   void dispose() {
-    super.dispose();
     _pickedController.dispose();
     _returnController.dispose();
+    super.dispose();
   }
 
   @override
@@ -213,7 +211,6 @@ class _OrderState extends State<Order> {
                                       child: GestureDetector(
                                         onTap: () {
                                           orderController.removeCars(cars);
-                                          updateTotalPrice();
                                         },
                                         child: Padding(
                                           padding: EdgeInsets.all(10),
@@ -281,7 +278,7 @@ class _OrderState extends State<Order> {
                                 ),
                                 Obx(
                                   () => Text(
-                                    formatRp(totalPrice.value),
+                                    formatRp(orderController.totalPrice.value),
                                     style: TextStyle(
                                       fontSize: 18,
                                       fontWeight: FontWeight.bold,
