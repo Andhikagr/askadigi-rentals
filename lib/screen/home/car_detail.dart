@@ -170,7 +170,7 @@ class CarDetail extends StatelessWidget {
 
                                 order.addCar(cars);
                                 nav.selectedIndex.value = 2;
-                                Get.off(() => Mainpage());
+                                Get.back();
                               },
                               child: Container(
                                 decoration: BoxDecoration(

@@ -21,29 +21,31 @@ class _LoginState extends State<Login> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
+  Future<void> login() async {
+    final check = await SharedPreferences.getInstance();
+    if (!mounted) return;
+    final savedEmail = check.getString("user_email");
+    final savedPassword = check.getString("user_password");
+
+    if (_emailController.text.trim() == savedEmail &&
+        _passwordController.text.trim() == savedPassword) {
+      await check.setBool("isLoggedIn", true);
+      if (!mounted) return;
+
+      final navigate = Get.find<NavController>();
+      navigate.selectedIndex.value = 0;
+      if (!mounted) return;
+      Get.offAll(() => Mainpage());
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Email or password is not match")));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    Future<void> login() async {
-      final check = await SharedPreferences.getInstance();
-
-      final savedEmail = check.getString("user_email");
-      final savedPassword = check.getString("user_password");
-
-      if (_emailController.text.trim() == savedEmail &&
-          _passwordController.text.trim() == savedPassword) {
-        await check.setBool("isLoggedIn", true);
-
-        final navigate = Get.find<NavController>();
-        navigate.selectedIndex.value = 0;
-
-        Get.offAll(() => Mainpage());
-      } else {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text("Email or password is not match")),
-        );
-      }
-    }
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
