@@ -1,6 +1,7 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
+import 'package:car_rental/widget/boxform.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -56,7 +57,17 @@ class _OrderState extends State<Order> {
   }
 
   Future<void> showPickedDate() async {
-    DateTime initial = orderController.pickedDate.value ?? DateTime.now();
+    DateTime now = DateTime.now();
+    DateTime firstDate = now;
+    DateTime lasDate = now.add(Duration(days: 365));
+    DateTime initial = orderController.pickedDate.value ?? now;
+    if (initial.isBefore(firstDate)) {
+      initial = firstDate;
+      if (initial.isAfter(lasDate)) {
+        initial = lasDate;
+      }
+    }
+    // DateTime initial = orderController.pickedDate.value ?? DateTime.now();
     final picked = await showDatePicker(
       context: context,
       initialDate: initial,
@@ -100,7 +111,6 @@ class _OrderState extends State<Order> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         foregroundColor: onInverseSurfaceColor(context),
@@ -113,381 +123,459 @@ class _OrderState extends State<Order> {
         elevation: 2,
         shadowColor: scrimColor(context),
       ),
-      body: GestureDetector(
-        behavior: HitTestBehavior.translucent,
-        onTap: () => FocusScope.of(context).unfocus(),
-        child: SafeArea(
-          child: ScrollConfiguration(
-            behavior: NoGlowScrollBehavior(),
-            child: Column(
-              children: [
-                Expanded(
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        Obx(() {
-                          final listCar = orderController.selectedCars;
-                          if (listCar.isEmpty) {
-                            return Center(child: Text("No car selected."));
-                          }
-                          return ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: listCar.length,
-                            itemBuilder: (context, index) {
-                              final cars = listCar[index];
-                              return Padding(
-                                padding: EdgeInsets.symmetric(vertical: 10),
-                                child: Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 20),
-                                  child: Container(
-                                    height: 100,
-                                    decoration: BoxDecoration(
-                                      border: Border.all(
-                                        color: outlineVariantColor(context),
-                                      ),
-                                      color: Colors.white.withValues(
-                                        alpha: 0.5,
-                                      ),
-                                      borderRadius: BorderRadius.circular(10),
+      body: Stack(
+        children: [
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: SafeArea(
+              child: ScrollConfiguration(
+                behavior: NoGlowScrollBehavior(),
+                child: Column(
+                  children: [
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            SizedBox(height: 13),
+                            Obx(() {
+                              final listCar = orderController.selectedCars;
+                              if (listCar.isEmpty) {
+                                return Column(
+                                  children: [
+                                    Image.asset(
+                                      "assets/image/nocar.png",
+                                      fit: BoxFit.cover,
+                                      width: 80,
                                     ),
-                                    child: Center(
-                                      child: Container(
-                                        margin: EdgeInsets.all(5),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
-                                          children: [
-                                            Expanded(
-                                              child: SizedBox(
-                                                child: Image.network(
-                                                  cars.image,
-                                                  fit: BoxFit.contain,
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "No car selected.",
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: outlineColor(context),
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              } else {
+                                return Column(
+                                  children: [
+                                    ListView.builder(
+                                      physics: NeverScrollableScrollPhysics(),
+                                      shrinkWrap: true,
+                                      itemCount: listCar.length,
+                                      itemBuilder: (context, index) {
+                                        final cars = listCar[index];
+                                        return Padding(
+                                          padding: EdgeInsets.symmetric(
+                                            vertical: 10,
+                                          ),
+                                          child: Padding(
+                                            padding: EdgeInsets.symmetric(
+                                              horizontal: 20,
+                                            ),
+                                            child: Container(
+                                              height: 100,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(
+                                                  color: outlineVariantColor(
+                                                    context,
+                                                  ),
                                                 ),
+                                                color: Colors.white.withValues(
+                                                  alpha: 0.5,
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
                                               ),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Expanded(
-                                              flex: 2,
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  Text(
-                                                    "${cars.brand} ${cars.model}",
-                                                  ),
-                                                  Text(
-                                                    "${cars.transmission} / ${cars.fuelType}",
-                                                    style: TextStyle(
-                                                      color: outlineColor(
-                                                        context,
-                                                      ),
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Seats: ${cars.seats}",
-                                                    style: TextStyle(
-                                                      color: outlineColor(
-                                                        context,
-                                                      ),
-                                                      fontSize: 12,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "${formatRp(int.tryParse(cars.pricePerDay) ?? 0)} /day",
-                                                    style: TextStyle(
-                                                      color: const Color(
-                                                        0xFFFF1908,
-                                                      ),
-                                                      fontSize: 14,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            SizedBox(width: 5),
-                                            Expanded(
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  orderController.removeCars(
-                                                    cars,
-                                                  );
-                                                },
-                                                child: Padding(
-                                                  padding: EdgeInsets.all(10),
-                                                  child: Container(
-                                                    width: 70,
-                                                    height: 35,
-                                                    decoration: BoxDecoration(
-                                                      color: const Color(
-                                                        0xFFFF1908,
-                                                      ),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            10,
+                                              child: Center(
+                                                child: Container(
+                                                  margin: EdgeInsets.all(5),
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceAround,
+                                                    children: [
+                                                      Expanded(
+                                                        child: SizedBox(
+                                                          child: Image.network(
+                                                            cars.image,
+                                                            fit: BoxFit.contain,
                                                           ),
-                                                      boxShadow: [
-                                                        BoxShadow(
-                                                          color: Colors.black
-                                                              .withValues(
-                                                                alpha: 0.5,
-                                                              ),
-                                                          offset: Offset(1, 1),
-                                                          blurRadius: 1,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        "delete",
-                                                        style: TextStyle(
-                                                          color:
-                                                              onInverseSurfaceColor(
-                                                                context,
-                                                              ),
                                                         ),
                                                       ),
-                                                    ),
+                                                      SizedBox(width: 10),
+                                                      Expanded(
+                                                        flex: 2,
+                                                        child: Column(
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Text(
+                                                              "${cars.brand} ${cars.model}",
+                                                            ),
+                                                            Text(
+                                                              "${cars.transmission} / ${cars.fuelType}",
+                                                              style: TextStyle(
+                                                                color:
+                                                                    outlineColor(
+                                                                      context,
+                                                                    ),
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              "Seats: ${cars.seats}",
+                                                              style: TextStyle(
+                                                                color:
+                                                                    outlineColor(
+                                                                      context,
+                                                                    ),
+                                                                fontSize: 12,
+                                                              ),
+                                                            ),
+                                                            Text(
+                                                              "${formatRp(int.tryParse(cars.pricePerDay) ?? 0)} /day",
+                                                              style: TextStyle(
+                                                                color:
+                                                                    const Color(
+                                                                      0xFFFF1908,
+                                                                    ),
+                                                                fontSize: 14,
+                                                                fontWeight:
+                                                                    FontWeight
+                                                                        .bold,
+                                                              ),
+                                                            ),
+                                                          ],
+                                                        ),
+                                                      ),
+                                                      SizedBox(width: 5),
+                                                      Expanded(
+                                                        child: GestureDetector(
+                                                          onTap: () {
+                                                            orderController
+                                                                .removeCars(
+                                                                  cars,
+                                                                );
+                                                          },
+                                                          child: Padding(
+                                                            padding:
+                                                                EdgeInsets.all(
+                                                                  10,
+                                                                ),
+                                                            child: Container(
+                                                              width: 70,
+                                                              height: 35,
+                                                              decoration: BoxDecoration(
+                                                                color:
+                                                                    const Color(
+                                                                      0xFFFF1908,
+                                                                    ),
+                                                                borderRadius:
+                                                                    BorderRadius.circular(
+                                                                      10,
+                                                                    ),
+                                                                boxShadow: [
+                                                                  BoxShadow(
+                                                                    color: Colors
+                                                                        .black
+                                                                        .withValues(
+                                                                          alpha:
+                                                                              0.5,
+                                                                        ),
+                                                                    offset:
+                                                                        Offset(
+                                                                          1,
+                                                                          1,
+                                                                        ),
+                                                                    blurRadius:
+                                                                        1,
+                                                                  ),
+                                                                ],
+                                                              ),
+                                                              child: Center(
+                                                                child: Text(
+                                                                  "delete",
+                                                                  style: TextStyle(
+                                                                    color:
+                                                                        onInverseSurfaceColor(
+                                                                          context,
+                                                                        ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ],
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: BoxForm(
+                                        label: "Picked Date",
+                                        iconsPick: Icons.calendar_month,
+                                        readOnly: true,
+                                        onTap: showPickedDate,
+                                        controller: _pickedController,
+                                      ),
+                                    ),
+                                    SizedBox(height: 13),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: BoxForm(
+                                        label: "Return Date",
+                                        iconsPick: Icons.calendar_month,
+                                        readOnly: true,
+                                        onTap: showReturnDate,
+                                        controller: _returnController,
+                                      ),
+                                    ),
+                                    SizedBox(height: 13),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: Container(
+                                        height: 54,
+                                        width: 400,
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                            10,
+                                          ),
+                                          border: Border.all(
+                                            color: outlineVariantColor(context),
+                                          ),
                                         ),
+                                        child: Padding(
+                                          padding: EdgeInsets.all(10),
+                                          child: DropdownButtonHideUnderline(
+                                            child: DropdownButton<String>(
+                                              value: selectedDriver,
+                                              isExpanded: true,
+                                              hint: Text(
+                                                "Select Driver Option",
+                                              ),
+                                              items: driver.map((option) {
+                                                return DropdownMenuItem(
+                                                  value: option,
+                                                  child: Text(
+                                                    option,
+                                                    style: TextStyle(
+                                                      color: outlineColor(
+                                                        context,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              }).toList(),
+                                              onChanged: (value) {
+                                                setState(() {
+                                                  selectedDriver = value;
+                                                });
+                                              },
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: Text(
+                                        "Whether the user wants to include a driver service. An additional fee of Rp. 200,000 applies, and all driver accommodations are the responsibility of the renter.",
+                                        textAlign: TextAlign.justify,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: scrimColor(context),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.centerLeft,
+                                        child: Text(
+                                          "Please enter your address exactly as it appears on your ID card",
+                                          style: TextStyle(
+                                            fontSize: 12,
+                                            color: const Color(0xFFFF1908),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: BoxForm(
+                                        label: "Street Address",
+                                        iconsPick: Icons.house,
+                                        readOnly: false,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: BoxForm(
+                                        label: "Distric",
+                                        iconsPick: Icons.holiday_village,
+                                        readOnly: false,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: BoxForm(
+                                        label: "Regency",
+                                        iconsPick: Icons.streetview,
+                                        readOnly: false,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Padding(
+                                      padding: EdgeInsets.symmetric(
+                                        horizontal: 20,
+                                      ),
+                                      child: BoxForm(
+                                        label: "Province",
+                                        iconsPick: Icons.apartment,
+                                        readOnly: false,
+                                      ),
+                                    ),
+                                  ],
+                                );
+                              }
+                            }),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        boxShadow: [
+                          BoxShadow(
+                            blurRadius: 4,
+                            color: Colors.grey.shade200,
+                            offset: Offset(0, -2),
+                          ),
+                        ],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 12),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "Total Price",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  Obx(
+                                    () => Text(
+                                      formatRp(
+                                        orderController.totalPrice.value,
+                                      ),
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: const Color(0xFFFF1908),
                                       ),
                                     ),
                                   ),
-                                ),
-                              );
-                            },
-                          );
-                        }),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: BoxForm(
-                            label: "Picked Date",
-                            iconsPick: Icons.calendar_month,
-                            readOnly: true,
-                            onTap: showPickedDate,
-                            controller: _pickedController,
-                          ),
-                        ),
-                        SizedBox(height: 13),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: BoxForm(
-                            label: "Return Date",
-                            iconsPick: Icons.calendar_month,
-                            readOnly: true,
-                            onTap: showReturnDate,
-                            controller: _returnController,
-                          ),
-                        ),
-                        SizedBox(height: 13),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Container(
-                            height: 54,
-                            width: 400,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: outlineVariantColor(context),
+                                ],
                               ),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(10),
-                              child: DropdownButtonHideUnderline(
-                                child: DropdownButton<String>(
-                                  value: selectedDriver,
-                                  isExpanded: true,
-                                  hint: Text("Select Driver Option"),
-                                  items: driver.map((option) {
-                                    return DropdownMenuItem(
-                                      value: option,
-                                      child: Text(
-                                        option,
-                                        style: TextStyle(
-                                          color: outlineColor(context),
-                                        ),
-                                      ),
+                              GestureDetector(
+                                onTap: () {
+                                  if (orderController.selectedCars.isEmpty) {
+                                    Fluttertoast.showToast(
+                                      msg: "You haven't selected any cars",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      backgroundColor: Colors.black87,
+                                      textColor: onInverseSurfaceColor(context),
+                                      fontSize: 14,
                                     );
-                                  }).toList(),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      selectedDriver = value;
-                                    });
-                                  },
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Text(
-                            "Whether the user wants to include a driver service. An additional fee of Rp. 200,000 applies, and all driver accommodations are the responsibility of the renter.",
-                            textAlign: TextAlign.justify,
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: outlineColor(context),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text(
-                              "Your Address",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: outlineColor(context),
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: BoxForm(
-                            label: "Village",
-                            iconsPick: Icons.holiday_village,
-                            readOnly: false,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: BoxForm(
-                            label: "Distric",
-                            iconsPick: Icons.location_city,
-                            readOnly: false,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: BoxForm(
-                            label: "Regency",
-                            iconsPick: Icons.apartment,
-                            readOnly: false,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 20),
-                          child: BoxForm(
-                            label: "Province",
-                            iconsPick: Icons.flag,
-                            readOnly: false,
-                          ),
-                        ),
-
-                        SizedBox(height: 10),
-                      ],
-                    ),
-                  ),
-                ),
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.only(bottom: 10, left: 20, right: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 4,
-                        color: Colors.grey.shade200,
-                        offset: Offset(0, -2),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Total Price",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Obx(
-                                () => Text(
-                                  formatRp(orderController.totalPrice.value),
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
+                                  } else {}
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
                                     color: const Color(0xFFFF1908),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withValues(
+                                          alpha: 0.5,
+                                        ),
+                                        offset: Offset(1, 2),
+                                        blurRadius: 1,
+                                      ),
+                                    ],
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 12,
+                                  ),
+                                  child: Text(
+                                    "Reservation",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: onInverseSurfaceColor(context),
+                                    ),
                                   ),
                                 ),
                               ),
                             ],
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              if (orderController.selectedCars.isEmpty) {
-                                Fluttertoast.showToast(
-                                  msg: "You haven't selected any cars",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.CENTER,
-                                  backgroundColor: Colors.black87,
-                                  textColor: onInverseSurfaceColor(context),
-                                  fontSize: 14,
-                                );
-                              } else {}
-                            },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFFF1908),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.5),
-                                    offset: Offset(1, 2),
-                                    blurRadius: 1,
-                                  ),
-                                ],
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 12,
-                              ),
-                              child: Text(
-                                "Reservation",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: onInverseSurfaceColor(context),
-                                ),
-                              ),
-                            ),
-                          ),
                         ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -501,53 +589,5 @@ class NoGlowScrollBehavior extends ScrollBehavior {
     ScrollableDetails details,
   ) {
     return child; // hilangkan glow overscroll
-  }
-}
-
-class BoxForm extends StatelessWidget {
-  final String label;
-  final TextEditingController? controller;
-  final VoidCallback? onTap;
-  final bool readOnly;
-  final IconData iconsPick;
-
-  const BoxForm({
-    super.key,
-    required this.label,
-    this.controller,
-    this.onTap,
-    required this.readOnly,
-    required this.iconsPick,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      onTap: onTap,
-      readOnly: readOnly,
-      style: TextStyle(color: outlineColor(context)),
-      decoration: InputDecoration(
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        prefixIcon: Icon(iconsPick, color: outlineVariantColor(context)),
-        contentPadding: EdgeInsets.all(15),
-        labelText: label,
-        labelStyle: TextStyle(color: outlineColor(context), fontSize: 14),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            color: outlineVariantColor(context),
-            width: 1.5,
-          ),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(
-            color: outlineVariantColor(context),
-            width: 1.5,
-          ),
-        ),
-      ),
-    );
   }
 }

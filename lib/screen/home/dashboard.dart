@@ -43,18 +43,6 @@ class _DashboardState extends State<Dashboard> {
     super.initState();
     _cars = loadCarsFromJson();
     selectedBrand = "toyota";
-
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-    );
-  }
-
-  @override
-  void dispose() {
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.transparent),
-    );
-    super.dispose();
   }
 
   @override

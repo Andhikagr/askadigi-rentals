@@ -21,25 +21,74 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  Future<void> _pickImage() async {
-    if (!await Permission.camera.request().isGranted) {
-      return;
-    }
-    if (!await Permission.photos.request().isGranted &&
-        !await Permission.mediaLibrary.request().isGranted &&
-        !await Permission.storage.request().isGranted) {
-      return;
-    }
-    //setelah izin
-    final ImagePicker pickedFile = ImagePicker();
-    final XFile? pick = await pickedFile.pickImage(source: ImageSource.camera);
+  Future<void> _pickImage(GlobalKey key) async {
+    final RenderBox box = key.currentContext!.findRenderObject() as RenderBox;
+    final Offset position = box.localToGlobal(Offset.zero);
 
-    if (pick == null) {
+    final source = await showMenu(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        position.dx,
+        position.dy + box.size.height,
+        position.dy + box.size.width,
+        position.dy,
+      ),
+      color: Colors.grey.shade200,
+      items: [
+        PopupMenuItem(
+          value: ImageSource.camera,
+          child: SizedBox(
+            width: 150,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(Icons.camera_alt),
+                SizedBox(width: 10),
+                Text("camera"),
+              ],
+            ),
+          ),
+        ),
+        PopupMenuItem(
+          value: ImageSource.gallery,
+          child: SizedBox(
+            width: 150,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Icon(Icons.photo_library),
+                SizedBox(width: 10),
+                Text("gallery"),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+
+    if (source == null) return;
+
+    if (source == ImageSource.camera) {
+      if (!await Permission.camera.request().isGranted) {
+        return;
+      }
+    } else if (source == ImageSource.gallery) {
+      if (!await Permission.photos.request().isGranted &&
+          !await Permission.mediaLibrary.request().isGranted &&
+          !await Permission.storage.request().isGranted) {
+        return;
+      }
+    }
+
+    final ImagePicker picker = ImagePicker();
+    final XFile? pick = await picker.pickImage(source: source);
+
+    if (pick != null) {
+      setState(() {
+        imageFile = File(pick.path);
+      });
       return;
     }
-    setState(() {
-      imageFile = File(pick.path);
-    });
   }
 
   File? imageFile;
@@ -58,6 +107,8 @@ class _AccountState extends State<Account> {
       useremail = email;
     });
   }
+
+  final _picked = GlobalKey();
 
   @override
   void initState() {
@@ -136,7 +187,8 @@ class _AccountState extends State<Account> {
                 Row(
                   children: [
                     GestureDetector(
-                      onTap: _pickImage,
+                      key: _picked,
+                      onTap: () => _pickImage(_picked),
                       child: SizedBox(
                         height: context.shortp(0.15),
                         width: context.shortp(0.15),

@@ -21,7 +21,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
       "assets/image/suzuki.png",
       "assets/image/mitsubishi.png",
       "assets/image/man.png",
-      "assets/image/coverred.png",
+      "assets/image/coverred.jpg",
     ];
 
     for (final image in brandAssets) {
