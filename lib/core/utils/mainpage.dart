@@ -1,7 +1,7 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/screen/home/account.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
-import 'package:car_rental/screen/home/order.dart';
+import 'package:car_rental/screen/home/order/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

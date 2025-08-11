@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/model/car_model.dart';
-import 'package:car_rental/screen/home/car_detail.dart';
+import 'package:car_rental/screen/home/order/car_detail.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:flutter/material.dart';

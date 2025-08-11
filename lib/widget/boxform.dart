@@ -1,4 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/constant/upper_case.dart';
 import 'package:flutter/material.dart';
 
 class BoxForm extends StatelessWidget {
@@ -20,10 +21,12 @@ class BoxForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      inputFormatters: [UpperCaseFormat()],
       controller: controller,
       onTap: onTap,
       readOnly: readOnly,
       style: TextStyle(color: outlineColor(context)),
+      enableSuggestions: false,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
         prefixIcon: Icon(iconsPick, color: outlineVariantColor(context)),
