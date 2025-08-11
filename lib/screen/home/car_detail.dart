@@ -155,7 +155,7 @@ class CarDetail extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  "${formatRp(int.tryParse(cars.pricePerDay) ?? 0)} /day",
+                                  "${formatRp((cars.pricePerDay))} /day",
                                   style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,

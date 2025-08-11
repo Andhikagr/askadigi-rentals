@@ -7,27 +7,27 @@ part of 'car_model.dart';
 // **************************************************************************
 
 CarModel _$CarModelFromJson(Map<String, dynamic> json) => CarModel(
-  id: (json['id'] as num).toInt(),
+  carId: (json['car_id'] as num).toInt(),
   brand: json['brand'] as String,
   model: json['model'] as String,
   year: (json['year'] as num).toInt(),
   image: json['image'] as String,
   description: json['description'] as String,
   transmission: json['transmission'] as String,
-  fuelType: json['fuelType'] as String,
+  fuelType: json['fuel_type'] as String,
   seats: (json['seats'] as num).toInt(),
-  pricePerDay: json['pricePerDay'] as String,
+  pricePerDay: (json['price_per_day'] as num).toInt(),
 );
 
 Map<String, dynamic> _$CarModelToJson(CarModel instance) => <String, dynamic>{
-  'id': instance.id,
+  'car_id': instance.carId,
   'brand': instance.brand,
   'model': instance.model,
   'year': instance.year,
   'image': instance.image,
   'description': instance.description,
   'transmission': instance.transmission,
-  'fuelType': instance.fuelType,
+  'fuel_type': instance.fuelType,
   'seats': instance.seats,
-  'pricePerDay': instance.pricePerDay,
+  'price_per_day': instance.pricePerDay,
 };

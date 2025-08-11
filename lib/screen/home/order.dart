@@ -241,7 +241,7 @@ class _OrderState extends State<Order> {
                                                               ),
                                                             ),
                                                             Text(
-                                                              "${formatRp(int.tryParse(cars.pricePerDay) ?? 0)} /day",
+                                                              "${formatRp((cars.pricePerDay))} /day",
                                                               style: TextStyle(
                                                                 color:
                                                                     const Color(

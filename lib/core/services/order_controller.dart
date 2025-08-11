@@ -134,7 +134,7 @@ class OrderController extends GetxController {
     }
     int sum = 0;
     for (var car in selectedCars) {
-      int price = int.tryParse(car.pricePerDay) ?? 0;
+      int price = (car.pricePerDay);
       sum += price * days;
     }
     totalPrice.value = sum;

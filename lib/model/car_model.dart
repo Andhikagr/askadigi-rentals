@@ -2,9 +2,9 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'car_model.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(fieldRename: FieldRename.snake)
 class CarModel {
-  final int id;
+  final int carId;
   final String brand;
   final String model;
   final int year;
@@ -13,14 +13,14 @@ class CarModel {
   final String transmission;
   final String fuelType;
   final int seats;
-  final String pricePerDay;
+  final int pricePerDay;
 
   Map<String, dynamic> toJson() => _$CarModelToJson(this);
   factory CarModel.fromJson(Map<String, dynamic> json) =>
       _$CarModelFromJson(json);
 
   CarModel({
-    required this.id,
+    required this.carId,
     required this.brand,
     required this.model,
     required this.year,

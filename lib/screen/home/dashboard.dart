@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/car_detail.dart';
@@ -28,7 +27,7 @@ class _DashboardState extends State<Dashboard> {
 
   Future<List<CarModel>> loadCarsFromJson() async {
     final String response = await rootBundle.loadString(
-      "assets/data/carsrent.json",
+      "assets/data/cars.json",
     );
     final List<dynamic> data = jsonDecode(response);
     return data.map((cars) => CarModel.fromJson(cars)).toList();
@@ -312,7 +311,7 @@ class _DashboardState extends State<Dashboard> {
                                                     ),
                                                     child: Center(
                                                       child: Text(
-                                                        "${formatRp(int.tryParse(showCar.pricePerDay) ?? 0)} /day",
+                                                        "${formatRp((showCar.pricePerDay))} /day",
                                                         style: TextStyle(
                                                           fontSize: 16,
                                                           color: surfaceColor(
