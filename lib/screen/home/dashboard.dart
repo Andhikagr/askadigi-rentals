@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'dart:io';
+import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:car_rental/screen/home/car_detail.dart';
@@ -7,6 +9,7 @@ import 'package:car_rental/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
@@ -37,11 +40,27 @@ class _DashboardState extends State<Dashboard> {
 
   String? selectedBrand;
 
+  //authcontroller
+  final authController = Get.find<AuthController>();
+
+  //photo
+  File? userPhoto;
+  Future<void> loadUserPhoto() async {
+    final prefs = await SharedPreferences.getInstance();
+    final path = prefs.getString("user_photo");
+    if (path != null && path.isNotEmpty) {
+      setState(() {
+        userPhoto = File(path);
+      });
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     _cars = loadCarsFromJson();
     selectedBrand = "toyota";
+    loadUserPhoto();
   }
 
   @override
@@ -105,19 +124,26 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                               ),
                               Container(
-                                width: 80,
-                                height: 80,
+                                width: 70,
+                                height: 70,
                                 decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
                                   border: Border.all(
                                     color: onInverseSurfaceColor(context),
                                     width: 1.5,
                                   ),
-                                  borderRadius: BorderRadius.circular(20),
                                 ),
                                 child: Center(
-                                  child: Image.asset(
-                                    'assets/image/man.png',
-                                    fit: BoxFit.cover,
+                                  child: ClipOval(
+                                    child: userPhoto != null
+                                        ? Image.file(
+                                            userPhoto!,
+                                            fit: BoxFit.cover,
+                                          )
+                                        : Image.asset(
+                                            'assets/image/man.png',
+                                            fit: BoxFit.cover,
+                                          ),
                                   ),
                                 ),
                               ),

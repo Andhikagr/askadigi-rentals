@@ -1,6 +1,4 @@
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/core/services/auth.dart';
-import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/screen/home/account.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
 import 'package:car_rental/screen/home/order.dart';
@@ -9,8 +7,6 @@ import 'package:get/get.dart';
 
 class Mainpage extends StatelessWidget {
   final NavController controller = Get.put(NavController());
-  final OrderController orderController = Get.put(OrderController());
-  final AuthController authController = Get.put(AuthController());
 
   Mainpage({super.key});
 

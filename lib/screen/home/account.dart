@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/services/order_controller.dart';
 
 import 'package:car_rental/core/utils/media_query.dart';
@@ -87,259 +88,261 @@ class _AccountState extends State<Account> {
       setState(() {
         imageFile = File(pick.path);
       });
+
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString("user_photo", pick.path);
       return;
     }
   }
 
-  File? imageFile;
-  String username = "";
-  String useremail = "";
-  bool isLoggedIn = false;
-
-  Future<void> loadUserData() async {
+  Future<void> _loadSaveImage() async {
     final prefs = await SharedPreferences.getInstance();
-    final status = prefs.getBool("isLoggedIn") ?? false;
-    final name = status ? prefs.getString("username")! : "";
-    final email = status ? prefs.getString("user_email")! : "";
-    setState(() {
-      isLoggedIn = status;
-      username = name;
-      useremail = email;
-    });
+    final path = prefs.getString("user_photo");
+    if (path != null && path.isNotEmpty) {
+      setState(() {
+        imageFile = File(path);
+      });
+    }
   }
+
+  File? imageFile;
+  //savephoto
 
   final _picked = GlobalKey();
 
-  @override
-  void initState() {
-    super.initState();
-    loadUserData();
-  }
+  //authcontroller
+  final authController = Get.find<AuthController>();
 
   Future<void> logOut() async {
-    final check = await SharedPreferences.getInstance();
-    await check.setBool("isLoggedIn", false);
+    await AuthController().logout();
+
     final orderController = Get.find<OrderController>();
     String email = orderController.userEmail.value;
     if (email.isNotEmpty) {
+      final check = await SharedPreferences.getInstance();
       await check.remove("order_${email}_selectedCars");
       await check.remove("order_${email}_pickedDate");
       await check.remove("order_${email}_returnDate");
       await check.remove("order_${email}_totalPrice");
     }
 
-    // Reset state controller
     orderController.userEmail.value = '';
     orderController.clearCars();
-
-    // Reset login state di aplikasi
-    isLoggedIn = false;
-    username = "";
-    useremail = "";
 
     await Future.delayed(Duration(milliseconds: 300));
     Get.offAll(() => Splash());
   }
 
+  final List<Map<String, dynamic>> menu = [
+    {"title": "Setting", "icon": Icons.settings},
+    {"title": "Address", "icon": Icons.place},
+    {"title": "Change Password", "icon": Icons.lock},
+    {"title": "Help & Support", "icon": Icons.help},
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadSaveImage();
+  }
+
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> menu = [
-      {"title": "Setting", "icon": Icons.settings},
-      {"title": "Address", "icon": Icons.place},
-      {"title": "Change Password", "icon": Icons.lock},
-      {"title": "Help & Support", "icon": Icons.help},
-    ];
+    return Obx(() {
+      bool loggedIn = authController.isLoggedIn.value;
+      String username = authController.username.value;
+      String email = authController.email.value;
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: const Color(0xFFFF1908),
+          foregroundColor: onInverseSurfaceColor(context),
+          automaticallyImplyLeading: false,
+          title: Text(
+            "Profile Account",
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          ),
 
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: const Color(0xFFFF1908),
-        foregroundColor: onInverseSurfaceColor(context),
-        automaticallyImplyLeading: false,
-        title: Text(
-          "Profile Account",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          actions: [
+            if (loggedIn)
+              IconButton(
+                icon: Image.asset("assets/image/power.png", width: 40),
+                onPressed: () {
+                  logOut();
+                },
+              ),
+          ],
+          toolbarHeight: 70,
+          elevation: 2,
+          shadowColor: scrimColor(context),
         ),
 
-        actions: [
-          if (isLoggedIn)
-            IconButton(
-              icon: Image.asset("assets/image/power.png", width: 40),
-              onPressed: () {
-                logOut();
-              },
-            ),
-        ],
-        toolbarHeight: 70,
-        elevation: 2,
-        shadowColor: scrimColor(context),
-      ),
-
-      body: SafeArea(
-        child: GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: context.shortp(0.04)),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(height: context.shortp(0.03)),
-                Row(
-                  children: [
-                    GestureDetector(
-                      key: _picked,
-                      onTap: () => _pickImage(_picked),
-                      child: SizedBox(
-                        height: context.shortp(0.15),
-                        width: context.shortp(0.15),
-                        child: ClipOval(
-                          child: Image(
-                            image: imageFile != null
-                                ? FileImage(imageFile!)
-                                : AssetImage("assets/image/man.png")
-                                      as ImageProvider,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: context.shortp(0.03)),
-                    SizedBox(
-                      width: context.shortp(0.72),
-                      child: Padding(
-                        padding: EdgeInsets.all(context.shortp(0.01)),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              username,
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: onSurfaceColor(context),
-                              ),
-                            ),
-                            Text(
-                              useremail,
-                              style: TextStyle(
-                                fontSize: 16,
-                                color: outlineColor(context),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                if (!isLoggedIn)
+        body: SafeArea(
+          child: GestureDetector(
+            onTap: () => FocusScope.of(context).unfocus(),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: context.shortp(0.04)),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  SizedBox(height: context.shortp(0.03)),
                   Row(
                     children: [
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => Get.to(
-                            () => Login(),
-                            transition: Transition.native,
-                            duration: Duration(milliseconds: 500),
-                          ),
-                          child: Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                width: 1.5,
-                                color: Color(0xFFFF1908),
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                              color: Color(0xFFFF1908),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.5),
-                                  offset: Offset(1, 2),
-                                  blurRadius: 1,
-                                ),
-                              ],
-                            ),
-
-                            child: Center(
-                              child: Text(
-                                "Login",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: onInverseSurfaceColor(context),
-                                ),
-                              ),
+                      GestureDetector(
+                        key: _picked,
+                        onTap: () => _pickImage(_picked),
+                        child: SizedBox(
+                          height: 70,
+                          width: 70,
+                          child: ClipOval(
+                            child: Image(
+                              image: imageFile != null
+                                  ? FileImage(imageFile!)
+                                  : AssetImage("assets/image/man.png")
+                                        as ImageProvider,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),
                       ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () => Get.to(
-                            () => Signup(),
-                            transition: Transition.native,
-                            duration: Duration(milliseconds: 500),
-                          ),
-                          child: Container(
-                            height: 45,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              border: Border.all(
-                                color: const Color(0xFFFF1908),
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Daftar",
+                      SizedBox(width: context.shortp(0.03)),
+                      SizedBox(
+                        width: 250,
+                        child: Padding(
+                          padding: EdgeInsets.all(context.shortp(0.01)),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                username,
                                 style: TextStyle(
-                                  fontSize: 16,
-                                  color: onSurfaceColor(context),
+                                  fontSize: 18,
                                   fontWeight: FontWeight.bold,
+                                  color: onSurfaceColor(context),
                                 ),
                               ),
-                            ),
+                              Text(
+                                email,
+                                style: TextStyle(
+                                  fontSize: 16,
+                                  color: outlineColor(context),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ),
                     ],
                   ),
-                SizedBox(height: 40),
-                Divider(
-                  color: outlineVariantColor(context), // warna garis
-                  thickness: 1, // ketebalan garis
-                ),
-                Expanded(
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      return SizedBox(
-                        height: constraints.maxHeight,
-                        child: ListView.builder(
-                          itemCount: menu.length,
-                          itemBuilder: (context, index) {
-                            final item = menu[index];
-                            return ListTile(
-                              leading: Icon(item["icon"]),
-                              title: Text(
-                                item["title"],
-                                style: TextStyle(fontSize: 16),
+                  SizedBox(height: 20),
+                  if (!loggedIn)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => Get.to(
+                              () => Login(),
+                              transition: Transition.native,
+                              duration: Duration(milliseconds: 500),
+                            ),
+                            child: Container(
+                              height: 45,
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                  width: 1.5,
+                                  color: Color(0xFFFF1908),
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                                color: Color(0xFFFF1908),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(alpha: 0.5),
+                                    offset: Offset(1, 2),
+                                    blurRadius: 1,
+                                  ),
+                                ],
                               ),
-                              trailing: Icon(Icons.arrow_forward_ios),
-                              onTap: () {},
-                            );
-                          },
+
+                              child: Center(
+                                child: Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: onInverseSurfaceColor(context),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      );
-                    },
+                        SizedBox(width: 20),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () => Get.to(
+                              () => Signup(),
+                              transition: Transition.native,
+                              duration: Duration(milliseconds: 500),
+                            ),
+                            child: Container(
+                              height: 45,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: const Color(0xFFFF1908),
+                                  width: 1.5,
+                                ),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Daftar",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: onSurfaceColor(context),
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  SizedBox(height: 40),
+                  Divider(
+                    color: outlineVariantColor(context), // warna garis
+                    thickness: 1, // ketebalan garis
                   ),
-                ),
-              ],
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        return SizedBox(
+                          height: constraints.maxHeight,
+                          child: ListView.builder(
+                            itemCount: menu.length,
+                            itemBuilder: (context, index) {
+                              final item = menu[index];
+                              return ListTile(
+                                leading: Icon(item["icon"]),
+                                title: Text(
+                                  item["title"],
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                                trailing: Icon(Icons.arrow_forward_ios),
+                                onTap: () {},
+                              );
+                            },
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
-    );
+      );
+    });
   }
 }

@@ -9,6 +9,8 @@ class OrderController extends GetxController {
   var pickedDate = Rxn<DateTime>();
   var returnDate = Rxn<DateTime>();
   RxString userEmail = ''.obs;
+  RxString selectedDriver = "Without Driver".obs;
+  RxInt stockDriver = RxInt(1);
 
   @override
   void onInit() {
@@ -137,6 +139,10 @@ class OrderController extends GetxController {
       int price = (car.pricePerDay);
       sum += price * days;
     }
+    if (selectedDriver.value == "With Driver" && stockDriver.value > 0) {
+      sum += stockDriver.value * 200000 * days;
+    }
+
     totalPrice.value = sum;
   }
 }
