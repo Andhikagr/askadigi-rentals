@@ -2,6 +2,7 @@ import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
+import 'package:car_rental/screen/home/order/booking_page.dart';
 import 'package:car_rental/widget/boxform.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -512,6 +513,8 @@ class _OrderState extends State<Order> {
                                     label: "Street Address",
                                     iconsPick: Icons.house,
                                     readOnly: false,
+                                    controller:
+                                        orderController.streetAddressController,
                                   ),
                                 ),
                                 SizedBox(height: 10),
@@ -521,6 +524,8 @@ class _OrderState extends State<Order> {
                                     label: "Distric",
                                     iconsPick: Icons.holiday_village,
                                     readOnly: false,
+                                    controller:
+                                        orderController.districtController,
                                   ),
                                 ),
                                 SizedBox(height: 10),
@@ -530,6 +535,8 @@ class _OrderState extends State<Order> {
                                     label: "Regency",
                                     iconsPick: Icons.streetview,
                                     readOnly: false,
+                                    controller:
+                                        orderController.regencyController,
                                   ),
                                 ),
                                 SizedBox(height: 10),
@@ -539,6 +546,8 @@ class _OrderState extends State<Order> {
                                     label: "Province",
                                     iconsPick: Icons.apartment,
                                     readOnly: false,
+                                    controller:
+                                        orderController.provinceController,
                                   ),
                                 ),
                               ],
@@ -621,12 +630,25 @@ class _OrderState extends State<Order> {
                                 horizontal: 20,
                                 vertical: 12,
                               ),
-                              child: Text(
-                                "Reservation",
-                                style: TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: onInverseSurfaceColor(context),
+                              child: GestureDetector(
+                                onTap: () async {
+                                  await orderController.saveOrderData();
+                                  final bookedData = orderController
+                                      .getBooked();
+
+                                  Get.to(
+                                    () => BookingPage(getBooked: bookedData),
+                                    transition: Transition.native,
+                                    duration: Duration(milliseconds: 1000),
+                                  );
+                                },
+                                child: Text(
+                                  "Reservation",
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: onInverseSurfaceColor(context),
+                                  ),
                                 ),
                               ),
                             ),

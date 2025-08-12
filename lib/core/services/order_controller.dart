@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:car_rental/core/services/auth.dart';
+import 'package:car_rental/core/services/booked.dart';
 import 'package:car_rental/model/car_model.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -11,6 +14,13 @@ class OrderController extends GetxController {
   RxString userEmail = ''.obs;
   RxString selectedDriver = "Without Driver".obs;
   RxInt stockDriver = RxInt(1);
+
+  TextEditingController streetAddressController = TextEditingController();
+  TextEditingController districtController = TextEditingController();
+  TextEditingController regencyController = TextEditingController();
+  TextEditingController provinceController = TextEditingController();
+  //authcontroller
+  final authController = Get.find<AuthController>();
 
   @override
   void onInit() {
@@ -45,7 +55,19 @@ class OrderController extends GetxController {
       returnDate.value?.toIso8601String() ?? "",
     );
 
+    //save driver data
+    await prefs.setString("${prefix}selectedDriver", selectedDriver.value);
+    await prefs.setInt("${prefix}stockDriver", stockDriver.value);
+
     await prefs.setInt("${prefix}totalPrice", totalPrice.value);
+
+    await prefs.setString(
+      "${prefix}streetAddress",
+      streetAddressController.text,
+    );
+    await prefs.setString("${prefix}district", districtController.text);
+    await prefs.setString("${prefix}regency", regencyController.text);
+    await prefs.setString("${prefix}province", provinceController.text);
   }
 
   Future<void> loadOrderData() async {
@@ -68,6 +90,18 @@ class OrderController extends GetxController {
     returnDate.value = returnDateStr.isNotEmpty
         ? DateTime.parse(returnDateStr)
         : null;
+
+    //load address
+    streetAddressController.text =
+        prefs.getString("${prefix}streetAddress") ?? "";
+    districtController.text = prefs.getString("${prefix}district") ?? "";
+    regencyController.text = prefs.getString("${prefix}regency") ?? "";
+    provinceController.text = prefs.getString("${prefix}province") ?? "";
+
+    //load driver option
+    selectedDriver.value =
+        prefs.getString("${prefix}selectedDriver") ?? "Without Driver";
+    stockDriver.value = prefs.getInt("${prefix}stockDriver") ?? 1;
 
     totalPrice.value = prefs.getInt("${prefix}totalPrice") ?? 0;
   }
@@ -144,5 +178,23 @@ class OrderController extends GetxController {
     }
 
     totalPrice.value = sum;
+  }
+
+  Booked getBooked() {
+    return Booked(
+      username: authController.username.value,
+      email: authController.email.value,
+      phone: authController.phone.value,
+      selectedCars: selectedCars.toList(),
+      pickedDate: pickedDate.value?.toIso8601String() ?? "",
+      returnDate: returnDate.value?.toIso8601String() ?? "",
+      selectedDriver: selectedDriver.value,
+      stockDriver: stockDriver.value,
+      streetAddress: streetAddressController.text,
+      district: districtController.text,
+      regency: regencyController.text,
+      province: provinceController.text,
+      totalPrice: totalPrice.value,
+    );
   }
 }

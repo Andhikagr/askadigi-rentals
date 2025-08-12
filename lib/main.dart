@@ -8,10 +8,10 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  Get.put(NavController());
-  Get.put(OrderController());
-  Get.put(AuthController());
   WidgetsFlutterBinding.ensureInitialized();
+  Get.put(NavController());
+  Get.put(AuthController());
+  Get.put(OrderController());
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((
     _,
   ) {

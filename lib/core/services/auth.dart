@@ -8,6 +8,7 @@ class AuthController extends GetxController {
   var email = "".obs;
   var isLoggedIn = false.obs;
   var username = "".obs;
+  var phone = "".obs;
 
   @override
   void onInit() {
@@ -21,6 +22,7 @@ class AuthController extends GetxController {
     if (loggedIn) {
       email.value = prefs.getString("user_email") ?? "";
       username.value = prefs.getString("username") ?? "";
+      phone.value = prefs.getString("user_phone") ?? "";
       isLoggedIn.value = true;
 
       // Sync ke OrderController
@@ -59,10 +61,12 @@ class AuthController extends GetxController {
     String? savedEmail = prefs.getString("user_email");
     String? savedPassword = prefs.getString("user_password");
     String? savedUsername = prefs.getString("username");
+    String? savedUserPhone = prefs.getString("user_phone");
 
     if (savedEmail == emailInput && savedPassword == passwordInput) {
       email.value = savedEmail!;
       username.value = savedUsername!;
+      phone.value = savedUserPhone ?? "";
       isLoggedIn.value = true;
       await prefs.setBool("isLoggedIn", true);
       final orderController = Get.find<OrderController>();
