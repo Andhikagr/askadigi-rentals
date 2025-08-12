@@ -25,7 +25,7 @@ class BoxForm extends StatelessWidget {
       controller: controller,
       onTap: onTap,
       readOnly: readOnly,
-      style: TextStyle(color: outlineColor(context)),
+      style: TextStyle(color: outlineColor(context), fontSize: 14),
       enableSuggestions: false,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
