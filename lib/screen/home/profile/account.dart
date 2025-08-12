@@ -6,13 +6,15 @@ import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/screen/auth/signup.dart';
-import 'package:car_rental/screen/intro/splash.dart';
+import 'package:car_rental/screen/home/profile/change_password.dart';
+import 'package:car_rental/screen/home/profile/edit_account.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Account extends StatefulWidget {
   const Account({super.key});
@@ -85,12 +87,12 @@ class _AccountState extends State<Account> {
     final XFile? pick = await picker.pickImage(source: source);
 
     if (pick != null) {
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.setString("user_photo", pick.path);
       setState(() {
         imageFile = File(pick.path);
       });
 
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString("user_photo", pick.path);
       return;
     }
   }
@@ -114,7 +116,7 @@ class _AccountState extends State<Account> {
   final authController = Get.find<AuthController>();
 
   Future<void> logOut() async {
-    await AuthController().logout();
+    await authController.logout();
 
     final orderController = Get.find<OrderController>();
     String email = orderController.userEmail.value;
@@ -128,9 +130,22 @@ class _AccountState extends State<Account> {
 
     orderController.userEmail.value = '';
     orderController.clearCars();
+  }
 
-    await Future.delayed(Duration(milliseconds: 300));
-    Get.offAll(() => Splash());
+  void openWA() async {
+    final phone = "6281123456789";
+    final message = "Hello, i need help";
+    final urlString =
+        'https://wa.me/$phone?text=${Uri.encodeComponent(message)}';
+
+    final url = Uri.parse(urlString);
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("")));
+    }
   }
 
   @override
@@ -142,8 +157,24 @@ class _AccountState extends State<Account> {
   @override
   Widget build(BuildContext context) {
     final List<Map<String, dynamic>> menu = [
-      {"title": "Edit Account", "icon": Icons.person},
-      {"title": "Change Password", "icon": Icons.lock},
+      {
+        "title": "Edit Account",
+        "icon": Icons.person,
+        "onTap": () => Get.to(
+          () => EditAccount(),
+          transition: Transition.native,
+          duration: Duration(milliseconds: 800),
+        ),
+      },
+      {
+        "title": "Change Password",
+        "icon": Icons.lock,
+        "onTap": () => Get.to(
+          () => ChangePassword(),
+          transition: Transition.native,
+          duration: Duration(milliseconds: 800),
+        ),
+      },
       {
         "title": "Help & Support",
         "icon": Icons.help,
@@ -151,6 +182,9 @@ class _AccountState extends State<Account> {
           {
             "title": "Customer Service",
             "icon": Image.asset("assets/image/cs.png", width: 25),
+            "onTap": () {
+              openWA();
+            },
           },
         ],
       },
@@ -202,16 +236,24 @@ class _AccountState extends State<Account> {
                           height: 70,
                           width: 70,
                           child: ClipOval(
-                            child: Image(
-                              image: imageFile != null
-                                  ? FileImage(imageFile!)
-                                  : AssetImage("assets/image/man.png")
-                                        as ImageProvider,
-                              fit: BoxFit.cover,
-                            ),
+                            child: Obx(() {
+                              final path = authController.userPhotoPath.value;
+                              if (loggedIn && path != null && path.isNotEmpty) {
+                                return Image.file(
+                                  File(path),
+                                  fit: BoxFit.cover,
+                                );
+                              } else {
+                                return Image.asset(
+                                  'assets/image/man.png',
+                                  fit: BoxFit.cover,
+                                );
+                              }
+                            }),
                           ),
                         ),
                       ),
+
                       SizedBox(width: context.shortp(0.03)),
                       SizedBox(
                         width: 250,
@@ -316,64 +358,72 @@ class _AccountState extends State<Account> {
                       ],
                     ),
                   SizedBox(height: 40),
-                  Divider(
-                    color: outlineVariantColor(context), // warna garis
-                    thickness: 1, // ketebalan garis
-                  ),
-                  Expanded(
-                    child: LayoutBuilder(
-                      builder: (context, constraints) {
-                        return SizedBox(
-                          height: constraints.maxHeight,
-                          child: ListView.builder(
-                            itemCount: menu.length,
-                            itemBuilder: (context, index) {
-                              final item = menu[index];
-                              if (item.containsKey("sub menu")) {
-                                return Theme(
-                                  data: Theme.of(
-                                    context,
-                                  ).copyWith(dividerColor: Colors.transparent),
-                                  child: ExpansionTile(
-                                    iconColor: onSurfaceColor(context),
-                                    collapsedIconColor: onSurfaceColor(context),
-                                    leading: Icon(item["icon"]),
-                                    trailing: Icon(Icons.arrow_forward_ios),
-                                    title: Text(
-                                      item["title"],
-                                      style: TextStyle(fontSize: 16),
-                                    ),
-                                    children: (item["sub menu"] as List).map((
-                                      subItem,
-                                    ) {
-                                      return ListTile(
-                                        leading: subItem["icon"],
+                  Column(
+                    children: menu.map((item) {
+                      if (item.containsKey("sub menu")) {
+                        return Theme(
+                          data: Theme.of(
+                            context,
+                          ).copyWith(dividerColor: Colors.transparent),
+                          child: Container(
+                            margin: EdgeInsets.symmetric(vertical: 5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(
+                                color: outlineVariantColor(context),
+                              ),
+                            ),
 
-                                        title: Text(subItem["title"]),
-                                        onTap: () {},
-                                      );
-                                    }).toList(),
-                                  ),
-                                );
-                              } else {
+                            child: ExpansionTile(
+                              iconColor: onSurfaceColor(context),
+                              collapsedIconColor: onSurfaceColor(context),
+                              leading: Icon(item["icon"]),
+                              trailing: Icon(Icons.arrow_forward_ios),
+                              title: Text(
+                                item["title"],
+                                style: TextStyle(fontSize: 15),
+                              ),
+                              children: (item["sub menu"] as List).map((
+                                subItem,
+                              ) {
                                 return ListTile(
-                                  leading: Icon(item['icon']),
-                                  iconColor: onSurfaceColor(context),
-                                  title: Text(
-                                    item['title'],
-                                    style: TextStyle(fontSize: 16),
-                                  ),
-                                  trailing: Icon(Icons.arrow_forward_ios),
-                                  onTap: () {
-                                    // aksi menu
-                                  },
+                                  leading: subItem["icon"],
+                                  title: Text(subItem["title"]),
+                                  onTap: openWA,
                                 );
+                              }).toList(),
+                            ),
+                          ),
+                        );
+                      } else {
+                        return Container(
+                          margin: EdgeInsets.symmetric(vertical: 5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: outlineVariantColor(context),
+                            ),
+                          ),
+
+                          child: ListTile(
+                            leading: Icon(item['icon']),
+                            iconColor: onSurfaceColor(context),
+                            title: Text(
+                              item['title'],
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            trailing: Icon(Icons.arrow_forward_ios),
+                            onTap: () {
+                              final onTapCallback = item["onTap"];
+                              if (onTapCallback != null &&
+                                  onTapCallback is Function) {
+                                onTapCallback();
                               }
                             },
                           ),
                         );
-                      },
-                    ),
+                      }
+                    }).toList(),
                   ),
                 ],
               ),

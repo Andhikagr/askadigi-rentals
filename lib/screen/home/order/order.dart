@@ -117,7 +117,6 @@ class _OrderState extends State<Order> {
 
   @override
   Widget build(BuildContext context) {
-    bool loggedIn = authController.isLoggedIn.value;
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -601,8 +600,8 @@ class _OrderState extends State<Order> {
                             ],
                           ),
                           GestureDetector(
-                            onTap: () {
-                              if (!loggedIn) {
+                            onTap: () async {
+                              if (!authController.isLoggedIn.value) {
                                 Fluttertoast.showToast(
                                   msg:
                                       "You're almost there! Just need to log in first before continuing to make a reservation.",
@@ -612,10 +611,17 @@ class _OrderState extends State<Order> {
                                   textColor: onInverseSurfaceColor(context),
                                   fontSize: 14,
                                 );
-                              } else {}
-                            },
-                            child: GestureDetector(
-                              onTap: () async {
+                              } else if (orderController.selectedCars.isEmpty) {
+                                Fluttertoast.showToast(
+                                  msg:
+                                      "No car selected. Please pick a car to continue.",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  backgroundColor: Colors.black87,
+                                  textColor: onInverseSurfaceColor(context),
+                                  fontSize: 14,
+                                );
+                              } else {
                                 await orderController.saveOrderData();
                                 final bookedData = orderController.getBooked();
 
@@ -624,33 +630,32 @@ class _OrderState extends State<Order> {
                                   transition: Transition.native,
                                   duration: Duration(milliseconds: 1000),
                                 );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: const Color(0xFFFF1908),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withValues(
-                                        alpha: 0.5,
-                                      ),
-                                      offset: Offset(1, 2),
-                                      blurRadius: 1,
-                                    ),
-                                  ],
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 12,
-                                ),
-
-                                child: Text(
-                                  "Reservation",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: onInverseSurfaceColor(context),
+                              }
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                color: const Color(0xFFFF1908),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(
+                                      0.5,
+                                    ), // perbaiki from withValues ke withOpacity
+                                    offset: Offset(1, 2),
+                                    blurRadius: 1,
                                   ),
+                                ],
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                horizontal: 20,
+                                vertical: 12,
+                              ),
+                              child: Text(
+                                "Reservation",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: onInverseSurfaceColor(context),
                                 ),
                               ),
                             ),

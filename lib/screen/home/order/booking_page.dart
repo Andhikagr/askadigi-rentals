@@ -62,17 +62,15 @@ class BookingPage extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          child: Container(
-                            child: Padding(
-                              padding: EdgeInsets.all(5),
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  item["label"],
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: outlineColor(context),
-                                  ),
+                          child: Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                item["label"],
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: outlineColor(context),
                                 ),
                               ),
                             ),
@@ -80,18 +78,16 @@ class BookingPage extends StatelessWidget {
                         ),
                         Expanded(
                           flex: 2,
-                          child: Container(
-                            child: Padding(
-                              padding: EdgeInsets.all(5),
-                              child: Align(
-                                alignment: Alignment.topLeft,
-                                child: Text(
-                                  item["value"].toString(),
-                                  style: TextStyle(
-                                    fontSize: 15,
-                                    color: primaryColor(context),
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          child: Padding(
+                            padding: EdgeInsets.all(5),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                item["value"].toString(),
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: primaryColor(context),
+                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
@@ -138,7 +134,7 @@ class BookingPage extends StatelessWidget {
                       ),
                     ),
                   );
-                }).toList(),
+                }),
                 SizedBox(height: 10),
                 Align(
                   alignment: Alignment.topLeft,

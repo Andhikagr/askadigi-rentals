@@ -1,6 +1,5 @@
 import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
-import 'package:car_rental/screen/intro/splash.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -9,6 +8,7 @@ class AuthController extends GetxController {
   var isLoggedIn = false.obs;
   var username = "".obs;
   var phone = "".obs;
+  var userPhotoPath = RxnString();
 
   @override
   void onInit() {
@@ -23,6 +23,7 @@ class AuthController extends GetxController {
       email.value = prefs.getString("user_email") ?? "";
       username.value = prefs.getString("username") ?? "";
       phone.value = prefs.getString("user_phone") ?? "";
+      userPhotoPath.value = prefs.getString("user_photo");
       isLoggedIn.value = true;
 
       // Sync ke OrderController
@@ -62,18 +63,24 @@ class AuthController extends GetxController {
     String? savedPassword = prefs.getString("user_password");
     String? savedUsername = prefs.getString("username");
     String? savedUserPhone = prefs.getString("user_phone");
+    String? savedPhotoPath = prefs.getString("user_photo");
 
     if (savedEmail == emailInput && savedPassword == passwordInput) {
       email.value = savedEmail!;
       username.value = savedUsername!;
       phone.value = savedUserPhone ?? "";
+      userPhotoPath.value = savedPhotoPath;
       isLoggedIn.value = true;
       await prefs.setBool("isLoggedIn", true);
       final orderController = Get.find<OrderController>();
       orderController.userEmail.value = savedEmail;
       await orderController.loadOrderData();
 
-      Get.to(() => Mainpage());
+      Get.to(
+        () => Mainpage(),
+        transition: Transition.native,
+        duration: Duration(milliseconds: 800),
+      );
       return true;
     } else {
       return false;
@@ -88,6 +95,11 @@ class AuthController extends GetxController {
     isLoggedIn.value = false;
     email.value = "";
     username.value = "";
-    Get.offAll(() => Splash());
+  }
+
+  Future<void> updatePhoto(String path) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("user_photo", path);
+    userPhotoPath.value = path;
   }
 }

@@ -65,6 +65,7 @@ class _DashboardState extends State<Dashboard> {
 
   @override
   Widget build(BuildContext context) {
+    bool loggedIn = authController.isLoggedIn.value;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFFF1908),
@@ -135,15 +136,30 @@ class _DashboardState extends State<Dashboard> {
                                 ),
                                 child: Center(
                                   child: ClipOval(
-                                    child: userPhoto != null
-                                        ? Image.file(
+                                    child: Obx(() {
+                                      final path =
+                                          authController.userPhotoPath.value;
+                                      if (loggedIn &&
+                                          path != null &&
+                                          path.isNotEmpty) {
+                                        if (userPhoto != null) {
+                                          return Image.file(
                                             userPhoto!,
                                             fit: BoxFit.cover,
-                                          )
-                                        : Image.asset(
+                                          );
+                                        } else {
+                                          return Image.asset(
                                             'assets/image/man.png',
                                             fit: BoxFit.cover,
-                                          ),
+                                          );
+                                        }
+                                      } else {
+                                        return Image.asset(
+                                          'assets/image/man.png',
+                                          fit: BoxFit.cover,
+                                        );
+                                      }
+                                    }),
                                   ),
                                 ),
                               ),
