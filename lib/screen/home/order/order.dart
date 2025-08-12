@@ -638,8 +638,8 @@ class _OrderState extends State<Order> {
                                 color: const Color(0xFFFF1908),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.black.withOpacity(
-                                      0.5,
+                                    color: Colors.black.withValues(
+                                      alpha: 0.5,
                                     ), // perbaiki from withValues ke withOpacity
                                     offset: Offset(1, 2),
                                     blurRadius: 1,
