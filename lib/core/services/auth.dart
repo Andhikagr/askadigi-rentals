@@ -102,4 +102,25 @@ class AuthController extends GetxController {
     await prefs.setString("user_photo", path);
     userPhotoPath.value = path;
   }
+
+  Future<void> updateProfil({
+    String? newName,
+    String? newPhone,
+    String? newPhotoPath,
+  }) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    if (newName != null) {
+      await prefs.setString("username", newName);
+      username.value = newName;
+    }
+    if (newPhone != null) {
+      await prefs.setString("user_phone", newPhone);
+      phone.value = newPhone;
+    }
+    if (newPhotoPath != null) {
+      await prefs.setString("user_photo", newPhotoPath);
+      userPhotoPath.value = newPhotoPath;
+    }
+  }
 }

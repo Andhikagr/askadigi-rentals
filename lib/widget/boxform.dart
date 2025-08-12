@@ -8,6 +8,7 @@ class BoxForm extends StatelessWidget {
   final VoidCallback? onTap;
   final bool readOnly;
   final IconData iconsPick;
+  final TextInputType? input;
 
   const BoxForm({
     super.key,
@@ -16,6 +17,7 @@ class BoxForm extends StatelessWidget {
     this.onTap,
     required this.readOnly,
     required this.iconsPick,
+    this.input,
   });
 
   @override
@@ -27,6 +29,7 @@ class BoxForm extends StatelessWidget {
       readOnly: readOnly,
       style: TextStyle(color: outlineColor(context), fontSize: 14),
       enableSuggestions: false,
+      keyboardType: input,
       decoration: InputDecoration(
         floatingLabelBehavior: FloatingLabelBehavior.always,
         prefixIcon: Icon(iconsPick, color: outlineVariantColor(context)),

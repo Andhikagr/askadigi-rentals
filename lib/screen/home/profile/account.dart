@@ -2,17 +2,13 @@ import 'dart:io';
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/services/order_controller.dart';
-
 import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/screen/auth/signup.dart';
 import 'package:car_rental/screen/home/profile/change_password.dart';
 import 'package:car_rental/screen/home/profile/edit_account.dart';
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,94 +20,6 @@ class Account extends StatefulWidget {
 }
 
 class _AccountState extends State<Account> {
-  Future<void> _pickImage(GlobalKey key) async {
-    final RenderBox box = key.currentContext!.findRenderObject() as RenderBox;
-    final Offset position = box.localToGlobal(Offset.zero);
-
-    final source = await showMenu(
-      context: context,
-      position: RelativeRect.fromLTRB(
-        position.dx,
-        position.dy + box.size.height,
-        position.dy + box.size.width,
-        position.dy,
-      ),
-      color: Colors.grey.shade200,
-      items: [
-        PopupMenuItem(
-          value: ImageSource.camera,
-          child: SizedBox(
-            width: 150,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.camera_alt),
-                SizedBox(width: 10),
-                Text("camera"),
-              ],
-            ),
-          ),
-        ),
-        PopupMenuItem(
-          value: ImageSource.gallery,
-          child: SizedBox(
-            width: 150,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Icon(Icons.photo_library),
-                SizedBox(width: 10),
-                Text("gallery"),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-
-    if (source == null) return;
-
-    if (source == ImageSource.camera) {
-      if (!await Permission.camera.request().isGranted) {
-        return;
-      }
-    } else if (source == ImageSource.gallery) {
-      if (!await Permission.photos.request().isGranted &&
-          !await Permission.mediaLibrary.request().isGranted &&
-          !await Permission.storage.request().isGranted) {
-        return;
-      }
-    }
-
-    final ImagePicker picker = ImagePicker();
-    final XFile? pick = await picker.pickImage(source: source);
-
-    if (pick != null) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString("user_photo", pick.path);
-      setState(() {
-        imageFile = File(pick.path);
-      });
-
-      return;
-    }
-  }
-
-  Future<void> _loadSaveImage() async {
-    final prefs = await SharedPreferences.getInstance();
-    final path = prefs.getString("user_photo");
-    if (path != null && path.isNotEmpty) {
-      setState(() {
-        imageFile = File(path);
-      });
-    }
-  }
-
-  File? imageFile;
-  //savephoto
-
-  final _picked = GlobalKey();
-
   //authcontroller
   final authController = Get.find<AuthController>();
 
@@ -146,12 +54,6 @@ class _AccountState extends State<Account> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("")));
     }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadSaveImage();
   }
 
   @override
@@ -221,36 +123,29 @@ class _AccountState extends State<Account> {
           child: GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: context.shortp(0.04)),
+              padding: EdgeInsets.symmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: context.shortp(0.03)),
+                  SizedBox(height: 20),
                   Row(
                     children: [
-                      GestureDetector(
-                        key: _picked,
-                        onTap: () => _pickImage(_picked),
-                        child: SizedBox(
-                          height: 70,
-                          width: 70,
-                          child: ClipOval(
-                            child: Obx(() {
-                              final path = authController.userPhotoPath.value;
-                              if (loggedIn && path != null && path.isNotEmpty) {
-                                return Image.file(
-                                  File(path),
-                                  fit: BoxFit.cover,
-                                );
-                              } else {
-                                return Image.asset(
-                                  'assets/image/man.png',
-                                  fit: BoxFit.cover,
-                                );
-                              }
-                            }),
-                          ),
+                      SizedBox(
+                        height: 70,
+                        width: 70,
+                        child: ClipOval(
+                          child: Obx(() {
+                            final path = authController.userPhotoPath.value;
+                            if (loggedIn && path != null && path.isNotEmpty) {
+                              return Image.file(File(path), fit: BoxFit.cover);
+                            } else {
+                              return Image.asset(
+                                'assets/image/man.png',
+                                fit: BoxFit.cover,
+                              );
+                            }
+                          }),
                         ),
                       ),
 
@@ -338,13 +233,13 @@ class _AccountState extends State<Account> {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(10),
                                 border: Border.all(
-                                  color: const Color(0xFFFF1908),
+                                  color: outlineVariantColor(context),
                                   width: 1.5,
                                 ),
                               ),
                               child: Center(
                                 child: Text(
-                                  "Daftar",
+                                  "Sign Up",
                                   style: TextStyle(
                                     fontSize: 16,
                                     color: onSurfaceColor(context),
