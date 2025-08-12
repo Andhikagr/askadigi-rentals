@@ -86,7 +86,7 @@ class BookingPage extends StatelessWidget {
                               child: Align(
                                 alignment: Alignment.topLeft,
                                 child: Text(
-                                  item["value"],
+                                  item["value"].toString(),
                                   style: TextStyle(
                                     fontSize: 15,
                                     color: primaryColor(context),

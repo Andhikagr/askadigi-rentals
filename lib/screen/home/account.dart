@@ -133,13 +133,6 @@ class _AccountState extends State<Account> {
     Get.offAll(() => Splash());
   }
 
-  final List<Map<String, dynamic>> menu = [
-    {"title": "Setting", "icon": Icons.settings},
-    {"title": "Address", "icon": Icons.place},
-    {"title": "Change Password", "icon": Icons.lock},
-    {"title": "Help & Support", "icon": Icons.help},
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -148,6 +141,20 @@ class _AccountState extends State<Account> {
 
   @override
   Widget build(BuildContext context) {
+    final List<Map<String, dynamic>> menu = [
+      {"title": "Edit Account", "icon": Icons.person},
+      {"title": "Change Password", "icon": Icons.lock},
+      {
+        "title": "Help & Support",
+        "icon": Icons.help,
+        "sub menu": [
+          {
+            "title": "Customer Service",
+            "icon": Image.asset("assets/image/cs.png", width: 25),
+          },
+        ],
+      },
+    ];
     return Obx(() {
       bool loggedIn = authController.isLoggedIn.value;
       String username = authController.username.value;
@@ -322,15 +329,46 @@ class _AccountState extends State<Account> {
                             itemCount: menu.length,
                             itemBuilder: (context, index) {
                               final item = menu[index];
-                              return ListTile(
-                                leading: Icon(item["icon"]),
-                                title: Text(
-                                  item["title"],
-                                  style: TextStyle(fontSize: 16),
-                                ),
-                                trailing: Icon(Icons.arrow_forward_ios),
-                                onTap: () {},
-                              );
+                              if (item.containsKey("sub menu")) {
+                                return Theme(
+                                  data: Theme.of(
+                                    context,
+                                  ).copyWith(dividerColor: Colors.transparent),
+                                  child: ExpansionTile(
+                                    iconColor: onSurfaceColor(context),
+                                    collapsedIconColor: onSurfaceColor(context),
+                                    leading: Icon(item["icon"]),
+                                    trailing: Icon(Icons.arrow_forward_ios),
+                                    title: Text(
+                                      item["title"],
+                                      style: TextStyle(fontSize: 16),
+                                    ),
+                                    children: (item["sub menu"] as List).map((
+                                      subItem,
+                                    ) {
+                                      return ListTile(
+                                        leading: subItem["icon"],
+
+                                        title: Text(subItem["title"]),
+                                        onTap: () {},
+                                      );
+                                    }).toList(),
+                                  ),
+                                );
+                              } else {
+                                return ListTile(
+                                  leading: Icon(item['icon']),
+                                  iconColor: onSurfaceColor(context),
+                                  title: Text(
+                                    item['title'],
+                                    style: TextStyle(fontSize: 16),
+                                  ),
+                                  trailing: Icon(Icons.arrow_forward_ios),
+                                  onTap: () {
+                                    // aksi menu
+                                  },
+                                );
+                              }
                             },
                           ),
                         );

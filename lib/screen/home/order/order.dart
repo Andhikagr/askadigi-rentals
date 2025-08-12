@@ -614,34 +614,36 @@ class _OrderState extends State<Order> {
                                 );
                               } else {}
                             },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color(0xFFFF1908),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.black.withValues(alpha: 0.5),
-                                    offset: Offset(1, 2),
-                                    blurRadius: 1,
-                                  ),
-                                ],
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 20,
-                                vertical: 12,
-                              ),
-                              child: GestureDetector(
-                                onTap: () async {
-                                  await orderController.saveOrderData();
-                                  final bookedData = orderController
-                                      .getBooked();
+                            child: GestureDetector(
+                              onTap: () async {
+                                await orderController.saveOrderData();
+                                final bookedData = orderController.getBooked();
 
-                                  Get.to(
-                                    () => BookingPage(getBooked: bookedData),
-                                    transition: Transition.native,
-                                    duration: Duration(milliseconds: 1000),
-                                  );
-                                },
+                                Get.to(
+                                  () => BookingPage(getBooked: bookedData),
+                                  transition: Transition.native,
+                                  duration: Duration(milliseconds: 1000),
+                                );
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: const Color(0xFFFF1908),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.black.withValues(
+                                        alpha: 0.5,
+                                      ),
+                                      offset: Offset(1, 2),
+                                      blurRadius: 1,
+                                    ),
+                                  ],
+                                ),
+                                padding: EdgeInsets.symmetric(
+                                  horizontal: 20,
+                                  vertical: 12,
+                                ),
+
                                 child: Text(
                                   "Reservation",
                                   style: TextStyle(
