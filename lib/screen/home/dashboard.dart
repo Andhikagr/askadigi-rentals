@@ -119,14 +119,14 @@ class _DashboardState extends State<Dashboard> {
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Text(
-                                      "Your location",
+                                      "Hello",
                                       style: TextStyle(
-                                        fontSize: 12,
+                                        fontSize: 16,
                                         color: onInverseSurfaceColor(context),
                                       ),
                                     ),
                                     Text(
-                                      "Banjarnegara, Central Java",
+                                      "Welcome to Askadigi Rentals",
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: onInverseSurfaceColor(context),
