@@ -95,6 +95,7 @@ class AuthController extends GetxController {
     isLoggedIn.value = false;
     email.value = "";
     username.value = "";
+    phone.value = "";
   }
 
   Future<void> updatePhoto(String path) async {

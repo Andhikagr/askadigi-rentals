@@ -13,7 +13,7 @@ class OrderController extends GetxController {
   var returnDate = Rxn<DateTime>();
   RxString userEmail = ''.obs;
   RxString selectedDriver = "Without Driver".obs;
-  RxInt stockDriver = RxInt(1);
+  RxInt stockDriver = 0.obs;
 
   TextEditingController streetAddressController = TextEditingController();
   TextEditingController districtController = TextEditingController();
@@ -30,7 +30,7 @@ class OrderController extends GetxController {
       if (userEmail.value.isNotEmpty) {
         loadOrderData();
       } else {
-        clearCars();
+        clearOrderData();
       }
     });
   }
@@ -101,7 +101,7 @@ class OrderController extends GetxController {
     //load driver option
     selectedDriver.value =
         prefs.getString("${prefix}selectedDriver") ?? "Without Driver";
-    stockDriver.value = prefs.getInt("${prefix}stockDriver") ?? 1;
+    stockDriver.value = prefs.getInt("${prefix}stockDriver") ?? 0;
 
     totalPrice.value = prefs.getInt("${prefix}totalPrice") ?? 0;
   }
@@ -124,10 +124,15 @@ class OrderController extends GetxController {
     saveOrderData();
   }
 
-  void clearCars() {
+  void clearOrderData() {
     selectedCars.clear();
     pickedDate.value = null;
     returnDate.value = null;
+    selectedDriver.value = "Without Driver";
+    stockDriver.value = 0;
+    streetAddressController.clear();
+    regencyController.clear();
+    provinceController.clear();
     totalPrice.value = 0;
     saveOrderData();
   }
@@ -178,6 +183,19 @@ class OrderController extends GetxController {
     }
 
     totalPrice.value = sum;
+  }
+
+  String? validateOrder() {
+    if (selectedCars.isEmpty)
+      return "No car selected. Please pick a car to continue.";
+    if (pickedDate.value == null) return "Please select the start date.";
+    if (returnDate.value == null) return "Please select the return date.";
+    if (streetAddressController.text.isEmpty)
+      return "Please enter your street address.";
+    if (districtController.text.isEmpty) return "Please enter your district.";
+    if (regencyController.text.isEmpty) return "Please enter your regency.";
+    if (provinceController.text.isEmpty) return "Please enter your province.";
+    return null; // valid
   }
 
   Booked getBooked() {

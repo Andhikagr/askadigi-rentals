@@ -33,11 +33,16 @@ class _AccountState extends State<Account> {
       await check.remove("order_${email}_selectedCars");
       await check.remove("order_${email}_pickedDate");
       await check.remove("order_${email}_returnDate");
+      await check.remove("order_${email}_selectedDriver");
+      await check.remove("order_${email}_stockDriver");
+      await check.remove("order_${email}_streetAddress");
+      await check.remove("order_${email}_district");
+      await check.remove("order_${email}_regency");
+      await check.remove("order_${email}_province");
       await check.remove("order_${email}_totalPrice");
     }
-
     orderController.userEmail.value = '';
-    orderController.clearCars();
+    orderController.clearOrderData();
   }
 
   void openWA() async {

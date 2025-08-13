@@ -611,26 +611,29 @@ class _OrderState extends State<Order> {
                                   textColor: onInverseSurfaceColor(context),
                                   fontSize: 14,
                                 );
-                              } else if (orderController.selectedCars.isEmpty) {
+                                return;
+                              }
+                              final validationMessage = orderController
+                                  .validateOrder();
+                              if (validationMessage != null) {
                                 Fluttertoast.showToast(
-                                  msg:
-                                      "No car selected. Please pick a car to continue.",
+                                  msg: validationMessage,
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.CENTER,
                                   backgroundColor: Colors.black87,
                                   textColor: onInverseSurfaceColor(context),
                                   fontSize: 14,
                                 );
-                              } else {
-                                await orderController.saveOrderData();
-                                final bookedData = orderController.getBooked();
-
-                                Get.to(
-                                  () => BookingPage(getBooked: bookedData),
-                                  transition: Transition.native,
-                                  duration: Duration(milliseconds: 1000),
-                                );
+                                return;
                               }
+                              await orderController.saveOrderData();
+                              final bookedData = orderController.getBooked();
+
+                              Get.to(
+                                () => BookingPage(getBooked: bookedData),
+                                transition: Transition.native,
+                                duration: Duration(milliseconds: 1000),
+                              );
                             },
                             child: Container(
                               decoration: BoxDecoration(

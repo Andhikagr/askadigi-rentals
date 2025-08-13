@@ -207,42 +207,7 @@ class _EditAccountState extends State<EditAccount> {
                     ? surfaceColor(context)
                     : onInverseSurfaceColor(context),
               ),
-              SizedBox(height: 20),
-              FormEdit(
-                label: "Street Address",
-                readOnly: !isEditable,
-                iconsPick: Icons.house,
-                fillColor: !isEditable
-                    ? surfaceColor(context)
-                    : onInverseSurfaceColor(context),
-              ),
-              SizedBox(height: 20),
-              FormEdit(
-                label: "District",
-                readOnly: !isEditable,
-                iconsPick: Icons.holiday_village,
-                fillColor: !isEditable
-                    ? surfaceColor(context)
-                    : onInverseSurfaceColor(context),
-              ),
-              SizedBox(height: 20),
-              FormEdit(
-                label: "Regency",
-                readOnly: !isEditable,
-                iconsPick: Icons.streetview,
-                fillColor: !isEditable
-                    ? surfaceColor(context)
-                    : onInverseSurfaceColor(context),
-              ),
-              SizedBox(height: 20),
-              FormEdit(
-                label: "Province",
-                readOnly: !isEditable,
-                iconsPick: Icons.apartment,
-                fillColor: !isEditable
-                    ? surfaceColor(context)
-                    : onInverseSurfaceColor(context),
-              ),
+
               SizedBox(height: 20),
               Row(
                 children: [
