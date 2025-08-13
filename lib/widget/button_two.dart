@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class BottonTwo extends StatelessWidget {
+class ButtonTwo extends StatelessWidget {
   final String label;
   final VoidCallback? onTap;
   final Color colorBackground;
   final Color borderColor;
   final Color fontColor;
 
-  const BottonTwo({
+  const ButtonTwo({
     super.key,
     required this.label,
     required this.fontColor,

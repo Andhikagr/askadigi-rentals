@@ -109,19 +109,19 @@ class _SignupState extends State<Signup> {
                                   ),
                                 ),
                                 SizedBox(height: 20),
-                                Textform(
+                                TextForm(
                                   label: "Username",
                                   iconData: Icons.account_circle,
                                   controller: _nameController,
                                 ),
                                 SizedBox(height: 20),
-                                Textform(
+                                TextForm(
                                   label: "Email",
                                   iconData: Icons.email,
                                   controller: _emailController,
                                 ),
                                 SizedBox(height: 20),
-                                Textform(
+                                TextForm(
                                   label: "Phone Numbers",
                                   iconData: Icons.phone,
                                   controller: _phoneController,
@@ -129,14 +129,14 @@ class _SignupState extends State<Signup> {
                                       TextInputType.numberWithOptions(),
                                 ),
                                 SizedBox(height: 20),
-                                Textform(
+                                TextForm(
                                   label: "Password",
                                   iconData: Icons.lock,
                                   controller: _passwordController,
                                   obscureText: true,
                                 ),
                                 SizedBox(height: 20),
-                                Textform(
+                                TextForm(
                                   label: "Repeat Password",
                                   iconData: Icons.password,
                                   controller: _repeatController,

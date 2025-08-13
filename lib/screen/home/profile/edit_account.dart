@@ -150,103 +150,122 @@ class _EditAccountState extends State<EditAccount> {
 
   @override
   Widget build(BuildContext context) {
-    bool loggedIn = authController.isLoggedIn.value;
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        resizeToAvoidBottomInset: false,
-        appBar: AppBar(
-          backgroundColor: const Color(0xFFFF1908),
-          foregroundColor: onInverseSurfaceColor(context),
-          toolbarHeight: 70,
-          elevation: 2,
-          shadowColor: scrimColor(context),
-          title: Text(
-            "Edit Account",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+    return Obx(() {
+      if (!authController.isLoggedIn.value) {
+        return Scaffold(
+          appBar: AppBar(
+            backgroundColor: const Color(0xFFFF1908),
+            foregroundColor: onInverseSurfaceColor(context),
+            toolbarHeight: 70,
+            elevation: 2,
+            shadowColor: scrimColor(context),
+            title: Text(
+              "Login first",
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
           ),
-        ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              SizedBox(height: 30),
-              GestureDetector(
-                key: _picked,
-                onTap: () => _pickImage(_picked),
-                child: SizedBox(
-                  height: 120,
-                  width: 120,
-                  child: ClipOval(
-                    child: Obx(() {
-                      final path = authController.userPhotoPath.value;
-                      if (loggedIn && path != null && path.isNotEmpty) {
-                        return Image.file(File(path), fit: BoxFit.cover);
-                      } else {
-                        return Image.asset(
-                          'assets/image/man.png',
-                          fit: BoxFit.cover,
-                        );
-                      }
-                    }),
-                  ),
-                ),
+        );
+      } else {
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: AppBar(
+              backgroundColor: const Color(0xFFFF1908),
+              foregroundColor: onInverseSurfaceColor(context),
+              toolbarHeight: 70,
+              elevation: 2,
+              shadowColor: scrimColor(context),
+              title: Text(
+                "Edit Account",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
               ),
-              SizedBox(height: 40),
-              FormEdit(
-                label: "Full Name",
-                readOnly: !isEditable,
-                iconsPick: Icons.person,
-                controller: fullNameController,
-                fillColor: !isEditable
-                    ? surfaceColor(context)
-                    : onInverseSurfaceColor(context),
-              ),
-              SizedBox(height: 20),
-              FormEdit(
-                label: "Phone Number",
-                readOnly: !isEditable,
-                iconsPick: Icons.phone,
-                input: TextInputType.numberWithOptions(),
-                controller: phoneController,
-                fillColor: !isEditable
-                    ? surfaceColor(context)
-                    : onInverseSurfaceColor(context),
-              ),
-
-              SizedBox(height: 20),
-              Row(
+            ),
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              child: Column(
                 children: [
-                  Expanded(
-                    child: BottonTwo(
-                      label: "Edit",
-                      fontColor: surfaceColor(context),
-                      colorBackground: isEditable
-                          ? surfaceColor(context)
-                          : const Color(0xFFFF1908),
-                      borderColor: surfaceColor(context),
-                      onTap: isEditable ? null : onEdit,
+                  SizedBox(height: 30),
+                  GestureDetector(
+                    key: _picked,
+                    onTap: () => _pickImage(_picked),
+                    child: SizedBox(
+                      height: 120,
+                      width: 120,
+                      child: ClipOval(
+                        child: Obx(() {
+                          final path = authController.userPhotoPath.value;
+                          if (authController.isLoggedIn.value &&
+                              path != null &&
+                              path.isNotEmpty) {
+                            return Image.file(File(path), fit: BoxFit.cover);
+                          } else {
+                            return Image.asset(
+                              'assets/image/man.png',
+                              fit: BoxFit.cover,
+                            );
+                          }
+                        }),
+                      ),
                     ),
                   ),
-                  SizedBox(width: 20),
-                  Expanded(
-                    child: BottonTwo(
-                      label: "Save",
-                      fontColor: surfaceColor(context),
-                      colorBackground: isEditable
-                          ? const Color(0xFFFF1908)
-                          : outlineColor(context),
-                      borderColor: surfaceColor(context),
-                      onTap: isEditable ? onSave : null,
-                    ),
+                  SizedBox(height: 40),
+                  FormEdit(
+                    label: "Full Name",
+                    readOnly: !isEditable,
+                    iconsPick: Icons.person,
+                    controller: fullNameController,
+                    fillColor: !isEditable
+                        ? surfaceColor(context)
+                        : onInverseSurfaceColor(context),
+                  ),
+                  SizedBox(height: 20),
+                  FormEdit(
+                    label: "Phone Number",
+                    readOnly: !isEditable,
+                    iconsPick: Icons.phone,
+                    input: TextInputType.numberWithOptions(),
+                    controller: phoneController,
+                    fillColor: !isEditable
+                        ? surfaceColor(context)
+                        : onInverseSurfaceColor(context),
+                  ),
+
+                  SizedBox(height: 20),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: ButtonTwo(
+                          label: "Edit",
+                          fontColor: surfaceColor(context),
+                          colorBackground: isEditable
+                              ? surfaceColor(context)
+                              : const Color(0xFFFF1908),
+                          borderColor: surfaceColor(context),
+                          onTap: isEditable ? null : onEdit,
+                        ),
+                      ),
+                      SizedBox(width: 20),
+                      Expanded(
+                        child: ButtonTwo(
+                          label: "Save",
+                          fontColor: surfaceColor(context),
+                          colorBackground: isEditable
+                              ? const Color(0xFFFF1908)
+                              : outlineColor(context),
+                          borderColor: surfaceColor(context),
+                          onTap: isEditable ? onSave : null,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
-    );
+        );
+      }
+    });
   }
 }
 

@@ -77,14 +77,14 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                         textAlign: TextAlign.justify,
                       ),
                       SizedBox(height: 30),
-                      Textform(
+                      TextForm(
                         label: "New Password",
                         iconData: Icons.lock_open,
                         controller: _passwordcontroller,
                         obscureText: true,
                       ),
                       SizedBox(height: 20),
-                      Textform(
+                      TextForm(
                         label: "Repeat Password",
                         iconData: Icons.lock_open,
                         obscureText: true,

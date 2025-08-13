@@ -93,13 +93,13 @@ class _LoginState extends State<Login> {
                                   ),
                                 ),
                                 SizedBox(height: 10),
-                                Textform(
+                                TextForm(
                                   label: "Email",
                                   iconData: Icons.email,
                                   controller: _emailController,
                                 ),
                                 SizedBox(height: 20),
-                                Textform(
+                                TextForm(
                                   label: "Password",
                                   iconData: Icons.lock,
                                   controller: _passwordController,

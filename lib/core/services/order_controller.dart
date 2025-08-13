@@ -187,7 +187,7 @@ class OrderController extends GetxController {
 
   String? validateOrder() {
     if (selectedCars.isEmpty) {
-      return "No car selected. Please pick a car to continue.";
+      return "Please pick a car";
     }
     if (pickedDate.value == null) return "Please select the start date.";
     if (returnDate.value == null) return "Please select the return date.";

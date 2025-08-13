@@ -1,27 +1,28 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:flutter/material.dart';
 
-class TextForm extends StatefulWidget {
+class TextFormBright extends StatefulWidget {
   final String label;
   final IconData iconData;
   final TextEditingController? controller;
   final bool obscureText;
   final TextInputType? keyboardType;
 
-  const TextForm({
+  const TextFormBright({
     super.key,
     required this.label,
     required this.iconData,
     this.controller,
+
     this.obscureText = false,
     this.keyboardType,
   });
 
   @override
-  State<TextForm> createState() => _BoxTextState();
+  State<TextFormBright> createState() => _BoxTextState();
 }
 
-class _BoxTextState extends State<TextForm> {
+class _BoxTextState extends State<TextFormBright> {
   late bool obscure;
 
   @override
@@ -49,7 +50,7 @@ class _BoxTextState extends State<TextForm> {
           enableSuggestions: false,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(20),
-            floatingLabelBehavior: FloatingLabelBehavior.never,
+            floatingLabelBehavior: FloatingLabelBehavior.always,
             prefixIcon: Icon(
               widget.iconData,
               color: outlineVariantColor(context),
@@ -72,14 +73,15 @@ class _BoxTextState extends State<TextForm> {
               color: outlineVariantColor(context),
             ),
             filled: true,
-            fillColor: onInverseSurfaceColor(context),
+            fillColor: surfaceColor(context),
+            border: OutlineInputBorder(borderSide: BorderSide.none),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: outlineVariantColor(context)),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide.none,
+              borderSide: BorderSide(color: outlineVariantColor(context)),
             ),
           ),
         ),

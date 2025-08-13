@@ -131,4 +131,15 @@ class AuthController extends GetxController {
       await prefs.setString("user_password", newPassword);
     }
   }
+
+  Future<bool> verifyOldPassword(String oldPasswordInput) async {
+    final prefs = await SharedPreferences.getInstance();
+    String? savedPassword = prefs.getString("user_password");
+
+    if (savedPassword == oldPasswordInput) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }
