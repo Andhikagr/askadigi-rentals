@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 class Textform extends StatefulWidget {
   final String label;
   final IconData iconData;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final bool obscureText;
   final TextInputType? keyboardType;
 
@@ -12,7 +12,7 @@ class Textform extends StatefulWidget {
     super.key,
     required this.label,
     required this.iconData,
-    required this.controller,
+    this.controller,
     this.obscureText = false,
     this.keyboardType,
   });

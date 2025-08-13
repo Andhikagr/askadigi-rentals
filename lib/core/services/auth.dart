@@ -124,4 +124,11 @@ class AuthController extends GetxController {
       userPhotoPath.value = newPhotoPath;
     }
   }
+
+  Future<void> updatePassword(String? newPassword) async {
+    final prefs = await SharedPreferences.getInstance();
+    if (newPassword != null) {
+      await prefs.setString("user_password", newPassword);
+    }
+  }
 }

@@ -1,10 +1,12 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/screen/auth/forgot_password.dart';
-import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
 
 import 'package:car_rental/screen/auth/reset_password.dart';
+import 'package:car_rental/widget/textform.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class SetNewPassword extends StatefulWidget {
@@ -15,9 +17,14 @@ class SetNewPassword extends StatefulWidget {
 }
 
 class _SetNewPasswordState extends State<SetNewPassword> {
+  final TextEditingController _passwordcontroller = TextEditingController();
+  final TextEditingController _repeatPasscontroller = TextEditingController();
+  final authController = Get.find<AuthController>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -70,20 +77,58 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                         textAlign: TextAlign.justify,
                       ),
                       SizedBox(height: 30),
-                      BoxText(label: "New Password", iconData: Icons.lock_open),
+                      Textform(
+                        label: "New Password",
+                        iconData: Icons.lock_open,
+                        controller: _passwordcontroller,
+                        obscureText: true,
+                      ),
                       SizedBox(height: 20),
-                      BoxText(
+                      Textform(
                         label: "Repeat Password",
                         iconData: Icons.lock_open,
+                        obscureText: true,
+                        controller: _repeatPasscontroller,
                       ),
 
                       SizedBox(height: 40),
-                      buttonOne(context, "Reset Password", () {
+                      buttonOne(context, "Reset Password", () async {
                         FocusScope.of(context).unfocus();
-                        Get.to(
+
+                        final password = _passwordcontroller.text.trim();
+                        final repeat = _repeatPasscontroller.text.trim();
+                        final capitalText = RegExp(r'[A-Z]');
+                        final specialChar = RegExp(r'[!@#$%^&*(),.?":{}|<>]');
+
+                        if (password.length < 8 ||
+                            !capitalText.hasMatch(password) ||
+                            !specialChar.hasMatch(password)) {
+                          Fluttertoast.showToast(
+                            msg: "Invalid password format",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            backgroundColor: onInverseSurfaceColor(context),
+                            textColor: onSurfaceColor(context),
+                            fontSize: 14,
+                          );
+                          return;
+                        }
+                        if (password != repeat) {
+                          Fluttertoast.showToast(
+                            msg: "Password not match",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.CENTER,
+                            backgroundColor: onInverseSurfaceColor(context),
+                            textColor: onSurfaceColor(context),
+                            fontSize: 14,
+                          );
+                          return;
+                        }
+                        await authController.updatePassword(password);
+                        Get.off(
                           () => ResetPassword(),
                           transition: Transition.native,
-                          duration: Duration(milliseconds: 300),
+                          duration: Duration(milliseconds: 500),
                         );
                       }),
                     ],

@@ -3,7 +3,6 @@ import 'package:car_rental/screen/auth/setnew_password.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/screen/auth/login.dart';
-import 'package:car_rental/screen/auth/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -77,12 +76,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             ),
                             SizedBox(height: 30),
                             BoxText(
-                              label: "Email",
+                              label: "Phone Number",
                               iconData: Icons.phone,
                               textController: _validatePhoneController,
+                              input: TextInputType.numberWithOptions(),
                             ),
                             SizedBox(height: 30),
-                            buttonOne(context, "Send Code", () async {
+                            buttonOne(context, "Confirmation", () async {
                               FocusScope.of(context).unfocus();
                               if (_validatePhoneController.text
                                   .trim()
@@ -116,8 +116,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               } else {
                                 Get.to(
                                   () => SetNewPassword(),
-                                  transition: Transition.native,
-                                  duration: Duration(milliseconds: 300),
+                                  transition: Transition.leftToRight,
+                                  duration: Duration(milliseconds: 400),
                                 );
                               }
                             }),
