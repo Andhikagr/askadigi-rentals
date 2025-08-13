@@ -139,7 +139,13 @@ class _EditAccountState extends State<EditAccount> {
     setState(() {
       isEditable = false;
     });
-    Get.snackbar("Succes", "Profile Updated");
+    if (!mounted) return;
+    Get.snackbar(
+      "Succes",
+      "Profile Updated",
+      colorText: onInverseSurfaceColor(context),
+      borderRadius: 10,
+    );
   }
 
   @override

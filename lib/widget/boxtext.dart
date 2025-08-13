@@ -4,8 +4,14 @@ import 'package:flutter/material.dart';
 class BoxText extends StatelessWidget {
   final String label;
   final IconData iconData;
+  final TextEditingController? textController;
 
-  const BoxText({super.key, required this.label, required this.iconData});
+  const BoxText({
+    super.key,
+    required this.label,
+    required this.iconData,
+    this.textController,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +20,7 @@ class BoxText extends StatelessWidget {
         height: 60,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: TextFormField(
+          controller: textController,
           enableSuggestions: false,
           decoration: InputDecoration(
             contentPadding: EdgeInsets.all(20),

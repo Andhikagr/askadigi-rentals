@@ -1,10 +1,13 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/screen/auth/setnew_password.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/screen/auth/verification.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -14,9 +17,13 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
+  final TextEditingController _validatePhoneController =
+      TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Stack(
         fit: StackFit.expand,
         children: [
@@ -62,7 +69,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             ),
                             Text(
                               textAlign: TextAlign.justify,
-                              "Please enter your email address. So we'll send you link to get back into your account",
+                              "Please enter your phone number to get back into your account",
                               style: TextStyle(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -71,16 +78,48 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             SizedBox(height: 30),
                             BoxText(
                               label: "Email",
-                              iconData: Icons.email_outlined,
+                              iconData: Icons.phone,
+                              textController: _validatePhoneController,
                             ),
                             SizedBox(height: 30),
-                            buttonOne(context, "Send Code", () {
+                            buttonOne(context, "Send Code", () async {
                               FocusScope.of(context).unfocus();
-                              Get.to(
-                                () => Verification(),
-                                transition: Transition.native,
-                                duration: Duration(milliseconds: 300),
+                              if (_validatePhoneController.text
+                                  .trim()
+                                  .isEmpty) {
+                                Fluttertoast.showToast(
+                                  msg: "Please enter your phone number",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  backgroundColor: Colors.black87,
+                                  textColor: onInverseSurfaceColor(context),
+                                  fontSize: 14,
+                                );
+                                return;
+                              }
+                              SharedPreferences prefs =
+                                  await SharedPreferences.getInstance();
+                              String? savedPhone = prefs.getString(
+                                "user_phone",
                               );
+                              if (savedPhone == null ||
+                                  savedPhone !=
+                                      _validatePhoneController.text.trim()) {
+                                Fluttertoast.showToast(
+                                  msg: "Invalid Phone Numbers",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.CENTER,
+                                  backgroundColor: Colors.black87,
+                                  textColor: Colors.white,
+                                  fontSize: 14,
+                                );
+                              } else {
+                                Get.to(
+                                  () => SetNewPassword(),
+                                  transition: Transition.native,
+                                  duration: Duration(milliseconds: 300),
+                                );
+                              }
                             }),
                           ],
                         ),

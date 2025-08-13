@@ -113,8 +113,8 @@ class _LoginState extends State<Login> {
                                       FocusScope.of(context).unfocus();
                                       Get.to(
                                         () => ForgotPassword(),
-                                        transition: Transition.native,
-                                        duration: Duration(milliseconds: 1000),
+                                        transition: Transition.leftToRight,
+                                        duration: Duration(milliseconds: 400),
                                       );
                                     },
                                     child: Padding(

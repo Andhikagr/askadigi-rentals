@@ -1,9 +1,9 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/screen/auth/forgot_password.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
 
 import 'package:car_rental/screen/auth/reset_password.dart';
-import 'package:car_rental/screen/auth/verification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -44,7 +44,7 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                           onPressed: () {
                             FocusScope.of(context).unfocus();
                             Get.off(
-                              () => Verification(),
+                              () => ForgotPassword(),
                               transition: Transition.native,
                               duration: Duration(milliseconds: 1000),
                             );
