@@ -147,6 +147,8 @@ class BookingPage extends StatelessWidget {
                     ),
                   ),
                 ),
+                Divider(),
+
                 SizedBox(height: 10),
                 Container(
                   padding: EdgeInsets.all(10),
@@ -162,6 +164,32 @@ class BookingPage extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                       fontSize: 14,
                       color: const Color(0xFFFF1908),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 20),
+                GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: const Color(0xFFFF1908),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withValues(alpha: 0.5),
+                          offset: Offset(1, 2),
+                          blurRadius: 1,
+                        ),
+                      ],
+                    ),
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    child: Text(
+                      "Checkout",
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: onInverseSurfaceColor(context),
+                      ),
                     ),
                   ),
                 ),

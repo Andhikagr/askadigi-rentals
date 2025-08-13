@@ -7,8 +7,8 @@ import 'package:car_rental/screen/home/order/car_detail.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
@@ -28,15 +28,26 @@ class _DashboardState extends State<Dashboard> {
     "assets/image/mitsubishi.png",
   ];
 
-  Future<List<CarModel>> loadCarsFromJson() async {
-    final String response = await rootBundle.loadString(
-      "assets/data/cars.json",
-    );
-    final List<dynamic> data = jsonDecode(response);
-    return data.map((cars) => CarModel.fromJson(cars)).toList();
+  // Future<List<CarModel>> loadCarsFromJson() async {
+  //   final String response = await rootBundle.loadString(
+  //     "assets/data/cars.json",
+  //   );
+  //   final List<dynamic> data = jsonDecode(response);
+  //   return data.map((cars) => CarModel.fromJson(cars)).toList();
+  // }
+
+  Future<List<CarModel>> loadCars() async {
+    final response = await http.get(Uri.parse('http://10.0.2.2:8080/cars'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> data = jsonDecode(response.body);
+      return data.map((json) => CarModel.fromJson(json)).toList();
+    } else {
+      throw Exception('Failed to load cars from backend');
+    }
   }
 
-  late Future<List<CarModel>> _cars;
+  late Future<List<CarModel>> _listOfCars;
 
   String? selectedBrand;
 
@@ -58,9 +69,10 @@ class _DashboardState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    _cars = loadCarsFromJson();
+    // _cars = loadCarsFromJson();
     selectedBrand = "toyota";
     loadUserPhoto();
+    _listOfCars = loadCars();
   }
 
   @override
@@ -277,7 +289,7 @@ class _DashboardState extends State<Dashboard> {
                           ),
 
                           FutureBuilder<List<CarModel>>(
-                            future: _cars,
+                            future: _listOfCars,
                             builder: (context, snapshot) {
                               if (snapshot.connectionState ==
                                   ConnectionState.waiting) {

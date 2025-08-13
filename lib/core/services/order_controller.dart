@@ -186,12 +186,14 @@ class OrderController extends GetxController {
   }
 
   String? validateOrder() {
-    if (selectedCars.isEmpty)
+    if (selectedCars.isEmpty) {
       return "No car selected. Please pick a car to continue.";
+    }
     if (pickedDate.value == null) return "Please select the start date.";
     if (returnDate.value == null) return "Please select the return date.";
-    if (streetAddressController.text.isEmpty)
+    if (streetAddressController.text.isEmpty) {
       return "Please enter your street address.";
+    }
     if (districtController.text.isEmpty) return "Please enter your district.";
     if (regencyController.text.isEmpty) return "Please enter your regency.";
     if (provinceController.text.isEmpty) return "Please enter your province.";
