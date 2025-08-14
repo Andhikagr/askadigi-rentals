@@ -26,7 +26,7 @@ class OrderController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    // Jangan loadOrderData di sini, tapi saat userEmail di-set dari AuthController
+
     ever(userEmail, (_) {
       if (userEmail.value.isNotEmpty) {
         loadOrderData();
@@ -113,10 +113,8 @@ class OrderController extends GetxController {
     totalPrice.value = prefs.getInt("${prefix}totalPrice") ?? 0;
   }
 
-  // Total harga sewa, disimpan sebagai observable integer agar UI dapat update otomatis
   var totalPrice = 0.obs;
 
-  //fungsi mobil
   void addCar(CarModel itemCar) {
     if (!selectedCars.contains(itemCar)) {
       selectedCars.add(itemCar);
@@ -144,12 +142,9 @@ class OrderController extends GetxController {
     saveOrderData();
   }
 
-  //Menyimpan tanggal mulai
   void setPickedDate(DateTime date) {
     pickedDate.value = date;
 
-    //Jika tanggal kembali ada, dan lebih kecil atau sama dengan tanggal mulai,
-    // maka tanggal kembali di-reset ke null supaya validasi tetap benar
     if (returnDate.value != null &&
         (returnDate.value!.isBefore(date) ||
             returnDate.value!.isAtSameMomentAs(date))) {
@@ -159,14 +154,12 @@ class OrderController extends GetxController {
     saveOrderData();
   }
 
-  //Menyimpan tanggal kembali
   void setReturnDate(DateTime date) {
     returnDate.value = date;
     updateTotalPrice();
     saveOrderData();
   }
 
-  // Jika tanggal mulai atau tanggal kembali belum diisi, total harga 0
   void updateTotalPrice() {
     if (pickedDate.value == null || returnDate.value == null) {
       totalPrice.value = 0;

@@ -94,7 +94,6 @@ class DashboardController extends GetxController {
     const minText = 2;
 
     if (!fromBrand && value.length < minText) {
-      // Klik brand → filter brand tapi tetap pakai search text
       filteredCars.value = cars
           .where(
             (car) =>
@@ -107,7 +106,6 @@ class DashboardController extends GetxController {
       return;
     } else {
       if (value.isEmpty) {
-        // Search kosong → tampilkan semua mobil sesuai brand
         filteredCars.value = cars
             .where(
               (car) =>
@@ -116,7 +114,6 @@ class DashboardController extends GetxController {
             )
             .toList();
       } else {
-        // Search ada teks → tampilkan satu mobil yang sesuai
         final matchedCars = cars
             .where(
               (car) => car.model.toLowerCase().contains(value.toLowerCase()),
@@ -124,10 +121,7 @@ class DashboardController extends GetxController {
             .toList();
 
         if (matchedCars.isNotEmpty) {
-          // Update selectedBrand dulu supaya kotak brand kuning juga mengikuti
           selectedBrand.value = matchedCars.first.brand;
-
-          // Scroll ke brand aktif
           final index = brand.indexWhere((path) {
             final name = path.split('/').last.split('.').first.toLowerCase();
             return name == selectedBrand.value.toLowerCase();
@@ -135,13 +129,12 @@ class DashboardController extends GetxController {
 
           if (index != -1) {
             brandScrollController.animateTo(
-              index * 110.0, // perkiraan width item + padding
+              index * 110.0,
               duration: const Duration(milliseconds: 300),
               curve: Curves.easeInOut,
             );
           }
 
-          // Update filteredCars supaya tampil hanya satu mobil
           filteredCars.value = matchedCars;
         } else {
           filteredCars.value = [];
