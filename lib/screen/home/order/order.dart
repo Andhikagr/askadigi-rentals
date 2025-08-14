@@ -589,8 +589,10 @@ class _OrderState extends State<Order> {
                                       ),
                                       SizedBox(height: 10),
                                       Padding(
-                                        padding: EdgeInsets.symmetric(
-                                          horizontal: 20,
+                                        padding: EdgeInsets.only(
+                                          right: 20,
+                                          left: 20,
+                                          bottom: 10,
                                         ),
                                         child: BoxForm(
                                           label: "Province",
@@ -608,6 +610,7 @@ class _OrderState extends State<Order> {
                           ),
                         ),
                       ),
+
                       Container(
                         width: double.infinity,
                         padding: EdgeInsets.only(
