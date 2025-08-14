@@ -5,30 +5,47 @@ import 'package:car_rental/screen/home/profile/account.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Mainpage extends StatelessWidget {
-  final NavController controller = Get.put(NavController());
+class Mainpage extends StatefulWidget {
+  const Mainpage({super.key});
+
+  @override
+  State<Mainpage> createState() => _MainpageState();
+}
+
+class _MainpageState extends State<Mainpage> {
+  final NavController controller = Get.put(NavController(), permanent: true);
+
   final DashboardController dashboardController = Get.put(
     DashboardController(),
     permanent: true,
   );
 
-  Mainpage({super.key});
-
-  final List<Widget> pages = [Account(), Dashboard(), Order()];
-
   final List<IconData> icons = [Icons.person, Icons.home, Icons.receipt_long];
 
   final List<String> labels = ["Account", "Home", "MyOrder"];
 
+  late final List<Widget> pages;
+  @override
+  void initState() {
+    super.initState();
+    pages = [
+      Account(key: PageStorageKey('accountPage')),
+      Dashboard(key: PageStorageKey('dashboardPage')),
+      Order(key: PageStorageKey('orderPage')),
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        body: IndexedStack(
+    return Scaffold(
+      body: Obx(
+        () => IndexedStack(
           index: controller.selectedIndex.value,
           children: pages,
         ),
-        bottomNavigationBar: Container(
+      ),
+      bottomNavigationBar: Obx(() {
+        return Container(
           height: 60,
           decoration: BoxDecoration(
             color: Colors.white,
@@ -88,8 +105,8 @@ class Mainpage extends StatelessWidget {
               );
             }),
           ),
-        ),
-      ),
+        );
+      }),
     );
   }
 }

@@ -22,8 +22,6 @@ class CarDetail extends StatelessWidget {
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios, color: Colors.red),
           onPressed: () {
-            final nav = Get.find<NavController>();
-            nav.selectedIndex.value = 1;
             Get.back();
           },
         ),
@@ -65,6 +63,7 @@ class CarDetail extends StatelessWidget {
                                 ),
                               ),
                               SizedBox(height: 20),
+
                               Hero(
                                 tag: cars.image,
                                 child: ClipRRect(
@@ -72,8 +71,22 @@ class CarDetail extends StatelessWidget {
                                   child: Center(
                                     child: Image.network(
                                       cars.image,
-                                      fit: BoxFit.cover,
                                       width: 500,
+                                      fit: BoxFit.cover,
+                                      loadingBuilder:
+                                          (context, child, loadingProgress) {
+                                            if (loadingProgress == null) {
+                                              return child;
+                                            }
+                                            return const Center(
+                                              child:
+                                                  CircularProgressIndicator(),
+                                            );
+                                          },
+                                      errorBuilder:
+                                          (context, error, stackTrace) {
+                                            return const Icon(Icons.error);
+                                          },
                                     ),
                                   ),
                                 ),

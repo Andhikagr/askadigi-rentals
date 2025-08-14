@@ -91,7 +91,9 @@ class DashboardController extends GetxController {
   void searchCars(String value, {bool fromBrand = false}) {
     searchText.value = value;
 
-    if (fromBrand) {
+    const minText = 2;
+
+    if (!fromBrand && value.length < minText) {
       // Klik brand → filter brand tapi tetap pakai search text
       filteredCars.value = cars
           .where(
@@ -102,6 +104,7 @@ class DashboardController extends GetxController {
                 car.model.toLowerCase().contains(value.toLowerCase()),
           )
           .toList();
+      return;
     } else {
       if (value.isEmpty) {
         // Search kosong → tampilkan semua mobil sesuai brand
@@ -115,7 +118,9 @@ class DashboardController extends GetxController {
       } else {
         // Search ada teks → tampilkan satu mobil yang sesuai
         final matchedCars = cars
-            .where((car) => car.model.toLowerCase() == value.toLowerCase())
+            .where(
+              (car) => car.model.toLowerCase().contains(value.toLowerCase()),
+            )
             .toList();
 
         if (matchedCars.isNotEmpty) {

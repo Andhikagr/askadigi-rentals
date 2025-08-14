@@ -5,7 +5,7 @@ import 'package:car_rental/screen/home/order/car_detail.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CarList extends StatelessWidget {
+class CarList extends StatefulWidget {
   final List<CarModel> cars;
   final String? selectedBrand;
   final String? searchText;
@@ -18,24 +18,34 @@ class CarList extends StatelessWidget {
   });
 
   @override
+  State<CarList> createState() => _CarListState();
+}
+
+class _CarListState extends State<CarList> with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
-    // filter sesuai brand
-    var filteredCars = selectedBrand == null
-        ? cars
-        : cars
+    var filteredCars = widget.selectedBrand == null
+        ? widget.cars
+        : widget.cars
               .where(
                 (car) =>
-                    car.brand.toLowerCase() == selectedBrand!.toLowerCase(),
+                    car.brand.toLowerCase() ==
+                    widget.selectedBrand!.toLowerCase(),
               )
               .toList();
-    if (searchText != null && searchText!.isNotEmpty) {
+    if (widget.searchText != null && widget.searchText!.isNotEmpty) {
       filteredCars = filteredCars
           .where(
-            (car) =>
-                car.model.toLowerCase().contains(searchText!.toLowerCase()),
+            (car) => car.model.toLowerCase().contains(
+              widget.searchText!.toLowerCase(),
+            ),
           )
           .toList();
     }
+    super.build(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -106,16 +116,21 @@ class CarList extends StatelessWidget {
                           duration: const Duration(milliseconds: 600),
                         );
                       },
+
                       child: Hero(
                         tag: showCar.image,
                         child: Image.network(
                           showCar.image,
+                          key: ValueKey(showCar.image),
                           fit: BoxFit.contain,
-                          loadingBuilder: (context, child, progress) {
-                            if (progress == null) return child;
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
                             return const Center(
                               child: CircularProgressIndicator(),
                             );
+                          },
+                          errorBuilder: (context, error, stackTrace) {
+                            return const Icon(Icons.error);
                           },
                         ),
                       ),

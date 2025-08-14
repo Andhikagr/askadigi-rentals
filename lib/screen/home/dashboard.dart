@@ -6,14 +6,24 @@ import 'package:car_rental/widget/car_list.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class Dashboard extends StatelessWidget {
-  Dashboard({super.key});
+class Dashboard extends StatefulWidget {
+  const Dashboard({super.key});
 
-  final DashboardController controller = Get.put(DashboardController());
+  @override
+  State<Dashboard> createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard>
+    with AutomaticKeepAliveClientMixin {
+  final DashboardController controller = Get.find<DashboardController>();
   final AuthController authController = Get.find<AuthController>();
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFFF1908),
@@ -207,6 +217,7 @@ class Dashboard extends StatelessWidget {
                           children: [
                             Obx(
                               () => CarList(
+                                key: PageStorageKey('carList'),
                                 cars: controller.cars,
                                 selectedBrand: controller.selectedBrand.value,
                                 searchText: controller.searchText.value,
