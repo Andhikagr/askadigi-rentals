@@ -14,6 +14,7 @@ class OrderController extends GetxController {
   RxString userEmail = ''.obs;
   RxString selectedDriver = "Without Driver".obs;
   RxInt stockDriver = 0.obs;
+  final FocusNode searchBoxFocus = FocusNode();
 
   TextEditingController streetAddressController = TextEditingController();
   TextEditingController districtController = TextEditingController();
@@ -33,6 +34,12 @@ class OrderController extends GetxController {
         clearOrderData();
       }
     });
+  }
+
+  @override
+  void onClose() {
+    searchBoxFocus.dispose();
+    super.onClose();
   }
 
   Future<void> saveOrderData() async {
@@ -216,5 +223,11 @@ class OrderController extends GetxController {
       province: provinceController.text,
       totalPrice: totalPrice.value,
     );
+  }
+
+  //keyboard unfocus
+  void unfocusSearch() {
+    searchBoxFocus.unfocus();
+    FocusManager.instance.primaryFocus?.unfocus();
   }
 }
