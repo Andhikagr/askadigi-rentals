@@ -1,7 +1,11 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/booked.dart';
+import 'package:car_rental/core/services/send_booking.dart';
 import 'package:car_rental/core/utils/currency.dart';
+import 'package:car_rental/screen/home/order/payment_page.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:intl/intl.dart';
 
 class BookingPage extends StatelessWidget {
@@ -169,7 +173,10 @@ class BookingPage extends StatelessWidget {
                 ),
                 SizedBox(height: 20),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () async {
+                    await sendBooking(getBooked);
+                    Get.to(() => PaymentPage());
+                  },
                   child: Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
