@@ -114,6 +114,9 @@ class _EditAccountState extends State<EditAccount> {
     photoController = TextEditingController(
       text: authController.userPhotoPath.value,
     );
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FocusScope.of(context).unfocus();
+    });
   }
 
   @override
@@ -154,6 +157,14 @@ class _EditAccountState extends State<EditAccount> {
       if (!authController.isLoggedIn.value) {
         return Scaffold(
           appBar: AppBar(
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              icon: const Icon(Icons.arrow_back),
+              onPressed: () {
+                FocusScope.of(context).unfocus(); // tutup keyboard
+                Navigator.of(context).pop();
+              },
+            ),
             backgroundColor: const Color(0xFFFF1908),
             foregroundColor: onInverseSurfaceColor(context),
             toolbarHeight: 70,
@@ -167,7 +178,7 @@ class _EditAccountState extends State<EditAccount> {
         );
       } else {
         return GestureDetector(
-          onTap: () => FocusScope.of(context).unfocus(),
+          onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
           child: Scaffold(
             resizeToAvoidBottomInset: false,
             appBar: AppBar(

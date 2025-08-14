@@ -45,6 +45,7 @@ dependencies:
   fluttertoast: ^8.2.12
   url_launcher: ^6.3.2
   http: ^1.5.0
+  standard_searchbar: ^2.1.1
 
 dev_dependencies:
   flutter_test:

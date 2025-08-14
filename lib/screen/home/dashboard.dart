@@ -1,11 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:car_rental/core/services/auth.dart';
-import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/model/car_model.dart';
-import 'package:car_rental/screen/home/order/car_detail.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/widget/car_item.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -15,10 +14,10 @@ class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
   @override
-  State<Dashboard> createState() => _DashboardState();
+  State<Dashboard> createState() => DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class DashboardState extends State<Dashboard> {
   final List<String> brand = [
     "assets/image/toyota.png",
     "assets/image/honda.png",
@@ -47,8 +46,6 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
-  late Future<List<CarModel>> _listOfCars;
-
   String? selectedBrand;
 
   //authcontroller
@@ -66,13 +63,19 @@ class _DashboardState extends State<Dashboard> {
     }
   }
 
+  late Future<List<CarModel>> _listOfCars;
+
   @override
   void initState() {
     super.initState();
-    // _cars = loadCarsFromJson();
     selectedBrand = "toyota";
     loadUserPhoto();
     _listOfCars = loadCars();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   @override
@@ -275,165 +278,9 @@ class _DashboardState extends State<Dashboard> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SizedBox(height: 10),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: Text(
-                              "List Cars",
-                              style: TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: onInverseSurfaceColor(context),
-                              ),
-                            ),
-                          ),
-
-                          FutureBuilder<List<CarModel>>(
-                            future: _listOfCars,
-                            builder: (context, snapshot) {
-                              if (snapshot.connectionState ==
-                                  ConnectionState.waiting) {
-                                return Center(
-                                  child: CircularProgressIndicator(),
-                                );
-                              } else if (snapshot.hasError) {
-                                return Center(child: Text("Error"));
-                              }
-
-                              final allCars = snapshot.data!;
-                              final cars = selectedBrand == null
-                                  ? allCars
-                                  : allCars
-                                        .where(
-                                          (car) =>
-                                              car.brand.toLowerCase() ==
-                                              selectedBrand!.toLowerCase(),
-                                        )
-                                        .toList();
-
-                              return Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 20),
-                                child: ListView.builder(
-                                  itemCount: cars.length,
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    final showCar = cars[index];
-                                    return Container(
-                                      height: 180,
-                                      margin: EdgeInsets.symmetric(
-                                        vertical: 10,
-                                      ),
-                                      padding: EdgeInsets.all(10),
-                                      decoration: BoxDecoration(
-                                        color: onInverseSurfaceColor(context),
-                                        borderRadius: BorderRadius.circular(15),
-                                      ),
-                                      child: Row(
-                                        children: [
-                                          Expanded(
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "${showCar.brand} ${showCar.model}",
-                                                    style: TextStyle(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                  Text(showCar.transmission),
-                                                  Text(
-                                                    "Seats: ${showCar.seats}",
-                                                  ),
-                                                  Spacer(),
-                                                  Container(
-                                                    width: 150,
-                                                    height: 30,
-                                                    decoration: BoxDecoration(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                            20,
-                                                          ),
-                                                      color: onSurfaceColor(
-                                                        context,
-                                                      ),
-                                                    ),
-                                                    child: Center(
-                                                      child: Text(
-                                                        "${formatRp((showCar.pricePerDay))} /day",
-                                                        style: TextStyle(
-                                                          fontSize: 16,
-                                                          color: surfaceColor(
-                                                            context,
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ),
-                                          SizedBox(width: 10),
-                                          Expanded(
-                                            flex: 1,
-                                            child: Padding(
-                                              padding: EdgeInsets.all(5),
-                                              child: GestureDetector(
-                                                onTap: () {
-                                                  FocusScope.of(
-                                                    context,
-                                                  ).unfocus();
-                                                  Get.to(
-                                                    () => CarDetail(
-                                                      cars: showCar,
-                                                    ),
-                                                    transition:
-                                                        Transition.native,
-                                                    duration: Duration(
-                                                      milliseconds: 600,
-                                                    ),
-                                                  );
-                                                },
-
-                                                child: Hero(
-                                                  tag: showCar.image,
-                                                  child: Image.network(
-                                                    showCar.image,
-                                                    fit: BoxFit.contain,
-
-                                                    loadingBuilder:
-                                                        (
-                                                          context,
-                                                          child,
-                                                          progress,
-                                                        ) {
-                                                          if (progress ==
-                                                              null) {
-                                                            return child;
-                                                          }
-                                                          return Center(
-                                                            child:
-                                                                CircularProgressIndicator(),
-                                                          );
-                                                        },
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  },
-                                ),
-                              );
-                            },
+                          CarList(
+                            futureCars: _listOfCars,
+                            selectedBrand: selectedBrand,
                           ),
                         ],
                       ),
