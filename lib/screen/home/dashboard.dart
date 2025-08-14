@@ -124,6 +124,7 @@ class Dashboard extends StatelessWidget {
                               child: BoxText(
                                 label: "search cars",
                                 iconData: Icons.search,
+                                onChanged: controller.searchCars,
                               ),
                             ),
                             const SizedBox(height: 10),
@@ -143,6 +144,7 @@ class Dashboard extends StatelessWidget {
                             SizedBox(
                               height: 100,
                               child: ListView.builder(
+                                controller: controller.brandScrollController,
                                 scrollDirection: Axis.horizontal,
                                 itemCount: controller.brand.length,
                                 itemBuilder: (context, index) {
@@ -150,10 +152,12 @@ class Dashboard extends StatelessWidget {
                                       .split('/')
                                       .last
                                       .split('.')
-                                      .first;
+                                      .first
+                                      .toLowerCase();
                                   return Obx(() {
                                     final isSelected =
-                                        controller.selectedBrand.value ==
+                                        controller.selectedBrand.value
+                                            .toLowerCase() ==
                                         brandName;
                                     return GestureDetector(
                                       onTap: () =>
@@ -171,7 +175,7 @@ class Dashboard extends StatelessWidget {
                                               15,
                                             ),
                                             color: isSelected
-                                                ? Colors.amberAccent
+                                                ? Colors.grey.shade400
                                                 : onInverseSurfaceColor(
                                                     context,
                                                   ),
@@ -205,21 +209,8 @@ class Dashboard extends StatelessWidget {
                               () => CarList(
                                 cars: controller.cars,
                                 selectedBrand: controller.selectedBrand.value,
+                                searchText: controller.searchText.value,
                               ),
-                            ),
-                            Obx(
-                              () => controller.isLoading.value
-                                  ? Positioned.fill(
-                                      child: Container(
-                                        color: Colors.black.withValues(
-                                          alpha: 0.1,
-                                        ),
-                                        child: const Center(
-                                          child: CircularProgressIndicator(),
-                                        ),
-                                      ),
-                                    )
-                                  : const SizedBox.shrink(),
                             ),
                           ],
                         );

@@ -8,13 +8,19 @@ import 'package:get/get.dart';
 class CarList extends StatelessWidget {
   final List<CarModel> cars;
   final String? selectedBrand;
+  final String? searchText;
 
-  const CarList({super.key, required this.cars, this.selectedBrand});
+  const CarList({
+    super.key,
+    required this.cars,
+    this.selectedBrand,
+    this.searchText,
+  });
 
   @override
   Widget build(BuildContext context) {
     // filter sesuai brand
-    final filteredCars = selectedBrand == null
+    var filteredCars = selectedBrand == null
         ? cars
         : cars
               .where(
@@ -22,6 +28,15 @@ class CarList extends StatelessWidget {
                     car.brand.toLowerCase() == selectedBrand!.toLowerCase(),
               )
               .toList();
+    if (searchText != null && searchText!.isNotEmpty) {
+      filteredCars = filteredCars
+          .where(
+            (car) =>
+                car.model.toLowerCase().contains(searchText!.toLowerCase()),
+          )
+          .toList();
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: ListView.builder(
@@ -49,7 +64,7 @@ class CarList extends StatelessWidget {
                         Text(
                           "${showCar.brand} ${showCar.model}",
                           style: const TextStyle(
-                            fontSize: 16,
+                            fontSize: 15,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -61,7 +76,7 @@ class CarList extends StatelessWidget {
                           height: 30,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(20),
-                            color: onSurfaceColor(context),
+                            color: const Color(0xFFFF1908),
                           ),
                           child: Center(
                             child: Text(

@@ -6,6 +6,7 @@ class BoxText extends StatelessWidget {
   final IconData iconData;
   final TextEditingController? textController;
   final TextInputType? input;
+  final ValueChanged<String>? onChanged;
 
   const BoxText({
     super.key,
@@ -13,6 +14,7 @@ class BoxText extends StatelessWidget {
     required this.iconData,
     this.textController,
     this.input,
+    this.onChanged,
   });
 
   @override
@@ -22,6 +24,7 @@ class BoxText extends StatelessWidget {
         height: 60,
         decoration: BoxDecoration(borderRadius: BorderRadius.circular(10)),
         child: TextFormField(
+          onChanged: onChanged,
           keyboardType: input,
           controller: textController,
           enableSuggestions: false,

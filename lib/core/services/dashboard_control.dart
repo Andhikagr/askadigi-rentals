@@ -14,6 +14,9 @@ class DashboardController extends GetxController {
   var selectedBrand = "toyota".obs;
   var userPhoto = Rxn<File>();
   final FocusNode searchBoxFocus = FocusNode();
+  var filteredCars = <CarModel>[].obs;
+  var searchText = "".obs;
+  var brandScrollController = ScrollController();
 
   var isLoading = false.obs;
 
@@ -83,5 +86,67 @@ class DashboardController extends GetxController {
 
   void selectBrand(String brandName) {
     selectedBrand.value = brandName;
+  }
+
+  void searchCars(String value, {bool fromBrand = false}) {
+    searchText.value = value;
+
+    if (fromBrand) {
+      // Klik brand → filter brand tapi tetap pakai search text
+      filteredCars.value = cars
+          .where(
+            (car) =>
+                (selectedBrand.value == 'All' ||
+                    car.brand.toLowerCase() ==
+                        selectedBrand.value.toLowerCase()) &&
+                car.model.toLowerCase().contains(value.toLowerCase()),
+          )
+          .toList();
+    } else {
+      if (value.isEmpty) {
+        // Search kosong → tampilkan semua mobil sesuai brand
+        filteredCars.value = cars
+            .where(
+              (car) =>
+                  selectedBrand.value == 'All' ||
+                  car.brand.toLowerCase() == selectedBrand.value.toLowerCase(),
+            )
+            .toList();
+      } else {
+        // Search ada teks → tampilkan satu mobil yang sesuai
+        final matchedCars = cars
+            .where((car) => car.model.toLowerCase() == value.toLowerCase())
+            .toList();
+
+        if (matchedCars.isNotEmpty) {
+          // Update selectedBrand dulu supaya kotak brand kuning juga mengikuti
+          selectedBrand.value = matchedCars.first.brand;
+
+          // Scroll ke brand aktif
+          final index = brand.indexWhere((path) {
+            final name = path.split('/').last.split('.').first.toLowerCase();
+            return name == selectedBrand.value.toLowerCase();
+          });
+
+          if (index != -1) {
+            brandScrollController.animateTo(
+              index * 110.0, // perkiraan width item + padding
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeInOut,
+            );
+          }
+
+          // Update filteredCars supaya tampil hanya satu mobil
+          filteredCars.value = matchedCars;
+        } else {
+          filteredCars.value = [];
+        }
+      }
+    }
+  }
+
+  void selectingBrand(String brand) {
+    selectedBrand.value = brand;
+    searchCars(searchText.value, fromBrand: true);
   }
 }
