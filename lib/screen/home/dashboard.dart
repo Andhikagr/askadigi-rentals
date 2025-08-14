@@ -14,8 +14,6 @@ class Dashboard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool loggedIn = authController.isLoggedIn.value;
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: const Color(0xFFFF1908),
@@ -64,14 +62,16 @@ class Dashboard extends StatelessWidget {
                                         color: onInverseSurfaceColor(context),
                                       ),
                                     ),
-                                    Text(
-                                      authController.username.value,
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: onInverseSurfaceColor(context),
-                                      ),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                        authController.username.value,
+                                        style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                          color: onInverseSurfaceColor(context),
+                                        ),
+                                      );
+                                    }),
                                   ],
                                 ),
                               ),
@@ -85,7 +85,7 @@ class Dashboard extends StatelessWidget {
                                   ),
                                   child: ClipOval(
                                     child:
-                                        (loggedIn &&
+                                        (authController.isLoggedIn.value &&
                                             path != null &&
                                             path.isNotEmpty &&
                                             controller.userPhoto.value != null)
