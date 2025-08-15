@@ -4,7 +4,6 @@ import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/screen/auth/forgot_password.dart';
 import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/core/utils/media_query.dart';
-import 'package:car_rental/widget/socialbutton.dart';
 import 'package:car_rental/screen/auth/signup.dart';
 import 'package:car_rental/widget/textform.dart';
 import 'package:flutter/material.dart';
@@ -145,62 +144,78 @@ class _LoginState extends State<Login> {
                   ),
                   Padding(padding: EdgeInsets.all(20)),
                   Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          "First time here? ",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            FocusScope.of(context).unfocus();
+                            Get.off(
+                              () => Signup(),
+                              transition: Transition.leftToRight,
+                              duration: Duration(milliseconds: 300),
+                            );
+                          },
+                          child: Text(
+                            "Sign Up",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Colors.red,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          " or sign in with",
+                          style: TextStyle(fontSize: 14),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: context.shortp(0.04)),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20),
                     child: Container(
-                      height: 60,
-                      width: 300,
+                      width: 180,
+                      height: 55,
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
                         color: onInverseSurfaceColor(context),
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: outlineVariantColor(context),
+                          width: 2,
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.2),
+                            offset: Offset(1, 2),
+                            blurRadius: 0,
+                          ),
+                        ],
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            "First time here? ",
-                            style: TextStyle(fontSize: 14),
+                          Image.asset(
+                            "assets/image/googlewhite.png",
+                            fit: BoxFit.cover,
+                            width: 35,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              FocusScope.of(context).unfocus();
-                              Get.off(
-                                () => Signup(),
-                                transition: Transition.leftToRight,
-                                duration: Duration(milliseconds: 300),
-                              );
-                            },
-                            child: Text(
-                              "Sign Up",
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.red,
-                                fontWeight: FontWeight.bold,
-                              ),
+                          SizedBox(width: context.longp(0.015)),
+                          Text(
+                            "Google",
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: onSurfaceColor(context),
                             ),
-                          ),
-                          Text(
-                            " or sign in with",
-                            style: TextStyle(fontSize: 14),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                  SizedBox(height: context.shortp(0.04)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      socialButton(
-                        context,
-                        "assets/image/googlewhite.png",
-                        "Google",
-                      ),
-                      SizedBox(width: context.shortp(0.05)),
-                      socialButton(
-                        context,
-                        "assets/image/whatsapp.png",
-                        "Whatsapp",
-                      ),
-                    ],
                   ),
                 ],
               );

@@ -259,9 +259,18 @@ class _AccountState extends State<Account> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10),
                                       border: Border.all(
-                                        color: outlineVariantColor(context),
-                                        width: 1.5,
+                                        color: Colors.grey.shade400,
+                                        width: 1.8,
                                       ),
+                                      boxShadow: [
+                                        BoxShadow(
+                                          color: Colors.black.withValues(
+                                            alpha: 0.1,
+                                          ),
+                                          offset: Offset(0, 2),
+                                          blurRadius: 0,
+                                        ),
+                                      ],
                                     ),
                                     child: Center(
                                       child: Text(
