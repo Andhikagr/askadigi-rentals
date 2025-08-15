@@ -1,8 +1,7 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/auth.dart';
-import 'package:car_rental/screen/auth/forgot_password.dart';
+import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/widget/button_one.dart';
-
 import 'package:car_rental/screen/auth/reset_password.dart';
 import 'package:car_rental/widget/textform.dart';
 import 'package:flutter/material.dart';
@@ -41,24 +40,6 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
-                        alignment: Alignment.topLeft,
-                        child: IconButton(
-                          icon: Icon(
-                            Icons.arrow_back_ios,
-                            color: onInverseSurfaceColor(context),
-                          ),
-                          onPressed: () {
-                            FocusScope.of(context).unfocus();
-                            Get.off(
-                              () => ForgotPassword(),
-                              transition: Transition.native,
-                              duration: Duration(milliseconds: 1000),
-                            );
-                          },
-                        ),
-                      ),
-
                       SizedBox(height: 10),
                       Text(
                         "Set New Password",
@@ -131,6 +112,35 @@ class _SetNewPasswordState extends State<SetNewPassword> {
                           duration: Duration(milliseconds: 500),
                         );
                       }),
+                      SizedBox(height: 20),
+                      GestureDetector(
+                        onTap: () => Get.off(
+                          () => Login(),
+                          transition: Transition.upToDown,
+                          duration: Duration(milliseconds: 1000),
+                        ),
+                        child: Align(
+                          alignment: Alignment.center,
+                          child: Container(
+                            padding: EdgeInsets.all(5),
+                            width: 130,
+                            decoration: BoxDecoration(
+                              color: onInverseSurfaceColor(context),
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: Center(
+                              child: Text(
+                                "Back to Login",
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: primaryColor(context),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

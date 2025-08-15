@@ -245,28 +245,25 @@ class _EditAccountState extends State<EditAccount> {
                   SizedBox(height: 20),
                   Row(
                     children: [
-                      Expanded(
-                        child: ButtonTwo(
-                          label: "Edit",
-                          fontColor: surfaceColor(context),
-                          colorBackground: isEditable
-                              ? surfaceColor(context)
-                              : const Color(0xFFFF1908),
-                          borderColor: surfaceColor(context),
-                          onTap: isEditable ? null : onEdit,
-                        ),
+                      ButtonTwo(
+                        label: "Edit",
+                        fontColor: surfaceColor(context),
+                        colorBackground: isEditable
+                            ? surfaceColor(context)
+                            : Color(0xFF003984),
+                        borderColor: surfaceColor(context),
+                        onTap: isEditable ? null : onEdit,
                       ),
+
                       SizedBox(width: 20),
-                      Expanded(
-                        child: ButtonTwo(
-                          label: "Save",
-                          fontColor: surfaceColor(context),
-                          colorBackground: isEditable
-                              ? const Color(0xFFFF1908)
-                              : outlineColor(context),
-                          borderColor: surfaceColor(context),
-                          onTap: isEditable ? onSave : null,
-                        ),
+                      ButtonTwo(
+                        label: "Save",
+                        fontColor: surfaceColor(context),
+                        colorBackground: isEditable
+                            ? Color(0xFF003984)
+                            : Colors.grey.shade400,
+                        borderColor: Colors.grey.shade400,
+                        onTap: isEditable ? onSave : null,
                       ),
                     ],
                   ),

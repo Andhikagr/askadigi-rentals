@@ -11,6 +11,9 @@ BookingModel _$BookingModelFromJson(Map<String, dynamic> json) => BookingModel(
   username: json['username'] as String,
   email: json['email'] as String,
   phone: json['phone'] as String,
+  selectedCars: (json['selectedCars'] as List<dynamic>)
+      .map((e) => CarModel.fromJson(e as Map<String, dynamic>))
+      .toList(),
   pickedDate: json['pickedDate'] as String,
   returnDate: json['returnDate'] as String,
   selectedDriver: json['selectedDriver'] as String?,
@@ -31,6 +34,7 @@ Map<String, dynamic> _$BookingModelToJson(BookingModel instance) =>
       'username': instance.username,
       'email': instance.email,
       'phone': instance.phone,
+      'selectedCars': instance.selectedCars.map((e) => e.toJson()).toList(),
       'pickedDate': instance.pickedDate,
       'returnDate': instance.returnDate,
       'selectedDriver': instance.selectedDriver,

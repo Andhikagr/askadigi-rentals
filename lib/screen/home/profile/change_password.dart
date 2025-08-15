@@ -81,7 +81,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                             obscureText: true,
                           ),
                           SizedBox(height: 20),
-                          buttonThree(context, "verify", () async {
+                          buttonThree(context, "Verify", () async {
                             bool isCorrect = await authController
                                 .verifyOldPassword(
                                   _passwordcontroller.text.trim(),

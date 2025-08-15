@@ -15,7 +15,7 @@ Widget buttonOne(BuildContext context, String label, VoidCallback onTap) {
             height: 55,
             decoration: BoxDecoration(
               border: Border.all(color: outlineVariantColor(context), width: 2),
-              color: Colors.grey.withValues(alpha: 0.5),
+              color: Colors.grey.withValues(alpha: 0.7),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(

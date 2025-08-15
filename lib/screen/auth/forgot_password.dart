@@ -2,7 +2,6 @@ import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/screen/auth/setnew_password.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/button_one.dart';
-import 'package:car_rental/screen/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -45,11 +44,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         ),
                         onPressed: () {
                           FocusScope.of(context).unfocus();
-                          Get.off(
-                            () => Login(),
-                            transition: Transition.native,
-                            duration: Duration(milliseconds: 1000),
-                          );
+                          Get.back();
                         },
                       ),
                     ),
@@ -117,8 +112,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               } else {
                                 Get.to(
                                   () => SetNewPassword(),
-                                  transition: Transition.leftToRight,
-                                  duration: Duration(milliseconds: 400),
+                                  transition: Transition.native,
+                                  duration: Duration(milliseconds: 300),
                                 );
                               }
                             }),

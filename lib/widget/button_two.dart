@@ -21,11 +21,19 @@ class ButtonTwo extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 50,
+        width: 100,
+        height: 40,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: colorBackground,
-          border: Border.all(color: borderColor),
+          border: Border.all(color: borderColor, width: 1.5),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.1),
+              offset: Offset(0, 2),
+              blurRadius: 0,
+            ),
+          ],
         ),
         child: Center(
           child: Text(

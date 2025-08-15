@@ -9,7 +9,7 @@ Widget buttonThree(BuildContext context, String label, VoidCallback onTap) {
       height: 40,
       decoration: BoxDecoration(
         color: Color(0xFF003984),
-        borderRadius: BorderRadius.circular(30),
+        borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withValues(alpha: 0.3),

@@ -1,3 +1,4 @@
+import 'package:car_rental/model/car_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'booking_model.g.dart';
@@ -8,6 +9,7 @@ class BookingModel {
   final String username;
   final String email;
   final String phone;
+  final List<CarModel> selectedCars;
   final String pickedDate;
   final String returnDate;
   final String? selectedDriver;
@@ -29,6 +31,7 @@ class BookingModel {
     required this.username,
     required this.email,
     required this.phone,
+    required this.selectedCars,
     required this.pickedDate,
     required this.returnDate,
     this.selectedDriver,

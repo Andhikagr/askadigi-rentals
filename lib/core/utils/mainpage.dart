@@ -22,23 +22,23 @@ class _MainpageState extends State<Mainpage> {
   );
 
   final List<IconData> icons = [
-    Icons.person,
     Icons.home,
     Icons.receipt_long,
     Icons.library_books,
+    Icons.person,
   ];
 
-  final List<String> labels = ["Account", "Home", "Order", "Reservations"];
+  final List<String> labels = ["Home", "Order", "Reservations", "Account"];
 
   late final List<Widget> pages;
   @override
   void initState() {
     super.initState();
     pages = [
-      Account(key: PageStorageKey('accountPage')),
       Dashboard(key: PageStorageKey('dashboardPage')),
       Order(key: PageStorageKey('orderPage')),
       Reservation(key: PageStorageKey('myBooking')),
+      Account(key: PageStorageKey('accountPage')),
     ];
   }
 
@@ -119,5 +119,5 @@ class _MainpageState extends State<Mainpage> {
 }
 
 class NavController extends GetxController {
-  RxInt selectedIndex = 1.obs;
+  RxInt selectedIndex = 0.obs;
 }

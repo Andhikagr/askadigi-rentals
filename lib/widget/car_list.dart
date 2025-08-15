@@ -75,6 +75,7 @@ class _CarListState extends State<CarList> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        Text("${showCar.year}"),
                         Text(showCar.transmission),
                         Text("Seats: ${showCar.seats}"),
                         const Spacer(),
