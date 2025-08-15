@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:car_rental/core/services/booked.dart';
+import 'package:car_rental/model/booked.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> sendBooking(Booked booking) async {
@@ -37,9 +37,5 @@ Future<void> sendBooking(Booked booking) async {
     headers: {"Content-Type": "application/json"},
     body: body,
   );
-  if (response.statusCode == 200) {
-    print("Succesfully");
-  } else {
-    print("failed ${response.statusCode} - ${response.body}");
-  }
+  if (response.statusCode == 200) {}
 }

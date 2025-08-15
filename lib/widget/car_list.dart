@@ -21,10 +21,8 @@ class CarList extends StatefulWidget {
   State<CarList> createState() => _CarListState();
 }
 
-class _CarListState extends State<CarList> with AutomaticKeepAliveClientMixin {
+class _CarListState extends State<CarList> {
   @override
-  bool get wantKeepAlive => true;
-
   @override
   Widget build(BuildContext context) {
     var filteredCars = widget.selectedBrand == null
@@ -45,7 +43,6 @@ class _CarListState extends State<CarList> with AutomaticKeepAliveClientMixin {
           )
           .toList();
     }
-    super.build(context);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),

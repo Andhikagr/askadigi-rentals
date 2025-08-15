@@ -102,9 +102,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                               String? savedPhone = prefs.getString(
                                 "user_phone",
                               );
-                              if (savedPhone == null ||
-                                  savedPhone !=
-                                      _validatePhoneController.text.trim()) {
+                              if (savedPhone !=
+                                  _validatePhoneController.text.trim()) {
                                 Fluttertoast.showToast(
                                   msg: "Invalid Phone Numbers",
                                   toastLength: Toast.LENGTH_SHORT,

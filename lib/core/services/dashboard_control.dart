@@ -45,21 +45,15 @@ class DashboardController extends GetxController {
 
   Future<void> loadCars() async {
     try {
-      if (cachedCars.isNotEmpty) {
-        cars.value = cachedCars;
-      }
       isLoading.value = true;
+
       final response = await http
           .get(Uri.parse('http://10.0.2.2:8080/cars'))
           .timeout(const Duration(seconds: 5));
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);
-        final freshCars = data.map((json) => CarModel.fromJson(json)).toList();
-
-        cachedCars = freshCars;
-
-        cars.value = freshCars;
+        cars.value = data.map((json) => CarModel.fromJson(json)).toList();
       } else {
         Get.snackbar('Error', 'Failed to load cars from backend');
       }

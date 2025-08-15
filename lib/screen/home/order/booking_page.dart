@@ -1,5 +1,5 @@
 import 'package:car_rental/core/constant/colors.dart';
-import 'package:car_rental/core/services/booked.dart';
+import 'package:car_rental/model/booked.dart';
 import 'package:car_rental/core/services/send_booking.dart';
 import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/screen/home/order/payment_page.dart';

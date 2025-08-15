@@ -1,0 +1,44 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'booking_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+BookingModel _$BookingModelFromJson(Map<String, dynamic> json) => BookingModel(
+  id: (json['id'] as num).toInt(),
+  username: json['username'] as String,
+  email: json['email'] as String,
+  phone: json['phone'] as String,
+  pickedDate: json['pickedDate'] as String,
+  returnDate: json['returnDate'] as String,
+  selectedDriver: json['selectedDriver'] as String?,
+  stockDriver: (json['stockDriver'] as num).toInt(),
+  streetAddress: json['streetAddress'] as String,
+  district: json['district'] as String,
+  regency: json['regency'] as String,
+  province: json['province'] as String,
+  totalPrice: (json['totalPrice'] as num).toDouble(),
+  createdAt: json['createdAt'] == null
+      ? null
+      : DateTime.parse(json['createdAt'] as String),
+);
+
+Map<String, dynamic> _$BookingModelToJson(BookingModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'username': instance.username,
+      'email': instance.email,
+      'phone': instance.phone,
+      'pickedDate': instance.pickedDate,
+      'returnDate': instance.returnDate,
+      'selectedDriver': instance.selectedDriver,
+      'stockDriver': instance.stockDriver,
+      'streetAddress': instance.streetAddress,
+      'district': instance.district,
+      'regency': instance.regency,
+      'province': instance.province,
+      'totalPrice': instance.totalPrice,
+      'createdAt': instance.createdAt?.toIso8601String(),
+    };

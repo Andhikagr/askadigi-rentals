@@ -1,10 +1,12 @@
 import 'dart:convert';
 
 import 'package:car_rental/core/services/auth.dart';
-import 'package:car_rental/core/services/booked.dart';
+import 'package:car_rental/model/booked.dart';
+import 'package:car_rental/model/booking_model.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderController extends GetxController {
@@ -15,6 +17,8 @@ class OrderController extends GetxController {
   RxString selectedDriver = "Without Driver".obs;
   RxInt stockDriver = 0.obs;
   final FocusNode searchBoxFocus = FocusNode();
+  var isLoadingReserv = false.obs;
+  var reserv = <BookingModel>[].obs;
 
   TextEditingController streetAddressController = TextEditingController();
   TextEditingController districtController = TextEditingController();
@@ -215,6 +219,7 @@ class OrderController extends GetxController {
       regency: regencyController.text,
       province: provinceController.text,
       totalPrice: totalPrice.value,
+      createdAt: null,
     );
   }
 
@@ -222,5 +227,26 @@ class OrderController extends GetxController {
   void unfocusSearch() {
     searchBoxFocus.unfocus();
     FocusManager.instance.primaryFocus?.unfocus();
+  }
+
+  //reservation
+  Future<void> loadBooking() async {
+    try {
+      isLoadingReserv.value = true;
+      final response = await http
+          .get(Uri.parse('http://10.0.2.2:8080/api/bookings'))
+          .timeout(Duration(seconds: 5));
+
+      if (response.statusCode == 200) {
+        final List<dynamic> data = jsonDecode(response.body);
+        reserv.value = data.map((json) => BookingModel.fromJson(json)).toList();
+      } else {
+        ();
+      }
+    } catch (e) {
+      (e);
+    } finally {
+      isLoadingReserv.value = false;
+    }
   }
 }

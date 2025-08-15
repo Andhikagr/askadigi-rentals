@@ -1,5 +1,6 @@
 import 'package:car_rental/core/services/dashboard_control.dart';
 import 'package:car_rental/screen/home/dashboard.dart';
+import 'package:car_rental/screen/home/order/reservation.dart';
 import 'package:car_rental/screen/home/order/order.dart';
 import 'package:car_rental/screen/home/profile/account.dart';
 import 'package:flutter/material.dart';
@@ -20,9 +21,14 @@ class _MainpageState extends State<Mainpage> {
     permanent: true,
   );
 
-  final List<IconData> icons = [Icons.person, Icons.home, Icons.receipt_long];
+  final List<IconData> icons = [
+    Icons.person,
+    Icons.home,
+    Icons.receipt_long,
+    Icons.library_books,
+  ];
 
-  final List<String> labels = ["Account", "Home", "MyOrder"];
+  final List<String> labels = ["Account", "Home", "Order", "Reservations"];
 
   late final List<Widget> pages;
   @override
@@ -32,6 +38,7 @@ class _MainpageState extends State<Mainpage> {
       Account(key: PageStorageKey('accountPage')),
       Dashboard(key: PageStorageKey('dashboardPage')),
       Order(key: PageStorageKey('orderPage')),
+      Reservation(key: PageStorageKey('myBooking')),
     ];
   }
 
@@ -73,12 +80,12 @@ class _MainpageState extends State<Mainpage> {
                   },
                   child: Container(
                     margin: EdgeInsets.all(5),
-                    width: 80,
+                    width: 90,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisSize: MainAxisSize.max,
                       children: [
                         Icon(
                           icons[index],
