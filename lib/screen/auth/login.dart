@@ -7,6 +7,7 @@ import 'package:car_rental/core/utils/media_query.dart';
 import 'package:car_rental/screen/auth/signup.dart';
 import 'package:car_rental/widget/textform.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class Login extends StatefulWidget {
@@ -27,8 +28,13 @@ class _LoginState extends State<Login> {
     final password = _passwordController.text.trim();
 
     if (email.isEmpty || password.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Email and Password must not be empty")),
+      Fluttertoast.showToast(
+        msg: "Email, and Password must not be empty",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        backgroundColor: Colors.black87.withValues(alpha: 0.5),
+        textColor: onInverseSurfaceColor(context),
+        fontSize: 14,
       );
       return;
     }

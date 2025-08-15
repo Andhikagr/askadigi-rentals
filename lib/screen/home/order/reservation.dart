@@ -43,9 +43,10 @@ class _ReservationState extends State<Reservation> {
         if (!authController.isLoggedIn.value) {
           return Center(
             child: Text(
-              "Please login to see your reservations",
+              "Please login \nto see your reservations",
+              textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 18,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: outlineColor(context),
               ),

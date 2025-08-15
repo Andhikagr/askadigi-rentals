@@ -5,6 +5,7 @@ import 'package:car_rental/widget/button_one.dart';
 import 'package:car_rental/screen/auth/login.dart';
 import 'package:car_rental/widget/textform.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class Signup extends StatefulWidget {
@@ -34,15 +35,26 @@ class _SignupState extends State<Signup> {
         phone.isEmpty ||
         password.isEmpty ||
         repPass.isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("All field must be filled")));
+      Fluttertoast.showToast(
+        msg: "All field must be filled",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.black87.withValues(alpha: 0.5),
+        textColor: onInverseSurfaceColor(context),
+        fontSize: 14,
+      );
+
       return;
     }
     if (password != repPass) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text("Password not match")));
+      Fluttertoast.showToast(
+        msg: "Password not match",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.TOP,
+        backgroundColor: Colors.black87.withValues(alpha: 0.5),
+        textColor: onInverseSurfaceColor(context),
+        fontSize: 14,
+      );
       return;
     }
 

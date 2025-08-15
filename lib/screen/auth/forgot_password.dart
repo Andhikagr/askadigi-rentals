@@ -91,7 +91,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                   msg: "Please enter your phone number",
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.CENTER,
-                                  backgroundColor: Colors.black87,
+                                  backgroundColor: Colors.black87.withValues(
+                                    alpha: 0.5,
+                                  ),
                                   textColor: onInverseSurfaceColor(context),
                                   fontSize: 14,
                                 );
