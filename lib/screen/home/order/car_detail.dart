@@ -182,7 +182,7 @@ class CarDetail extends StatelessWidget {
                                 final nav = Get.find<NavController>();
                                 final order = Get.find<OrderController>();
                                 order.addCar(cars);
-                                nav.selectedIndex.value = 2;
+                                nav.selectedIndex.value = 1;
                                 Get.back();
                               },
                               child: Container(

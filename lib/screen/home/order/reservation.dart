@@ -25,6 +25,11 @@ class _ReservationState extends State<Reservation> {
     if (authController.isLoggedIn.value) {
       bookingController.loadBooking();
     }
+    ever(authController.isLoggedIn, (loggedIn) {
+      if (loggedIn = true) {
+        bookingController.loadBooking();
+      }
+    });
   }
 
   @override
