@@ -170,7 +170,7 @@ class _LoginState extends State<Login> {
                             "Sign Up",
                             style: TextStyle(
                               fontSize: 14,
-                              color: Colors.red,
+                              color: const Color(0xFFFF1908),
                               fontWeight: FontWeight.bold,
                             ),
                           ),

@@ -3,7 +3,7 @@ import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/model/car_model.dart';
-import 'package:car_rental/screen/home/dashboard.dart';
+import 'package:car_rental/screen/home/order/order.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

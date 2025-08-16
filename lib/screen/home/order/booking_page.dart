@@ -1,9 +1,9 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/model/booked.dart';
 import 'package:car_rental/core/services/send_booking.dart';
 import 'package:car_rental/core/utils/currency.dart';
-import 'package:car_rental/screen/home/order/reservation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -175,8 +175,10 @@ class BookingPage extends StatelessWidget {
                 GestureDetector(
                   onTap: () async {
                     try {
+                      final bookingController = Get.find<OrderController>();
                       final succes = await sendBooking(getBooked);
                       if (succes) {
+                        bookingController.clearOrderData();
                         final nav = Get.find<NavController>();
                         nav.selectedIndex.value = 2;
                         Get.offAll(() => Mainpage());

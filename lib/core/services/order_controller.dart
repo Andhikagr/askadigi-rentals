@@ -250,4 +250,22 @@ class OrderController extends GetxController {
       isLoadingReserv.value = false;
     }
   }
+
+  //delete
+  Future<void> deleteBooking(int bookingId) async {
+    final url = Uri.parse("${ApiConfig.deleteBooking}/$bookingId");
+
+    final response = await http.delete(url);
+
+    if (response.statusCode == 200) {
+      Get.snackbar(
+        "Succes",
+        "Your order has been cancelled",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Color(0xFF003984),
+        colorText: Colors.grey.shade200,
+      );
+      reserv.removeWhere((del) => del.id == bookingId);
+    } else {}
+  }
 }

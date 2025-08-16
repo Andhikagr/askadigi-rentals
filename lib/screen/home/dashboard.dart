@@ -1,6 +1,7 @@
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/dashboard_control.dart';
 import 'package:car_rental/core/services/auth.dart';
+import 'package:car_rental/screen/home/order/order.dart';
 import 'package:car_rental/widget/boxtext.dart';
 import 'package:car_rental/widget/car_list.dart';
 import 'package:flutter/material.dart';
@@ -235,16 +236,5 @@ class _DashboardState extends State<Dashboard>
         ],
       ),
     );
-  }
-}
-
-class NoGlowScrollBehavior extends ScrollBehavior {
-  @override
-  Widget buildOverscrollIndicator(
-    BuildContext context,
-    Widget child,
-    ScrollableDetails details,
-  ) {
-    return child;
   }
 }
