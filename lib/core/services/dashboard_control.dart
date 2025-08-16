@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:car_rental/core/services/auth.dart';
+import 'package:car_rental/core/services/config.dart';
 import 'package:car_rental/model/car_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -48,7 +49,7 @@ class DashboardController extends GetxController {
       isLoading.value = true;
 
       final response = await http
-          .get(Uri.parse('http://10.0.2.2:8080/cars'))
+          .get(Uri.parse(ApiConfig.cars))
           .timeout(const Duration(seconds: 5));
 
       if (response.statusCode == 200) {

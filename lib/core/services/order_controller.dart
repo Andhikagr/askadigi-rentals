@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:car_rental/core/services/auth.dart';
+import 'package:car_rental/core/services/config.dart';
 import 'package:car_rental/model/booked.dart';
 import 'package:car_rental/model/booking_model.dart';
 import 'package:car_rental/model/car_model.dart';
@@ -234,7 +235,7 @@ class OrderController extends GetxController {
     try {
       isLoadingReserv.value = true;
       final response = await http
-          .get(Uri.parse('http://10.0.2.2:8080/api/bookings'))
+          .get(Uri.parse(ApiConfig.bookings))
           .timeout(Duration(seconds: 5));
 
       if (response.statusCode == 200) {

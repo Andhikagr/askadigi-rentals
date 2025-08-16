@@ -1,9 +1,10 @@
 import 'dart:convert';
+import 'package:car_rental/core/services/config.dart';
 import 'package:car_rental/model/booked.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> sendBooking(Booked booking) async {
-  final url = Uri.parse('http://10.0.2.2:8080/api/bookings');
+  final url = Uri.parse(ApiConfig.bookings);
 
   final body = jsonEncode({
     "username": booking.username,
