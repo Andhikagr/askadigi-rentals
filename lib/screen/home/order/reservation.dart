@@ -16,17 +16,21 @@ class Reservation extends StatefulWidget {
 class _ReservationState extends State<Reservation> {
   //authcontroller
   final authController = Get.find<AuthController>();
-  final bookingController = Get.put(OrderController());
+  late final OrderController bookingController;
   final dateFormat = DateFormat('yyyy-MM-dd');
 
   @override
   void initState() {
     super.initState();
-    if (authController.isLoggedIn.value) {
-      bookingController.loadBooking();
-    }
+    bookingController = Get.put(OrderController());
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (authController.isLoggedIn.value) {
+        bookingController.loadBooking();
+      }
+    });
     ever(authController.isLoggedIn, (loggedIn) {
-      if (loggedIn = true) {
+      if (loggedIn == true) {
         bookingController.loadBooking();
       }
     });
@@ -106,6 +110,8 @@ class _ReservationState extends State<Reservation> {
                             ),
                           ),
                           child: ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
                             itemCount: booking.selectedCars.length,
                             itemBuilder: (context, index) {
                               final carItem = booking.selectedCars[index];
@@ -150,13 +156,33 @@ class _ReservationState extends State<Reservation> {
                                   color: Colors.grey.shade800,
                                 ),
                               ),
+                              SizedBox(height: 5),
                               Text(
                                 "Picked Date: ${booking.pickedDate.split(" ").first}",
                                 style: TextStyle(color: Colors.grey.shade700),
                               ),
+                              SizedBox(height: 5),
                               Text(
                                 "Return Date: ${booking.returnDate.split(" ").first}",
                                 style: TextStyle(color: Colors.grey.shade700),
+                              ),
+                              const Spacer(),
+                              Container(
+                                width: 120,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: const Color(0xFFFF1908),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    "Pay Now",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: surfaceColor(context),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ],
                           ),

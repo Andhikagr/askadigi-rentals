@@ -3,7 +3,7 @@ import 'package:car_rental/core/services/config.dart';
 import 'package:car_rental/model/booked.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> sendBooking(Booked booking) async {
+Future<bool> sendBooking(Booked booking) async {
   final url = Uri.parse(ApiConfig.bookings);
 
   final body = jsonEncode({
@@ -38,5 +38,5 @@ Future<void> sendBooking(Booked booking) async {
     headers: {"Content-Type": "application/json"},
     body: body,
   );
-  if (response.statusCode == 200) {}
+  return response.statusCode == 200;
 }

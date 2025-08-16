@@ -1,8 +1,8 @@
 import 'package:car_rental/core/constant/colors.dart';
+import 'package:car_rental/core/utils/mainpage.dart';
 import 'package:car_rental/model/booked.dart';
 import 'package:car_rental/core/services/send_booking.dart';
 import 'package:car_rental/core/utils/currency.dart';
-import 'package:car_rental/screen/home/order/payment_page.dart';
 import 'package:car_rental/screen/home/order/reservation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -174,8 +174,30 @@ class BookingPage extends StatelessWidget {
                 SizedBox(height: 20),
                 GestureDetector(
                   onTap: () async {
-                    await sendBooking(getBooked);
-                    Get.to(() => Reservation());
+                    try {
+                      final succes = await sendBooking(getBooked);
+                      if (succes) {
+                        final nav = Get.find<NavController>();
+                        nav.selectedIndex.value = 2;
+                        Get.offAll(() => Mainpage());
+                      } else {
+                        Get.snackbar(
+                          "Booking Failed",
+                          "Please try again later",
+                          snackPosition: SnackPosition.BOTTOM,
+                          backgroundColor: Colors.red,
+                          colorText: Colors.white,
+                        );
+                      }
+                    } catch (e) {
+                      Get.snackbar(
+                        "Error",
+                        e.toString(),
+                        snackPosition: SnackPosition.BOTTOM,
+                        backgroundColor: Colors.red,
+                        colorText: Colors.white,
+                      );
+                    }
                   },
                   child: Container(
                     decoration: BoxDecoration(
