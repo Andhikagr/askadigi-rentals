@@ -141,6 +141,7 @@ class OrderController extends GetxController {
     selectedDriver.value = "Without Driver";
     stockDriver.value = 0;
     streetAddressController.clear();
+    districtController.clear();
     regencyController.clear();
     provinceController.clear();
     totalPrice.value = 0;

@@ -2,6 +2,7 @@ import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
+import 'package:car_rental/screen/home/order/payment_web_view.dart.dart';
 import 'package:car_rental/widget/button_two.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -184,7 +185,32 @@ class _ReservationState extends State<Reservation> {
                                   fontColor: onInverseSurfaceColor(context),
                                   colorBackground: const Color(0xFFFF1908),
                                   borderColor: const Color(0xFFFF1908),
-                                  onTap: () {},
+                                  onTap: () async {
+                                    // Pindah ke halaman PaymentWebView
+                                    final result = await Get.to(
+                                      () => PaymentWebView(
+                                        bookingId: booking.id,
+                                        totalPrice: booking.totalPrice,
+                                        username: authController.username.value,
+                                        email: authController.email.value,
+                                        phone: authController.phone.value,
+                                      ),
+                                    );
+
+                                    // Jika pembayaran berhasil
+                                    if (result == true) {
+                                      Get.snackbar(
+                                        "Payment Success",
+                                        "Your booking has been paid",
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        backgroundColor: Colors.green,
+                                        colorText: Colors.white,
+                                      );
+
+                                      // Refresh daftar booking
+                                      bookingController.loadBooking();
+                                    }
+                                  },
                                 ),
 
                                 SizedBox(height: 10),
