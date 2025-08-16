@@ -78,7 +78,7 @@ class _ReservationState extends State<Reservation> {
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
                 child: Container(
-                  height: 145,
+                  height: 165,
                   padding: EdgeInsets.all(5),
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -96,38 +96,43 @@ class _ReservationState extends State<Reservation> {
                   child: Row(
                     children: [
                       Expanded(
-                        child: ListView.builder(
-                          itemCount: booking.selectedCars.length,
-                          itemBuilder: (context, index) {
-                            final carItem = booking.selectedCars[index];
-                            return Column(
-                              children: [
-                                Container(
-                                  margin: EdgeInsets.all(5),
-                                  padding: EdgeInsets.all(5),
-                                  height: 100,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(
-                                      color: Colors.grey.shade200,
-                                      width: 1.5,
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border: Border.all(
+                              color: Colors.grey.shade200,
+                              width: 1.5,
+                            ),
+                          ),
+                          child: ListView.builder(
+                            itemCount: booking.selectedCars.length,
+                            itemBuilder: (context, index) {
+                              final carItem = booking.selectedCars[index];
+                              return Column(
+                                children: [
+                                  Container(
+                                    margin: EdgeInsets.all(5),
+                                    padding: EdgeInsets.all(5),
+                                    height: 100,
+                                    width: 150,
+
+                                    child: Image.network(
+                                      carItem.image,
+                                      fit: BoxFit.contain,
                                     ),
                                   ),
-                                  child: Image.network(
-                                    carItem.image,
-                                    fit: BoxFit.contain,
+                                  Text(
+                                    "${carItem.brand} ${carItem.model}",
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey.shade800,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "${carItem.brand} ${carItem.model}",
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.grey.shade800,
-                                  ),
-                                ),
-                              ],
-                            );
-                          },
+                                ],
+                              );
+                            },
+                          ),
                         ),
                       ),
                       SizedBox(width: 5),
@@ -157,8 +162,6 @@ class _ReservationState extends State<Reservation> {
                           ),
                         ),
                       ),
-
-                      // List gambar mobil
                     ],
                   ),
                 ),
