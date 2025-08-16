@@ -268,4 +268,23 @@ class OrderController extends GetxController {
       reserv.removeWhere((del) => del.id == bookingId);
     } else {}
   }
+
+  Future<String?> createSnapToken(int bookingId, double totalPrice) async {
+    final url = Uri.parse(ApiConfig.snapCreate);
+    final body = {
+      "order_id": bookingId.toString(),
+      "total_price": totalPrice.toInt(),
+    };
+
+    final res = await http.post(
+      url,
+      headers: {"Content-Type": "application/json"},
+      body: jsonEncode(body),
+    );
+    if (res.statusCode == 200) {
+      final data = jsonDecode(res.body);
+      return data["snap_token"];
+    } else {}
+    return null;
+  }
 }

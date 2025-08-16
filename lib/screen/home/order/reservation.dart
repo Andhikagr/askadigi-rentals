@@ -184,6 +184,7 @@ class _ReservationState extends State<Reservation> {
                                   fontColor: onInverseSurfaceColor(context),
                                   colorBackground: const Color(0xFFFF1908),
                                   borderColor: const Color(0xFFFF1908),
+                                  onTap: () {},
                                 ),
 
                                 SizedBox(height: 10),

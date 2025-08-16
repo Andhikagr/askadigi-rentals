@@ -4,4 +4,5 @@ class ApiConfig {
   static const String cars = "$baseUrl/cars";
   static const String bookings = "$baseUrl/api/bookings";
   static const String deleteBooking = "$baseUrl/api/bookings";
+  static const String snapCreate = "$baseUrl/api/bookings/snap-token";
 }
