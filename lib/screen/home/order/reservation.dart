@@ -2,7 +2,7 @@ import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
-import 'package:car_rental/screen/home/order/payment_view.dart';
+import 'package:car_rental/screen/home/order/history.dart';
 import 'package:car_rental/widget/button_two.dart';
 import 'package:car_rental/widget/pay_button.dart';
 import 'package:flutter/material.dart';
@@ -54,6 +54,19 @@ class _ReservationState extends State<Reservation> {
         toolbarHeight: 70,
         elevation: 2,
         shadowColor: scrimColor(context),
+        actions: [
+          IconButton(
+            onPressed: () {
+              Get.to(
+                () => History(),
+                transition: Transition.rightToLeft,
+                duration: Duration(milliseconds: 500),
+              );
+            },
+            icon: Icon(Icons.inventory),
+            tooltip: "History",
+          ),
+        ],
       ),
       body: Obx(() {
         if (!authController.isLoggedIn.value) {
@@ -73,7 +86,12 @@ class _ReservationState extends State<Reservation> {
         if (bookingController.isLoadingReserv.value) {
           return Center(child: CircularProgressIndicator());
         }
-        if (bookingController.reserv.isEmpty) {
+
+        final unPaid = bookingController.reserv
+            .where((search) => search.status != "paid")
+            .toList();
+
+        if (unPaid.isEmpty) {
           return Center(child: Text("Empty Booking"));
         }
         return Padding(
@@ -83,7 +101,7 @@ class _ReservationState extends State<Reservation> {
               await bookingController.loadBooking();
             },
             child: ListView.builder(
-              itemCount: bookingController.reserv.length,
+              itemCount: unPaid.length,
               itemBuilder: (context, index) {
                 final booking = bookingController.reserv[index];
                 return Padding(
@@ -121,6 +139,7 @@ class _ReservationState extends State<Reservation> {
                             child: ListView.builder(
                               shrinkWrap: true,
                               physics: NeverScrollableScrollPhysics(),
+
                               itemCount: booking.selectedCars.length,
                               itemBuilder: (context, index) {
                                 final carItem = booking.selectedCars[index];
