@@ -172,7 +172,6 @@ class OrderController extends GetxController {
       return;
     }
 
-    // Hitung durasi sewa dalam hari (selisih antara returnDate dan pickedDate)
     int days = returnDate.value!.difference(pickedDate.value!).inDays;
 
     if (days <= 0) {
@@ -270,22 +269,61 @@ class OrderController extends GetxController {
     } else {}
   }
 
-  Future<String?> createSnapToken(int bookingId, double totalPrice) async {
-    final url = Uri.parse(ApiConfig.snapCreate);
-    final body = {
-      "order_id": bookingId.toString(),
-      "total_price": totalPrice.toInt(),
-    };
+  //   Future<String?> createSnapToken(int bookingId, double totalPrice) async {
+  //     final url = Uri.parse(ApiConfig.snapCreate);
+  //     final body = {
+  //       "order_id": bookingId.toString(),
+  //       "total_price": totalPrice.toInt(),
+  //     };
 
-    final res = await http.post(
-      url,
-      headers: {"Content-Type": "application/json"},
-      body: jsonEncode(body),
-    );
-    if (res.statusCode == 200) {
-      final data = jsonDecode(res.body);
-      return data["snap_token"];
-    } else {}
+  //     final res = await http.post(
+  //       url,
+  //       headers: {"Content-Type": "application/json"},
+  //       body: jsonEncode(body),
+  //     );
+  //     if (res.statusCode == 200) {
+  //       final data = jsonDecode(res.body);
+  //       return data["snap_token"];
+  //     } else {}
+  //     return null;
+  //   }
+  // }
+
+  Future<String?> getSnapToken(int bookingId) async {
+    final url = Uri.parse(ApiConfig.snapCreate);
+    final body = {"booking_id": bookingId};
+
+    try {
+      final res = await http.post(
+        url,
+        headers: {"Content-Type": "application/json"},
+        body: jsonEncode(body),
+      );
+
+      print("Snap token response status: ${res.statusCode}");
+      print("Snap token response body: ${res.body}");
+
+      if (res.statusCode == 200) {
+        final data = jsonDecode(res.body);
+        return data["snap_token"];
+      } else {
+        Get.snackbar(
+          "Error",
+          "Failed to create Snap token: ${res.statusCode}",
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+      }
+    } catch (e) {
+      print("Exception in getSnapToken: $e");
+      Get.snackbar(
+        "Exception",
+        e.toString(),
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+    }
+
     return null;
   }
 }

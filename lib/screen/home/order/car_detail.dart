@@ -177,39 +177,44 @@ class CarDetail extends StatelessWidget {
                                 ),
                               ],
                             ),
-                            GestureDetector(
-                              onTap: () {
-                                final nav = Get.find<NavController>();
-                                final order = Get.find<OrderController>();
-                                order.addCar(cars);
-                                nav.selectedIndex.value = 1;
-                                Get.back();
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: const Color(0xFFFF1908),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withValues(
-                                        alpha: 0.5,
+                            Material(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(10),
+                                onTap: () {
+                                  final nav = Get.find<NavController>();
+                                  final order = Get.find<OrderController>();
+                                  order.addCar(cars);
+                                  nav.selectedIndex.value = 1;
+                                  Get.back();
+                                },
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color(0xFFFF1908),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withValues(
+                                          alpha: 0.5,
+                                        ),
+                                        offset: Offset(1, 2),
+                                        blurRadius: 1,
                                       ),
-                                      offset: Offset(1, 2),
-                                      blurRadius: 1,
-                                    ),
-                                  ],
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 12,
-                                ),
+                                    ],
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 12,
+                                  ),
 
-                                child: Text(
-                                  "Book Now",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: onInverseSurfaceColor(context),
+                                  child: Text(
+                                    "Book Now",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: onInverseSurfaceColor(context),
+                                    ),
                                   ),
                                 ),
                               ),

@@ -2,7 +2,7 @@ import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
-import 'package:car_rental/screen/home/order/payment_web_view.dart.dart';
+import 'package:car_rental/screen/home/order/payment_view.dart';
 import 'package:car_rental/widget/button_two.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -188,7 +188,7 @@ class _ReservationState extends State<Reservation> {
                                   onTap: () async {
                                     // Pindah ke halaman PaymentWebView
                                     final result = await Get.to(
-                                      () => PaymentWebView(
+                                      () => PaymentView(
                                         bookingId: booking.id,
                                         totalPrice: booking.totalPrice,
                                         username: authController.username.value,

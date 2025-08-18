@@ -5,14 +5,14 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PaymentWebView extends StatefulWidget {
+class PaymentView extends StatefulWidget {
   final int bookingId;
   final double totalPrice;
   final String username;
   final String email;
   final String phone;
 
-  const PaymentWebView({
+  const PaymentView({
     super.key,
     required this.bookingId,
     required this.totalPrice,
@@ -22,10 +22,10 @@ class PaymentWebView extends StatefulWidget {
   });
 
   @override
-  State<PaymentWebView> createState() => _PaymentWebViewState();
+  State<PaymentView> createState() => _PaymentWebViewState();
 }
 
-class _PaymentWebViewState extends State<PaymentWebView> {
+class _PaymentWebViewState extends State<PaymentView> {
   late final WebViewController _controller;
   bool isLoading = true;
 
@@ -38,19 +38,6 @@ class _PaymentWebViewState extends State<PaymentWebView> {
         NavigationDelegate(
           onPageFinished: (_) => setState(() => isLoading = false),
           onNavigationRequest: (request) {
-            final url = request.url;
-            if (url.contains("https://your-success-url")) {
-              _updateBookingPaid();
-              return NavigationDecision.prevent;
-            } else if (url.contains("https://your-failed-url")) {
-              Get.snackbar(
-                "Payment Failed",
-                "Transaction failed or canceled",
-                snackPosition: SnackPosition.BOTTOM,
-              );
-              Navigator.pop(context);
-              return NavigationDecision.prevent;
-            }
             return NavigationDecision.navigate;
           },
         ),
@@ -61,12 +48,7 @@ class _PaymentWebViewState extends State<PaymentWebView> {
 
   Future<void> _createSnapToken() async {
     final url = Uri.parse(ApiConfig.snapCreate);
-    final body = {
-      "total_price": widget.totalPrice.toInt(),
-      "username": widget.username,
-      "email": widget.email,
-      "phone": widget.phone,
-    };
+    final body = {"booking_id": widget.bookingId};
 
     try {
       final response = await http.post(
@@ -76,6 +58,8 @@ class _PaymentWebViewState extends State<PaymentWebView> {
       );
 
       if (response.statusCode == 200) {
+        print('Snap token response: ${response.body}');
+
         final data = jsonDecode(response.body);
         final snapToken = data['snap_token'];
         final snapUrl =

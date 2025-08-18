@@ -18,27 +18,32 @@ class ButtonTwo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 100,
-        height: 40,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          color: colorBackground,
-          border: Border.all(color: borderColor, width: 1.5),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.1),
-              offset: Offset(0, 2),
-              blurRadius: 0,
+    return Material(
+      borderRadius: BorderRadius.circular(10),
+      color: Colors.transparent,
+      child: InkWell(
+        borderRadius: BorderRadius.circular(10),
+        onTap: onTap,
+        child: Ink(
+          width: 100,
+          height: 40,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            color: colorBackground,
+            border: Border.all(color: borderColor, width: 1.5),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.1),
+                offset: Offset(0, 2),
+                blurRadius: 0,
+              ),
+            ],
+          ),
+          child: Center(
+            child: Text(
+              label,
+              style: TextStyle(fontWeight: FontWeight.bold, color: fontColor),
             ),
-          ],
-        ),
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(fontWeight: FontWeight.bold, color: fontColor),
           ),
         ),
       ),

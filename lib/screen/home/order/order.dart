@@ -3,7 +3,8 @@ import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/services/dashboard_control.dart';
 import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
-import 'package:car_rental/screen/home/order/booking_page.dart';
+import 'package:car_rental/screen/home/order/booking.dart';
+
 import 'package:car_rental/widget/boxform.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -266,55 +267,50 @@ class _OrderState extends State<Order> {
                                                       ),
                                                     ),
                                                     SizedBox(width: 5),
-                                                    Expanded(
-                                                      child: GestureDetector(
-                                                        onTap: () {
-                                                          orderController
-                                                              .removeCars(cars);
-                                                        },
-                                                        child: Padding(
-                                                          padding:
-                                                              EdgeInsets.all(
-                                                                10,
-                                                              ),
-                                                          child: Container(
-                                                            width: 70,
-                                                            height: 35,
-                                                            decoration: BoxDecoration(
-                                                              color:
-                                                                  const Color(
-                                                                    0xFFFF1908,
-                                                                  ),
-                                                              borderRadius:
-                                                                  BorderRadius.circular(
-                                                                    10,
-                                                                  ),
-                                                              boxShadow: [
-                                                                BoxShadow(
-                                                                  color: Colors
-                                                                      .black
-                                                                      .withValues(
-                                                                        alpha:
-                                                                            0.5,
-                                                                      ),
-                                                                  offset:
-                                                                      Offset(
-                                                                        1,
-                                                                        1,
-                                                                      ),
-                                                                  blurRadius: 1,
-                                                                ),
-                                                              ],
+                                                    GestureDetector(
+                                                      onTap: () {
+                                                        orderController
+                                                            .removeCars(cars);
+                                                      },
+                                                      child: Padding(
+                                                        padding: EdgeInsets.all(
+                                                          10,
+                                                        ),
+                                                        child: Container(
+                                                          width: 70,
+                                                          height: 35,
+                                                          decoration: BoxDecoration(
+                                                            color: const Color(
+                                                              0xFFFF1908,
                                                             ),
-                                                            child: Center(
-                                                              child: Text(
-                                                                "delete",
-                                                                style: TextStyle(
-                                                                  color:
-                                                                      onInverseSurfaceColor(
-                                                                        context,
-                                                                      ),
+                                                            borderRadius:
+                                                                BorderRadius.circular(
+                                                                  10,
                                                                 ),
+                                                            boxShadow: [
+                                                              BoxShadow(
+                                                                color: Colors
+                                                                    .black
+                                                                    .withValues(
+                                                                      alpha:
+                                                                          0.5,
+                                                                    ),
+                                                                offset: Offset(
+                                                                  1,
+                                                                  1,
+                                                                ),
+                                                                blurRadius: 1,
+                                                              ),
+                                                            ],
+                                                          ),
+                                                          child: Center(
+                                                            child: Text(
+                                                              "delete",
+                                                              style: TextStyle(
+                                                                color:
+                                                                    onInverseSurfaceColor(
+                                                                      context,
+                                                                    ),
                                                               ),
                                                             ),
                                                           ),
@@ -634,66 +630,72 @@ class _OrderState extends State<Order> {
                                 ),
                               ],
                             ),
-                            GestureDetector(
-                              onTap: () async {
-                                if (!authController.isLoggedIn.value) {
-                                  Fluttertoast.showToast(
-                                    msg:
-                                        "You're almost there! Just need to log in first before continuing to make a reservation.",
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    backgroundColor: Colors.black87,
-                                    textColor: onInverseSurfaceColor(context),
-                                    fontSize: 14,
-                                  );
-                                  return;
-                                }
-                                final validationMessage = orderController
-                                    .validateOrder();
-                                if (validationMessage != null) {
-                                  Fluttertoast.showToast(
-                                    msg: validationMessage,
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.CENTER,
-                                    backgroundColor: Colors.black87,
-                                    textColor: onInverseSurfaceColor(context),
-                                    fontSize: 14,
-                                  );
-                                  return;
-                                }
-                                await orderController.saveOrderData();
-                                final bookedData = orderController.getBooked();
+                            Material(
+                              borderRadius: BorderRadius.circular(10),
+                              color: Colors.transparent,
+                              child: InkWell(
+                                borderRadius: BorderRadius.circular(10),
+                                onTap: () async {
+                                  if (!authController.isLoggedIn.value) {
+                                    Fluttertoast.showToast(
+                                      msg:
+                                          "You're almost there! Just need to log in first before continuing to make a reservation.",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      backgroundColor: Colors.black87,
+                                      textColor: onInverseSurfaceColor(context),
+                                      fontSize: 14,
+                                    );
+                                    return;
+                                  }
+                                  final validationMessage = orderController
+                                      .validateOrder();
+                                  if (validationMessage != null) {
+                                    Fluttertoast.showToast(
+                                      msg: validationMessage,
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.CENTER,
+                                      backgroundColor: Colors.black87,
+                                      textColor: onInverseSurfaceColor(context),
+                                      fontSize: 14,
+                                    );
+                                    return;
+                                  }
+                                  await orderController.saveOrderData();
+                                  final bookedData = orderController
+                                      .getBooked();
 
-                                Get.to(
-                                  () => BookingPage(getBooked: bookedData),
-                                  transition: Transition.native,
-                                  duration: Duration(milliseconds: 1000),
-                                );
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: const Color(0xFFFF1908),
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: Colors.black.withValues(
-                                        alpha: 0.5,
+                                  Get.to(
+                                    () => BookingPage(getBooked: bookedData),
+                                    transition: Transition.native,
+                                    duration: Duration(milliseconds: 1000),
+                                  );
+                                },
+                                child: Ink(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10),
+                                    color: const Color(0xFFFF1908),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black.withValues(
+                                          alpha: 0.5,
+                                        ),
+                                        offset: Offset(1, 2),
+                                        blurRadius: 1,
                                       ),
-                                      offset: Offset(1, 2),
-                                      blurRadius: 1,
+                                    ],
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 20,
+                                    vertical: 12,
+                                  ),
+                                  child: Text(
+                                    "Reservation",
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.bold,
+                                      color: onInverseSurfaceColor(context),
                                     ),
-                                  ],
-                                ),
-                                padding: EdgeInsets.symmetric(
-                                  horizontal: 20,
-                                  vertical: 12,
-                                ),
-                                child: Text(
-                                  "Reservation",
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.bold,
-                                    color: onInverseSurfaceColor(context),
                                   ),
                                 ),
                               ),
