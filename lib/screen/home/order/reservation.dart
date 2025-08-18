@@ -4,6 +4,7 @@ import 'package:car_rental/core/services/order_controller.dart';
 import 'package:car_rental/core/utils/currency.dart';
 import 'package:car_rental/screen/home/order/payment_view.dart';
 import 'package:car_rental/widget/button_two.dart';
+import 'package:car_rental/widget/pay_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -180,118 +181,96 @@ class _ReservationState extends State<Reservation> {
                                   style: TextStyle(color: Colors.grey.shade700),
                                 ),
                                 const Spacer(),
-                                ButtonTwo(
-                                  label: "Pay Now",
-                                  fontColor: onInverseSurfaceColor(context),
-                                  colorBackground: const Color(0xFFFF1908),
-                                  borderColor: const Color(0xFFFF1908),
-                                  onTap: () async {
-                                    // Pindah ke halaman PaymentWebView
-                                    final result = await Get.to(
-                                      () => PaymentView(
-                                        bookingId: booking.id,
-                                        totalPrice: booking.totalPrice,
-                                        username: authController.username.value,
-                                        email: authController.email.value,
-                                        phone: authController.phone.value,
-                                      ),
-                                    );
-
-                                    // Jika pembayaran berhasil
-                                    if (result == true) {
-                                      Get.snackbar(
-                                        "Payment Success",
-                                        "Your booking has been paid",
-                                        snackPosition: SnackPosition.BOTTOM,
-                                        backgroundColor: Colors.green,
-                                        colorText: Colors.white,
-                                      );
-
-                                      // Refresh daftar booking
-                                      bookingController.loadBooking();
-                                    }
-                                  },
+                                PayButton(
+                                  status: booking.status,
+                                  bookingId: booking.id,
+                                  totalPrice: booking.totalPrice,
+                                  authController: authController,
+                                  bookingController: bookingController,
                                 ),
 
                                 SizedBox(height: 10),
-                                ButtonTwo(
-                                  label: "Cancel",
-                                  fontColor: Colors.grey.shade700,
-                                  colorBackground: surfaceColor(context),
-                                  borderColor: Colors.grey.shade300,
-                                  onTap: () async {
-                                    final confirm = await showDialog<bool>(
-                                      context: context,
-                                      builder: (_) => AlertDialog(
-                                        title: Text("Cancel Booking"),
-                                        content: Text(
-                                          "Are you sure want to cancel?",
-                                        ),
-                                        actions: [
-                                          InkWell(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                            onTap: () =>
-                                                Navigator.pop(context, false),
-                                            child: Ink(
-                                              width: 80,
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                color: Colors.grey.shade100,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
-                                                  color: Colors.grey.shade300,
+                                if (booking.status != "paid")
+                                  ButtonTwo(
+                                    label: "Cancel",
+                                    fontColor: Colors.grey.shade700,
+                                    colorBackground: surfaceColor(context),
+                                    borderColor: Colors.grey.shade300,
+                                    onTap: () async {
+                                      final confirm = await showDialog<bool>(
+                                        context: context,
+                                        builder: (_) => AlertDialog(
+                                          title: Text("Cancel Booking"),
+                                          content: Text(
+                                            "Are you sure want to cancel?",
+                                          ),
+                                          actions: [
+                                            InkWell(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              onTap: () =>
+                                                  Navigator.pop(context, false),
+                                              child: Ink(
+                                                width: 80,
+                                                padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                  color: Colors.grey.shade100,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                    color: Colors.grey.shade300,
+                                                  ),
+                                                ),
+                                                child: Center(
+                                                  child: Text("No"),
                                                 ),
                                               ),
-                                              child: Center(child: Text("No")),
                                             ),
-                                          ),
-                                          InkWell(
-                                            borderRadius: BorderRadius.circular(
-                                              10,
-                                            ),
-                                            onTap: () =>
-                                                Navigator.pop(context, true),
-                                            child: Ink(
-                                              width: 80,
-                                              padding: EdgeInsets.all(10),
-                                              decoration: BoxDecoration(
-                                                color: const Color(0xFFFF1908),
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                border: Border.all(
+                                            InkWell(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              onTap: () =>
+                                                  Navigator.pop(context, true),
+                                              child: Ink(
+                                                width: 80,
+                                                padding: EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
                                                   color: const Color(
                                                     0xFFFF1908,
                                                   ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  border: Border.all(
+                                                    color: const Color(
+                                                      0xFFFF1908,
+                                                    ),
+                                                  ),
                                                 ),
-                                              ),
-                                              child: Center(
-                                                child: Text(
-                                                  "Yes",
-                                                  style: TextStyle(
-                                                    color:
-                                                        onInverseSurfaceColor(
-                                                          context,
-                                                        ),
+                                                child: Center(
+                                                  child: Text(
+                                                    "Yes",
+                                                    style: TextStyle(
+                                                      color:
+                                                          onInverseSurfaceColor(
+                                                            context,
+                                                          ),
+                                                    ),
                                                   ),
                                                 ),
                                               ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                    if (confirm == true) {
-                                      final bookingController =
-                                          Get.find<OrderController>();
-                                      await bookingController.deleteBooking(
-                                        booking.id,
+                                          ],
+                                        ),
                                       );
-                                    }
-                                  },
-                                ),
+                                      if (confirm == true) {
+                                        final bookingController =
+                                            Get.find<OrderController>();
+                                        await bookingController.deleteBooking(
+                                          booking.id,
+                                        );
+                                      }
+                                    },
+                                  ),
                               ],
                             ),
                           ),

@@ -20,6 +20,8 @@ class BookingModel {
   final String province;
   final double totalPrice;
   final DateTime? createdAt;
+  final String status;
+  final DateTime? paidAt;
 
   factory BookingModel.fromJson(Map<String, dynamic> json) =>
       _$BookingModelFromJson(json);
@@ -42,5 +44,7 @@ class BookingModel {
     required this.province,
     required this.totalPrice,
     this.createdAt,
+    required this.status,
+    this.paidAt,
   });
 }

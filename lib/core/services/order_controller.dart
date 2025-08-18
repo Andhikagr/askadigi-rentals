@@ -300,9 +300,6 @@ class OrderController extends GetxController {
         body: jsonEncode(body),
       );
 
-      print("Snap token response status: ${res.statusCode}");
-      print("Snap token response body: ${res.body}");
-
       if (res.statusCode == 200) {
         final data = jsonDecode(res.body);
         return data["snap_token"];
@@ -315,7 +312,6 @@ class OrderController extends GetxController {
         );
       }
     } catch (e) {
-      print("Exception in getSnapToken: $e");
       Get.snackbar(
         "Exception",
         e.toString(),

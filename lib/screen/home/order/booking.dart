@@ -174,27 +174,17 @@ class BookingPage extends StatelessWidget {
                 SizedBox(height: 20),
                 GestureDetector(
                   onTap: () async {
-                    try {
-                      final bookingController = Get.find<OrderController>();
-                      final succes = await sendBooking(getBooked);
-                      if (succes) {
-                        bookingController.clearOrderData();
-                        final nav = Get.find<NavController>();
-                        nav.selectedIndex.value = 2;
-                        Get.offAll(() => Mainpage());
-                      } else {
-                        Get.snackbar(
-                          "Booking Failed",
-                          "Please try again later",
-                          snackPosition: SnackPosition.BOTTOM,
-                          backgroundColor: Colors.red,
-                          colorText: Colors.white,
-                        );
-                      }
-                    } catch (e) {
+                    final bookingController = Get.find<OrderController>();
+                    final succes = await sendBooking(getBooked);
+                    if (succes) {
+                      bookingController.clearOrderData();
+                      final nav = Get.find<NavController>();
+                      nav.selectedIndex.value = 2;
+                      Get.offAll(() => Mainpage());
+                    } else {
                       Get.snackbar(
-                        "Error",
-                        e.toString(),
+                        "Booking Failed",
+                        "Please try again later",
                         snackPosition: SnackPosition.BOTTOM,
                         backgroundColor: Colors.red,
                         colorText: Colors.white,

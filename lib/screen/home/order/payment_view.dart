@@ -58,8 +58,6 @@ class _PaymentWebViewState extends State<PaymentView> {
       );
 
       if (response.statusCode == 200) {
-        print('Snap token response: ${response.body}');
-
         final data = jsonDecode(response.body);
         final snapToken = data['snap_token'];
         final snapUrl =
@@ -87,6 +85,7 @@ class _PaymentWebViewState extends State<PaymentView> {
     }
   }
 
+  // ignore: unused_element
   Future<void> _updateBookingPaid() async {
     final url = Uri.parse(
       "http://localhost:8080/pay-booking/${widget.bookingId}",
