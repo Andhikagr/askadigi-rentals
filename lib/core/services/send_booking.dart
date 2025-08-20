@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:car_rental/core/services/config.dart';
-import 'package:car_rental/model/booked.dart';
+import 'package:car_rental/core/model/booked.dart';
 import 'package:http/http.dart' as http;
 
 Future<bool> sendBooking(Booked booking) async {

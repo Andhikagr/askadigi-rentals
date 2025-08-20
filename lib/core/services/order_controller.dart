@@ -1,10 +1,9 @@
 import 'dart:convert';
-
 import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/services/config.dart';
-import 'package:car_rental/model/booked.dart';
-import 'package:car_rental/model/booking_model.dart';
-import 'package:car_rental/model/car_model.dart';
+import 'package:car_rental/core/model/booked.dart';
+import 'package:car_rental/core/model/booking_model.dart';
+import 'package:car_rental/core/model/car_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -262,64 +261,10 @@ class OrderController extends GetxController {
         "Succes",
         "Your order has been cancelled",
         snackPosition: SnackPosition.TOP,
-        backgroundColor: Color(0xFF003984),
-        colorText: Colors.grey.shade200,
+        backgroundColor: Colors.grey.shade100,
+        colorText: Colors.black87,
       );
       reserv.removeWhere((del) => del.id == bookingId);
     } else {}
-  }
-
-  //   Future<String?> createSnapToken(int bookingId, double totalPrice) async {
-  //     final url = Uri.parse(ApiConfig.snapCreate);
-  //     final body = {
-  //       "order_id": bookingId.toString(),
-  //       "total_price": totalPrice.toInt(),
-  //     };
-
-  //     final res = await http.post(
-  //       url,
-  //       headers: {"Content-Type": "application/json"},
-  //       body: jsonEncode(body),
-  //     );
-  //     if (res.statusCode == 200) {
-  //       final data = jsonDecode(res.body);
-  //       return data["snap_token"];
-  //     } else {}
-  //     return null;
-  //   }
-  // }
-
-  Future<String?> getSnapToken(int bookingId) async {
-    final url = Uri.parse(ApiConfig.snapCreate);
-    final body = {"booking_id": bookingId};
-
-    try {
-      final res = await http.post(
-        url,
-        headers: {"Content-Type": "application/json"},
-        body: jsonEncode(body),
-      );
-
-      if (res.statusCode == 200) {
-        final data = jsonDecode(res.body);
-        return data["snap_token"];
-      } else {
-        Get.snackbar(
-          "Error",
-          "Failed to create Snap token: ${res.statusCode}",
-          backgroundColor: Colors.red,
-          colorText: Colors.white,
-        );
-      }
-    } catch (e) {
-      Get.snackbar(
-        "Exception",
-        e.toString(),
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
-    }
-
-    return null;
   }
 }

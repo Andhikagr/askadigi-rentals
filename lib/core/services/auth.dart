@@ -26,7 +26,7 @@ class AuthController extends GetxController {
       userPhotoPath.value = prefs.getString("user_photo");
       isLoggedIn.value = true;
 
-      // Sync ke OrderController
+      // Sync OrderController
       final orderController = Get.find<OrderController>();
       orderController.userEmail.value = email.value;
       await orderController.loadOrderData();

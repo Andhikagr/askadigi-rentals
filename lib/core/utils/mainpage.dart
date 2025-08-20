@@ -1,8 +1,8 @@
 import 'package:car_rental/core/services/dashboard_control.dart';
-import 'package:car_rental/screen/home/dashboard.dart';
-import 'package:car_rental/screen/home/order/order.dart';
-import 'package:car_rental/screen/home/order/reservation.dart';
-import 'package:car_rental/screen/home/profile/account.dart';
+import 'package:car_rental/screen/dashboard/dashboard.dart';
+import 'package:car_rental/screen/order/order.dart';
+import 'package:car_rental/screen/reservation/reservation.dart';
+import 'package:car_rental/screen/account/account.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

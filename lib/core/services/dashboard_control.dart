@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:convert';
 import 'package:car_rental/core/services/auth.dart';
 import 'package:car_rental/core/services/config.dart';
-import 'package:car_rental/model/car_model.dart';
+import 'package:car_rental/core/model/car_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
