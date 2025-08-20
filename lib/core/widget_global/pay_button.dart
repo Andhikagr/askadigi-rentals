@@ -1,9 +1,9 @@
+import 'package:car_rental/core/widget_global/button_two.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../services/auth.dart';
 import '../services/order_controller.dart';
 import '../../screen/reservation/payment_view.dart';
-import 'button_two.dart';
 
 class PayButton extends StatelessWidget {
   final String status;
