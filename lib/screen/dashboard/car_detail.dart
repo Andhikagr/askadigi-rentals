@@ -135,7 +135,7 @@ class _CarDetailState extends State<CarDetail> {
                     ),
                   ),
 
-                  // section
+                  // section available
                   Obx(() {
                     if (order.isLoadingReserv.value) {
                       return const Center(child: CircularProgressIndicator());

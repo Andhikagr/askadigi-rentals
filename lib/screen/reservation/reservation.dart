@@ -17,7 +17,6 @@ class Reservation extends StatefulWidget {
 }
 
 class _ReservationState extends State<Reservation> {
-  //authcontroller
   final authController = Get.find<AuthController>();
   late final OrderController bookingController;
   final dateFormat = DateFormat('yyyy-MM-dd');
@@ -32,6 +31,7 @@ class _ReservationState extends State<Reservation> {
         bookingController.loadBooking();
       }
     });
+    // setiap kali status login berubah → reload booking
     ever(authController.isLoggedIn, (loggedIn) {
       if (loggedIn == true) {
         bookingController.loadBooking();
@@ -55,6 +55,7 @@ class _ReservationState extends State<Reservation> {
         elevation: 2,
         shadowColor: scrimColor(context),
         actions: [
+          // tombol menuju halaman History
           IconButton(
             onPressed: () {
               Get.to(
@@ -90,8 +91,8 @@ class _ReservationState extends State<Reservation> {
         if (unPaid.isEmpty) {
           return Center(child: Text("Empty Booking"));
         }
+        //section tampilan reservasi
         return Padding(
-          //section tampilan reservasi
           padding: EdgeInsets.only(top: 10),
           child: RefreshIndicator(
             onRefresh: () async {
@@ -211,6 +212,7 @@ class _ReservationState extends State<Reservation> {
                                     colorBackground: surfaceColor(context),
                                     borderColor: Colors.grey.shade300,
                                     onTap: () async {
+                                      // tampilkan dialog konfirmasi
                                       final confirm = await showDialog<bool>(
                                         context: context,
                                         builder: (_) => AlertDialog(

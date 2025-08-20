@@ -19,16 +19,12 @@ class _HistoryState extends State<History> {
   List bookings = [];
   bool isLoading = true;
 
-  @override
-  void initState() {
-    super.initState();
-    fetchHistory();
-  }
-
+  // fungsi mengambil data history booking dari API
   Future<void> fetchHistory() async {
     setState(() => isLoading = true);
 
     try {
+      // panggil API endpoint booking
       final response = await http.get(Uri.parse(ApiConfig.bookings));
       if (response.statusCode == 200) {
         final List data = jsonDecode(response.body);
@@ -46,9 +42,15 @@ class _HistoryState extends State<History> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    final paidBookings = bookings.where((b) => b['status'] == 'paid').toList();
+  void initState() {
+    super.initState();
+    fetchHistory();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    // filter hanya booking yang sudah dibayar (status == "paid")
+    final paidBookings = bookings.where((b) => b['status'] == 'paid').toList();
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
@@ -63,6 +65,7 @@ class _HistoryState extends State<History> {
         shadowColor: scrimColor(context),
       ),
       body: Obx(() {
+        // gunakan GetX Obx untuk memantau login state
         if (authController.isLoggedIn.value) {
           if (isLoading) {
             return const Center(child: CircularProgressIndicator());
@@ -71,7 +74,6 @@ class _HistoryState extends State<History> {
           } else {
             return RefreshIndicator(
               onRefresh: fetchHistory,
-
               child: ListView.builder(
                 itemCount: paidBookings.length,
                 itemBuilder: (context, index) {

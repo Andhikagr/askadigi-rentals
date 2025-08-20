@@ -23,7 +23,7 @@ class BookingPage extends StatelessWidget {
     String returnDate = getBooked.returnDate.isNotEmpty
         ? dateFormat.format(DateTime.parse(getBooked.returnDate))
         : "";
-
+    //menampilkan data booking
     List<Map<String, dynamic>> bookingDetails = [
       {"label": "Name :", "value": getBooked.username},
       {"label": "Email :", "value": getBooked.email},
@@ -160,7 +160,6 @@ class BookingPage extends StatelessWidget {
                     border: Border.all(color: const Color(0xFFFF1908)),
                     borderRadius: BorderRadius.circular(10),
                   ),
-
                   child: Text(
                     "Note:\nPlease complete payment within 1 hour or booking will be canceled to release the vehicle for other customers. Thank you.",
                     textAlign: TextAlign.justify,

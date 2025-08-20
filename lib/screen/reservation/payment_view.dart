@@ -1,3 +1,4 @@
+//tampilan halaman midtrans
 import 'dart:convert';
 import 'package:car_rental/core/services/config.dart';
 import 'package:flutter/material.dart';
@@ -51,6 +52,7 @@ class _PaymentWebViewState extends State<PaymentView> {
     _createSnapToken();
   }
 
+  // fungsi untuk minta Snap Token ke backend
   Future<void> _createSnapToken() async {
     final url = Uri.parse(ApiConfig.snapCreate);
     final body = {"booking_id": widget.bookingId};
@@ -65,6 +67,7 @@ class _PaymentWebViewState extends State<PaymentView> {
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body);
         final snapToken = data['snap_token'];
+        // buat url midtrans snap
         final snapUrl =
             "https://app.sandbox.midtrans.com/snap/v2/vtweb/$snapToken";
         _controller.loadRequest(Uri.parse(snapUrl));
@@ -90,23 +93,6 @@ class _PaymentWebViewState extends State<PaymentView> {
     }
   }
 
-  // Future<void> _updateBookingPaid() async {
-  //   final url = Uri.parse(
-  //     "http://localhost:8080/pay-booking/${widget.bookingId}",
-  //   );
-  //   final res = await http.post(url);
-
-  //   if (res.statusCode == 200) {
-  //     Get.snackbar(
-  //       "Success",
-  //       "Payment successful",
-  //       snackPosition: SnackPosition.BOTTOM,
-  //     );
-  //   }
-  //   if (!mounted) return;
-  //   Navigator.pop(context, true);
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,6 +100,7 @@ class _PaymentWebViewState extends State<PaymentView> {
       body: SafeArea(
         child: Stack(
           children: [
+            // widget WebView untuk menampilkan halaman midtrans
             WebViewWidget(controller: _controller),
             if (isLoading)
               Container(
@@ -131,6 +118,7 @@ class _PaymentWebViewState extends State<PaymentView> {
                   color: Colors.transparent,
                   boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
                 ),
+                //tombol untuk menutup halaman midtrans
                 child: GestureDetector(
                   onTap: () => Navigator.pop(context, true),
                   child: Align(
@@ -141,7 +129,6 @@ class _PaymentWebViewState extends State<PaymentView> {
                         shape: BoxShape.circle,
                         color: Colors.white,
                       ),
-
                       child: Icon(
                         Icons.close_rounded,
                         color: Color(0xFF003984),
