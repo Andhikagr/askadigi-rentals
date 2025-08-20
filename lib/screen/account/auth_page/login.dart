@@ -53,7 +53,7 @@ class _LoginState extends State<Login> {
         leading: IconButton(
           onPressed: () {
             final navigate = Get.find<NavController>();
-            navigate.selectedIndex.value = 0;
+            navigate.selectedIndex.value = 3;
             Get.off(() => Mainpage());
           },
           icon: Icon(Icons.arrow_back),

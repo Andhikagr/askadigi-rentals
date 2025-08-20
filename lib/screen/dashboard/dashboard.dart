@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:car_rental/core/constant/colors.dart';
 import 'package:car_rental/core/services/dashboard_control.dart';
 import 'package:car_rental/core/services/auth.dart';
@@ -101,7 +103,7 @@ class _DashboardState extends State<Dashboard> {
                                             path.isNotEmpty &&
                                             controller.userPhoto.value != null)
                                         ? Image.file(
-                                            controller.userPhoto.value!,
+                                            File(path),
                                             fit: BoxFit.cover,
                                           )
                                         : Image.asset(

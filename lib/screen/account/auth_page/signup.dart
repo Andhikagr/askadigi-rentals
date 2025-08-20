@@ -79,7 +79,7 @@ class _SignupState extends State<Signup> {
         leading: IconButton(
           onPressed: () {
             final navigate = Get.find<NavController>();
-            navigate.selectedIndex.value = 0;
+            navigate.selectedIndex.value = 3;
             Get.offAll(() => Mainpage());
           },
           icon: Icon(Icons.arrow_back),

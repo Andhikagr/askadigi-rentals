@@ -35,21 +35,22 @@ class AuthController extends GetxController {
 
   //signup
   Future<void> signUp(
-    String name,
-    String email,
-    String phone,
-    String password,
+    String nameInput,
+    String emailInput,
+    String phoneInput,
+    String passwordInput,
   ) async {
     final prefs = await SharedPreferences.getInstance();
 
-    await prefs.setString("username", name);
-    await prefs.setString("user_email", email);
-    await prefs.setString("user_phone", phone);
-    await prefs.setString("user_password", password);
+    await prefs.setString("username", nameInput);
+    await prefs.setString("user_email", emailInput);
+    await prefs.setString("user_phone", phoneInput);
+    await prefs.setString("user_password", passwordInput);
     await prefs.setBool("isLoggedIn", true);
 
-    this.email.value = email;
-
+    username.value = nameInput;
+    email.value = emailInput;
+    phone.value = phoneInput;
     isLoggedIn.value = true;
 
     Get.offAll(() => Mainpage());
@@ -66,12 +67,12 @@ class AuthController extends GetxController {
     String? savedPhotoPath = prefs.getString("user_photo");
 
     if (savedEmail == emailInput && savedPassword == passwordInput) {
+      await prefs.setBool("isLoggedIn", true);
       email.value = savedEmail!;
       username.value = savedUsername!;
       phone.value = savedUserPhone ?? "";
       userPhotoPath.value = savedPhotoPath;
       isLoggedIn.value = true;
-      await prefs.setBool("isLoggedIn", true);
       final orderController = Get.find<OrderController>();
       orderController.userEmail.value = savedEmail;
       await orderController.loadOrderData();

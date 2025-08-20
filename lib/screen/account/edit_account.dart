@@ -91,6 +91,7 @@ class _EditAccountState extends State<EditAccount> {
     if (pick != null) {
       final prefs = await SharedPreferences.getInstance();
       await prefs.setString("user_photo", pick.path);
+      authController.userPhotoPath.value = pick.path;
       setState(() {
         imageFile = File(pick.path);
       });

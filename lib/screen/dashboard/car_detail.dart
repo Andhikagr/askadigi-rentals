@@ -140,7 +140,13 @@ class _CarDetailState extends State<CarDetail> {
                     if (order.isLoadingReserv.value) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    final bookedPaid = carStock(widget.cars, order.reserv);
+                    final available = isCarAvailable(
+                      widget.cars,
+                      order.pickedDate.value ?? DateTime.now(),
+                      order.returnDate.value ??
+                          DateTime.now().add(Duration(days: 1)),
+                      order.reserv,
+                    );
                     return Container(
                       width: double.infinity,
                       padding: EdgeInsets.all(20),
@@ -159,9 +165,9 @@ class _CarDetailState extends State<CarDetail> {
                         children: [
                           // Available today
                           Text(
-                            bookedPaid
-                                ? "Not Available Today"
-                                : "Available Today",
+                            available
+                                ? "Available Today"
+                                : "Not Available Today",
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,
@@ -170,7 +176,7 @@ class _CarDetailState extends State<CarDetail> {
                                   : const Color(0xFFFF1908),
                             ),
                           ),
-                          if (!bookedPaid)
+                          if (available)
                             Text(
                               "Reserve your ride today and enjoy a 5% discount (limited time only)",
                               style: TextStyle(

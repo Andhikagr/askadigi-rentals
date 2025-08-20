@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:car_rental/core/services/auth.dart';
+import 'package:car_rental/core/services/cars_stock.dart';
 import 'package:car_rental/core/services/config.dart';
 import 'package:car_rental/core/model/booked.dart';
 import 'package:car_rental/core/model/booking_model.dart';
@@ -201,6 +202,14 @@ class OrderController extends GetxController {
     if (districtController.text.isEmpty) return "Please enter your district.";
     if (regencyController.text.isEmpty) return "Please enter your regency.";
     if (provinceController.text.isEmpty) return "Please enter your province.";
+
+    //cek ketersediaan mobil
+    for (var car in selectedCars) {
+      if (!isCarAvailable(car, pickedDate.value!, returnDate.value!, reserv)) {
+        return "Car ${car.model} is not available for the selected dates.";
+      }
+    }
+
     return null; // valid
   }
 
